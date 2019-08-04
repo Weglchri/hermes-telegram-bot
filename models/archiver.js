@@ -1,6 +1,6 @@
 'use strict';
 
-var utils = require("./utils.js");
+var utils = require("../lib/utils.js");
 const path = require('path');
 const util = require('util');
 const fs = require('fs');

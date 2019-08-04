@@ -1,11 +1,19 @@
 'use strict';
-var utils = require("./utils.js");
+var utils = require("../lib/utils.js");
 
 // prevent athena sending same quote twice 
 const QUOTE_ARRAY = 10;
 var quotesList = [];
 
 module.exports = {
+
+    getQuotesList : function() {
+        return quotesList;
+    },
+
+    emptyQuotesList : function() {
+        quotesList = [];
+    },
 
     updateQuoteList : function(quote) {
         if(Object.keys(quotesList).length >= QUOTE_ARRAY) {
@@ -50,4 +58,5 @@ module.exports = {
         }
         return this.getQuote(quoteNumber);     
     }
+
 }

@@ -5,9 +5,8 @@ var app = express();
 const bodyParser = require('body-parser');
 const axios = require('axios');
 
-var utils = require("./lib/utils.js");
-var quoter = require("./lib/quoter.js");
-var archiver = require("./lib/archiver.js");
+var quoter = require("./models/quoter.js");
+var archiver = require("./models/archiver.js");
 
 const APP_URL = 'https://api.telegram.org/bot';
 const HEROKU_URL = process.env.URL;

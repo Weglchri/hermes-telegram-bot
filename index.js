@@ -9,11 +9,11 @@ var utils = require("./lib/utils.js");
 var quoter = require("./lib/quoter.js");
 var archiver = require("./lib/archiver.js");
 
-const authFileData = utils.readFile('./data/authfile.json');
-
-const url = authFileData["URL"];
-const apiToken = authFileData["TOKEN"];
-const port = authFileData["PORT"];
+const APP_URL = 'https://api.telegram.org/bot';
+const HEROKU_URL = process.env.URL;
+const APITOKEN = process.env.TOKEN;
+const MODE = process.env.NODE_ENV;
+const PORT = process.env.PORT || 5000;
 
 // Commandlist 
 /*
@@ -24,10 +24,25 @@ archive - manually transfer data to the nexus
 
 */
 
+if(MODE === 'prod') {
+     // todo: set webhook 
+     axios.post(`https://api.telegram.org/bot${APITOKEN}/setwebhook`, {
+          url: HEROKU_URL
+     })
+        .then(function (response) {
+          console.log(`Athena server started in the ${mode} mode with: ${response}`);
+     })
+        .catch(function (error) {
+          console.log(error);
+     });
+     
+}
+
+
 // Telegram Message sender 
 function sentMessages(req, res, textToSend) {
     
-    axios.post(`${url}${apiToken}/sendMessage`,
+    axios.post(`${APP_URL}${APITOKEN}/sendMessage`,
     {
          chat_id: req.body.message.chat.id,
          text: textToSend
@@ -83,5 +98,5 @@ app.post('/', (req, res) => {
 
 // Listening
 app.listen(port, () => {
-     console.log(`Listening on port ${port}`);
+     console.log(`Listening on port ${PORT}`);
 });

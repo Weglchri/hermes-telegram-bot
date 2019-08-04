@@ -34,7 +34,6 @@ if(MODE === 'production') {
         .catch(function (error) {
           console.log(error);
      });
-     
 }
 
 

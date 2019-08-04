@@ -100,6 +100,6 @@ app.post('/', (req, res) => {
 });
 
 // Listening
-app.listen(port, () => {
+app.listen(PORT, () => {
      console.log(`Listening on port ${PORT}`);
 });

@@ -2,8 +2,8 @@
   "name": "athenabot",
   "version": "1.0.0",
   "description": "ArchiverBot",
-  "script": {
-    "start": "node index.js"
+  "scripts": {
+    "start": "node server.js"
   },
   "author": "Wegl Christopher - realvigor",
   "license": "ISC",

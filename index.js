@@ -24,8 +24,7 @@ archive - manually transfer data to the nexus
 
 */
 
-if(MODE === 'prod') {
-     // todo: set webhook 
+if(MODE === 'production') {
      axios.post(`https://api.telegram.org/bot${APITOKEN}/setwebhook`, {
           url: HEROKU_URL
      })
@@ -61,7 +60,7 @@ app.use(bodyParser.json());
 // Endpoints
 app.post('/', (req, res) => {
    
-     res.status(200).send({});
+     //res.status(200).send({});
      
      console.log("Request Body: ", req.body);
      const sentMessage = req.body.message.text;

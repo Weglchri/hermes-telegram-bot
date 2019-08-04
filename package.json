@@ -4,8 +4,7 @@
   "description": "ArchiverBot",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "test": "test"
+    "start": "node index.js"
   },
   "author": "Wegl Christopher - realvigor",
   "license": "ISC",

@@ -24,18 +24,6 @@ archive - manually transfer data to the nexus
 
 */
 
-if(MODE === 'production') {
-     axios.post(`https://api.telegram.org/bot${APITOKEN}/setwebhook`, {
-          url: HEROKU_URL
-     })
-        .then(function (response) {
-          console.log(`Athena server started in the ${mode} mode with: ${response}`);
-     })
-        .catch(function (error) {
-          console.log(error);
-     });
-}
-
 
 // Telegram Message sender 
 function sentMessages(req, res, textToSend) {

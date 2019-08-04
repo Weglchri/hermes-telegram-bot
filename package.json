@@ -1,10 +1,13 @@
 {
   "name": "athenabot",
   "version": "1.0.0",
-  "main": "index.js",
+  "engines": {
+    "node": "12.4.0"
+  },
   "description": "ArchiverBot",
+  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha",
     "start": "node index.js"
   },
   "author": "Wegl Christopher - realvigor",

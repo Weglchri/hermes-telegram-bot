@@ -5,14 +5,15 @@ var app = express();
 const bodyParser = require('body-parser');
 const axios = require('axios');
 
-const url = 'https://api.telegram.org/bot';
-const apiToken = '634176317:AAHAAsjwkMuTVWes8aj6MIc1qHXWb3fyxTw';
-const port = process.env.PORT || 5000;
-
 var utils = require("./lib/utils.js");
 var quoter = require("./lib/quoter.js");
 var archiver = require("./lib/archiver.js");
 
+const authFileData = utils.readFile('./data/authfile.json');
+
+const url = authFileData["URL"];
+const apiToken = authFileData["TOKEN"];
+const port = authFileData["PORT"];
 
 // Commandlist 
 /*
@@ -78,7 +79,6 @@ app.post('/', (req, res) => {
      } else {
         res.status(200).send({});
    }
-
 });
 
 // Listening

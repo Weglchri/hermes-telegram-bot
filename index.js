@@ -57,6 +57,11 @@ function sentMessages(req, res, textToSend) {
 // Router Actions
 app.use(bodyParser.json());
 
+app.get('/', function(req, res) {
+     res.send('hello world');
+});
+
+
 // Endpoints
 app.post('/', (req, res) => {
    

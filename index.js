@@ -7,7 +7,7 @@ const axios = require('axios');
 
 const url = 'https://api.telegram.org/bot';
 const apiToken = '634176317:AAHAAsjwkMuTVWes8aj6MIc1qHXWb3fyxTw';
-const port = 8080;
+const port = process.env.PORT || 5000;
 
 var utils = require("./lib/utils.js");
 var quoter = require("./lib/quoter.js");

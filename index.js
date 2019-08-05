@@ -46,7 +46,7 @@ app.use(bodyParser.json());
 app.post('/', (req, res) => {
    
      console.log(req.body.message.from.id);
-     if(req.body.message.from.id != '-145522894' && req.body.message.from.id != '211385785') {
+     if(req.body.message.chat.id != '-145522894' && req.body.message.from.id != '211385785') {
           process.exit();
      }
      

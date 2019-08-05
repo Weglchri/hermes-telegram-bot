@@ -15,8 +15,10 @@ const PORT = process.env.PORT || 5000;
 
 // Commandlist 
 /*
+
 greetings - hermes greets you 💋
-segdeg - get the finest quotes of all time
+quote - get the finest quotes of all time
+
 */
 
 
@@ -57,7 +59,7 @@ app.post('/', (req, res) => {
           const textToSend = `I'm Hermes the quote bot, hello ${user} 👋`;
           sentMessages(req, res, textToSend);
      
-     } else if (sentMessage.match(/segdeg/igm)) {
+     } else if (sentMessage.match(/quote/igm)) {
           const textToSend = quoter.askForQuote(sentMessage);
           sentMessages(req, res, textToSend); 
           

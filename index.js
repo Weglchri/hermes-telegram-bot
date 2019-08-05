@@ -6,7 +6,6 @@ const bodyParser = require('body-parser');
 const axios = require('axios');
 
 var quoter = require("./models/quoter.js");
-var archiver = require("./models/archiver.js");
 
 const APP_URL = 'https://api.telegram.org/bot';
 const HEROKU_URL = process.env.URL;
@@ -16,11 +15,8 @@ const PORT = process.env.PORT || 5000;
 
 // Commandlist 
 /*
-
-greetings - athena greets you 💋
+greetings - hermes greets you 💋
 segdeg - get the finest quotes of all time
-archive - manually transfer data to the nexus
-
 */
 
 
@@ -53,29 +49,13 @@ app.post('/', (req, res) => {
 
      if (sentMessage.match(/greetings/igm)) {
           const user = req.body.message.from.username;
-          const textToSend = `I'm Athena the archiver bot, hello ${user} 👋`;
+          const textToSend = `I'm Hermes the quote bot, hello ${user} 👋`;
           sentMessages(req, res, textToSend);
      
      } else if (sentMessage.match(/segdeg/igm)) {
           const textToSend = quoter.askForQuote(sentMessage);
           sentMessages(req, res, textToSend); 
           
-     } else if (sentMessage.match(/archive/igm)) {
-
-          const srcDir = '/Users/Wegls/Library/Group Containers/6N38VWS5BX.ru.keepcoder.Telegram/account-1665989533078466624/postbox/media';
-          const descDir = '/Users/Wegls/Desktop/testfolder/test';
-          
-          // archiver.getAllFilesFromSource(srcDir)
-          // .then((files) => archiver.copyTelegramFiles(srcDir,descDir,files))
-          // .then(function() {
-          //      console.log("Finished successfully")
-          //      sentMessages(req, res, 'Successfully send all data to the nexus');
-          // })
-          // .catch(function(error) {
-          //      console.log(error);
-          //      sentMessages(req, res, 'Something went wrong 🙁');
-          // });
-
      } else {
         res.status(200).send({});
    }

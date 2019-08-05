@@ -1,7 +1,7 @@
 'use strict';
 var utils = require("../lib/utils.js");
 
-// prevent athena sending same quote twice 
+// prevent hermes sending same quote twice 
 const QUOTE_ARRAY = 10;
 var quotesList = [];
 

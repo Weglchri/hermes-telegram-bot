@@ -79,13 +79,13 @@ app.post('/', (req, res) => {
           const textToSend = quoter.askForQuote(sentMessage);
           sentMessages(req, res, textToSend); 
        
-     } else if (sentMessage.match(/tell/igm && lockTriggerTell)) {
+     } else if (sentMessage.match(/tell/igm) && lockTriggerTell) {
           lockTriggerTell = false;
           lockedByClient = userid;
           const textToSend = `Send me a quote i should know ${user}`;
           sentMessages(req, res, textToSend); 
      
-     } else if (sentMessage.match(/exit/igm && lockedByClient === userid)) {
+     } else if (sentMessage.match(/exit/igm) && lockedByClient === userid) {
           const textToSend = `Aborted, no quote for me 🙁`;
           sentMessages(req, res, textToSend); 
           exit();          

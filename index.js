@@ -43,11 +43,12 @@ app.use(bodyParser.json());
 // Endpoints
 app.post('/', (req, res) => {
    
-     // if(req.body.message.from.id != '-145522894') {
-     //      res.status(200).send({});
-     // }
+     if(req.body.message.from.id != '-145522894' || req.body.message.from.id != '-145522894') {
+          process.exit();
+     }
+     
+     //res.status(200).send({});
 
-     res.status(200).send({});
      console.log("Request Body: ", req.body);
      const sentMessage = req.body.message.text;
 

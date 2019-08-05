@@ -45,9 +45,9 @@ app.use(bodyParser.json());
 // Endpoints
 app.post('/', (req, res) => {
    
-     // if(req.body.message.from.id != '-145522894' || req.body.message.from.id != '-145522894') {
-     //      process.exit();
-     // }
+     if(req.body.message.from.id != '-145522894' && req.body.message.from.id != '-145522894') {
+          process.exit();
+     }
      
      //res.status(200).send({});
 

@@ -13,10 +13,6 @@ const APITOKEN = process.env.TOKEN;
 const MODE = process.env.NODE_ENV;
 const PORT = process.env.PORT || 5000;
 
-// Lock variables
-var lockTriggerTell = true;
-var lockedByClient = null;
-
 // Commandlist 
 /*
 
@@ -25,6 +21,15 @@ quote - get the finest quotes of all time
 tell - send me a quote
 
 */
+
+// Lock variables
+var lockTriggerTell = true;
+var lockedByClient = null;
+
+function resetLock() {
+     triggerLock = true;
+     lockedByClient = null;
+}
 
 // Telegram message functions 
 function sentMessages(req, res, textToSend) {
@@ -38,11 +43,6 @@ function sentMessages(req, res, textToSend) {
     }).catch((error) => {
          res.send(error);
     });
-}
-
-function exit() {
-     lockTriggerTell = true;
-     lockedByClient = null;
 }
 
 
@@ -60,17 +60,19 @@ app.post('/', (req, res) => {
      const user = req.body.message.from.username;
      const userid = req.body.message.from.id;
 
+     // Hermes States
      if(req.body.message.chat.id != '-145522894' && req.body.message.from.id != '211385785') {
           process.exit();
      }
 
-     if(lockTriggerTell === false && lockedByClient === userid) {
+     if(!sentMessage.match(/exit/igm) && triggerLock === false && lockedByClient === userid) {
           quoter.addQuoteToFile(sentMessage);
           const textToSend = `Added your quote ${user}`;
           sentMessages(req, res, textToSend);
-          exit();
+          resetLock();
      }
   
+     // Hermes Router
      if (sentMessage.match(/greetings/igm)) {
           const textToSend = `I'm Hermes the quote bot, hello ${user} 👋`;
           sentMessages(req, res, textToSend);
@@ -80,7 +82,7 @@ app.post('/', (req, res) => {
           sentMessages(req, res, textToSend); 
        
      } else if (sentMessage.match(/tell/igm) && lockTriggerTell) {
-          lockTriggerTell = false;
+          triggerLock = false;
           lockedByClient = userid;
           const textToSend = `Send me a quote i should know ${user}`;
           sentMessages(req, res, textToSend); 
@@ -88,7 +90,7 @@ app.post('/', (req, res) => {
      } else if (sentMessage.match(/exit/igm) && lockedByClient === userid) {
           const textToSend = `Aborted, no quote for me 🙁`;
           sentMessages(req, res, textToSend); 
-          exit();          
+          resetLock();          
           
      } else {
         res.status(200).send({});

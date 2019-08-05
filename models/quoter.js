@@ -2,6 +2,7 @@
 var utils = require("../lib/utils.js");
 
 // prevent hermes sending same quote twice 
+const QUOTE_FILE = './data/segdeg.json';
 const QUOTE_ARRAY = 10;
 var quotesList = [];
 
@@ -31,23 +32,23 @@ module.exports = {
     },
        
     getQuote : function(number) {
-        let quoteData = this.readQuotesFile();
+        let quoteDataObject = this.readQuotesFile();
         this.updateQuoteList(number);
-        let quote = quoteData[number];
+        let quote = quoteDataObject[number];
         return quote;
     },
 
     getRandomQuote : function() {
-        let quoteData = this.readQuotesFile();
-        let jsonDataLength = Object.keys(quoteData).length;
+        let quoteDataObject = this.readQuotesFile();
+        let jsonDataLength = Object.keys(quoteDataObject).length;
         let number = this.getValidRandomNumber(jsonDataLength);
         this.updateQuoteList(number);
-        let quote = quoteData[number];
+        let quote = quoteDataObject[number];
         return quote;
     },
 
     readQuotesFile : function() {
-        const quotes = utils.readFile('./data/segdeg.json');
+        const quotes = utils.readFile(QUOTE_FILE);
         return quotes;
     },
 
@@ -57,6 +58,18 @@ module.exports = {
             return this.getRandomQuote();
         }
         return this.getQuote(quoteNumber);     
+    },
+
+    addQuoteToFile : function(quote) {
+        const quoteDataObject = this.readQuotesFile();
+        const jsonDataLength = Object.keys(quoteDataObject).length;
+        quoteDataObject[jsonDataLength + 1] = this.checkForValidQuote(qoute);
+    },
+
+    checkForValidQuote : function(quote) {
+        //todo: implement validation functionality
+        return quote;
     }
+
 
 }

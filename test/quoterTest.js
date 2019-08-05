@@ -32,4 +32,13 @@ describe('Quote Test', function() {
 
   });
 
+  describe('check quote file update', function() {
+  
+    it('get quotes from the quote file', function() {
+      quoter.addQuoteToFile();
+      //assert.deepEqual(["1", "2", "3"], quoter.getQuotesList());
+    });
+
+  });
+
 });

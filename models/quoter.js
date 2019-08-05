@@ -63,7 +63,7 @@ module.exports = {
     addQuoteToFile : function(quote) {
         const quoteDataObject = this.readQuotesFile();
         const jsonDataLength = Object.keys(quoteDataObject).length;
-        quoteDataObject[jsonDataLength + 1] = this.checkForValidQuote(qoute);
+        quoteDataObject[jsonDataLength + 1] = this.checkForValidQuote(quote);
     },
 
     checkForValidQuote : function(quote) {

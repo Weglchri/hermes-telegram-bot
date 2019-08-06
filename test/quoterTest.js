@@ -56,6 +56,10 @@ describe('Quote Test', function() {
       quoter.removePersonQuoteList(2);
       assert.deepEqual([1,3], quoter.getPersonQuoteList());
     });
+
+    it('add quote to file', function() {
+      quoter.addQuoteToFile("Hello World how are you?");
+    });
   });
 
 });

@@ -77,17 +77,21 @@ app.post('/', (req, res) => {
           if(sentMessage.match(/tell/igm)) {
                const textToSend = `Send me first a quote i should add, ${user} 🏹`;
                sentMessages(req, res, textToSend);
+
           } else if (sentMessage.match(/exit/igm)) {
                quoter.removePersonQuoteList(userId);
                const textToSend = `Aborted, no quote added 🙁`;
                sentMessages(req, res, textToSend); 
+
           } else {
-               quoter.addQuoteToFile(sentMessage);
+               const quoteNumber = quoter.addQuoteToFile(sentMessage);
                quoter.removePersonQuoteList(userId);
-               const textToSend = `Added your quote, ${user} ❤️`;
+               const textToSend = `Successfully added your quote, ${user} ❤️ \n Quote ${quoteNumber} : ${sentMessage}`;
                sentMessages(req, res, textToSend);
           }
-     } 
+     } else {
+          console.log("Not a listed person");
+     }
   
      // Hermes Router
      if (sentMessage.match(/greetings/igm)) {
@@ -100,11 +104,12 @@ app.post('/', (req, res) => {
        
      } else if (sentMessage.match(/tell/igm)) {
           quoter.addPersonToPersonQuoteList(userId);
-          const textToSend = `Send me a quote i should know ${user}`;
+          const textToSend = `Send me a quote i should know, ${user} ⚜️`;
           sentMessages(req, res, textToSend); 
      
      } else {
-        res.status(200).send({});
+          console.log("Send response: 200");
+          res.status(200).send({});
    }
 });
 

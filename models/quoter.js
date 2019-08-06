@@ -81,10 +81,11 @@ module.exports = {
 
 
     addQuoteToFile : function(quote) {
-        //const quoteDataObject = this.readQuotesFile();
-        // const jsonDataLength = Object.keys(quoteDataObject).length;
-        // quoteDataObject[jsonDataLength + 1] = this.checkForValidQuote(quote);
-        // add quote to file and send message
+        const quoteDataObject = this.readQuotesFile();
+        const jsonDataLength = Object.keys(quoteDataObject).length;
+        quoteDataObject[jsonDataLength + 1] = this.checkForValidQuote(quote);
+        utils.updateFile(QUOTE_FILE, quoteDataObject);
+        return jsonDataLength + 1;
     },
 
     checkForValidQuote : function(quote) {

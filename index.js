@@ -49,8 +49,9 @@ app.post('/', (req, res) => {
      // }
 
      if(FLUSH === 'on') {
-          console.log(FLUSH);
+          console.log('Flush is now on');
           res.status(200).send({});
+          process.exit(0);
      }
      
      console.log("Request Body: ", req.body);

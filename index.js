@@ -77,7 +77,7 @@ app.post('/', (req, res) => {
           if(sentMessage.match(/tell/igm)) {
                const textToSend = `Send me first a quote i should add, ${user} 🏹`;
                sentMessages(req, res, textToSend);
-          } else if (!sentMessage.match(/exit/igm)) {
+          } else if (sentMessage.match(/exit/igm)) {
                quoter.removePersonQuoteList(userId);
                const textToSend = `Aborted, no quote added 🙁`;
                sentMessages(req, res, textToSend); 

@@ -86,9 +86,12 @@ app.post('/', (req, res) => {
           } else {
                const quoteNumber = quoter.addQuoteToFile(sentMessage);
                quoter.removePersonQuoteList(userId);
-               const textToSend = `Successfully added your quote, ${user} ❤️ \n Quote ${quoteNumber} : ${sentMessage}`;
+               const textToSend = `Successfully added your quote, ${user} ❤️ \n 
+                    Quote ${quoteNumber} : ${sentMessage}`;
                sentMessages(req, res, textToSend);
+
           }
+
      } else {
           console.log("Not a listed person");
      }
@@ -102,7 +105,7 @@ app.post('/', (req, res) => {
           const textToSend = quoter.askForQuote(sentMessage);
           sentMessages(req, res, textToSend); 
        
-     } else if (sentMessage.match(/tell/igm)) {
+     } else if (sentMessage.match(/tell/igm) && !listedPerson) {
           quoter.addPersonToPersonQuoteList(userId);
           const textToSend = `Send me a quote i should know, ${user} ⚜️`;
           sentMessages(req, res, textToSend); 

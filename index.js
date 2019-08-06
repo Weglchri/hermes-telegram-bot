@@ -55,7 +55,7 @@ app.post('/', (req, res) => {
      const sentMessage = req.body.message.text;
 
      if (sentMessage.match(/greetings/igm)) {
-          const user = req.body.message.from.username;
+          const user = req.body.message.from.username || req.body.message.from.first_name;
           const textToSend = `I'm Hermes the quote bot, hello ${user} 👋`;
           sentMessages(req, res, textToSend);
      

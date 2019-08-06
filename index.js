@@ -22,19 +22,19 @@ tell - send me a quote
 
 */
 
-// Lock variables
-var tellLock = true;
-var tellLockClient = null;
+// // Lock variables
+// var tellLock = true;
+// var tellLockClient = null;
 
-function triggerLock(uid) {
-     tellLock = false;
-     tellLockClient = uid;
-}
+// function triggerLock(uid) {
+//      tellLock = false;
+//      tellLockClient = uid;
+// }
 
-function resetLock() {
-     tellLock = true;
-     tellLockClient = null;
-}
+// function resetLock() {
+//      tellLock = true;
+//      tellLockClient = null;
+// }
 
 // Telegram message functions 
 function sentMessages(req, res, textToSend) {
@@ -61,7 +61,7 @@ app.post('/', (req, res) => {
      // console.log("Request Body: ", req.body);
      
      const sentMessage = req.body.message.text;
-     const user = req.body.message.from.username;
+     const user = req.body.message.from.username || req.body.message.from.first_name;
      const userId = req.body.message.from.id;
      const chatId = req.body.message.chat.id;
 
@@ -70,11 +70,10 @@ app.post('/', (req, res) => {
           process.exit();
      }
 
-     if(!sentMessage.match(/exit/igm) && tellLock === false && tellLockClient === userId) {
+     if(quoter.getPersonQuoteList().includes(userId) && !sentMessage.match(/exit/igm)) {
           quoter.addQuoteToFile(sentMessage);
           const textToSend = `Added your quote, ${user} ❤️`;
           sentMessages(req, res, textToSend);
-          resetLock();
      }
   
      // Hermes Router
@@ -86,15 +85,15 @@ app.post('/', (req, res) => {
           const textToSend = quoter.askForQuote(sentMessage);
           sentMessages(req, res, textToSend); 
        
-     } else if (sentMessage.match(/tell/igm) && tellLock) {
-          triggerLock(userId);
+     } else if (sentMessage.match(/tell/igm)) {
+          quoter.addPersonToPersonQuoteList(userId);
           const textToSend = `Send me a quote i should know ${user}`;
           sentMessages(req, res, textToSend); 
      
-     } else if (sentMessage.match(/exit/igm) && tellLockClient === userId) {
+     } else if (sentMessage.match(/exit/igm)) {
+          quoter.removePersonQuoteList(userId);
           const textToSend = `Aborted, no quote for me 🙁`;
           sentMessages(req, res, textToSend); 
-          resetLock();          
           
      } else {
         res.status(200).send({});

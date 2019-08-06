@@ -36,4 +36,29 @@ describe('Quote Test', function() {
     it('get quotes from the quote file', function() {});
   });
 
+  describe('check person quote function', function() {
+    
+    beforeEach(function() {
+      quoter.emptyPersonQuoteList();
+    });
+
+    it('get quotes from person quote array', function() {
+      quoter.addPersonToPersonQuoteList(1);
+      quoter.addPersonToPersonQuoteList(2);
+      quoter.addPersonToPersonQuoteList(3);
+      assert.deepEqual([1,2,3], quoter.getPersonQuoteList());
+    });
+
+    it('get quotes from the quote file', function() {
+      quoter.addPersonToPersonQuoteList(1);
+      quoter.addPersonToPersonQuoteList(2);
+      quoter.addPersonToPersonQuoteList(3);
+      quoter.removePersonQuoteList(2);
+      assert.deepEqual([1,3], quoter.getPersonQuoteList());
+    });
+  });
+
 });
+
+
+

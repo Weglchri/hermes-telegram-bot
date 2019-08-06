@@ -5,6 +5,7 @@ var utils = require("../lib/utils.js");
 const QUOTE_FILE = './data/segdeg.json';
 const QUOTE_ARRAY = 10;
 var quotesList = [];
+var personQuoteList = [];
 
 module.exports = {
 
@@ -60,8 +61,27 @@ module.exports = {
         return this.getQuote(quoteNumber);     
     },
 
+    // Person Tell Methods
+
+    getPersonQuoteList : function() {
+        return personQuoteList;
+    },
+
+    emptyPersonQuoteList : function() {
+        personQuoteList = [];
+    },
+
+    addPersonToPersonQuoteList : function(person) {
+        personQuoteList.push(person);
+    },
+
+    removePersonQuoteList : function(person) {
+        personQuoteList = utils.removeElementFromArray(personQuoteList, person)
+    },
+
+
     addQuoteToFile : function(quote) {
-        // const quoteDataObject = this.readQuotesFile();
+        //const quoteDataObject = this.readQuotesFile();
         // const jsonDataLength = Object.keys(quoteDataObject).length;
         // quoteDataObject[jsonDataLength + 1] = this.checkForValidQuote(quote);
         // add quote to file and send message
@@ -70,7 +90,6 @@ module.exports = {
     checkForValidQuote : function(quote) {
         //todo: implement validation functionality
         return quote;
-    }
-
+    },
 
 }

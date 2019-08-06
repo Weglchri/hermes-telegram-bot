@@ -47,8 +47,11 @@ app.post('/', (req, res) => {
      // if(req.body.message.from.id != '-145522894' || req.body.message.from.id != '-145522894') {
      //      process.exit();
      // }
-     if(FLUSH) 
+     if(FLUSH) {
+          console.log(FLUSH);
           res.status(200).send({});
+     }
+     
      
 
      console.log("Request Body: ", req.body);

@@ -72,6 +72,7 @@ app.post('/', (req, res) => {
 
      if(quoter.getPersonQuoteList().includes(userId) && !sentMessage.match(/exit/igm)) {
           quoter.addQuoteToFile(sentMessage);
+          quoter.removePersonQuoteList(userId);
           const textToSend = `Added your quote, ${user} ❤️`;
           sentMessages(req, res, textToSend);
      }

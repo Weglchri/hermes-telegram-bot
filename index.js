@@ -67,34 +67,33 @@ app.post('/', (req, res) => {
      const listedPerson = quoter.getPersonQuoteList().includes(userId);
 
      // Hermes States
-     if(chatId != '-145522894' && userId != '211385785') {
-          process.exit();
-     } else {
-          console.log("continues because of correct group or user");
-     }
+     // if(chatId != '-145522894' && userId != '211385785') {
+     //      process.exit();
+     // } else {
+     //      console.log("continues because of correct group or user");
+     // }
 
-     if(listedPerson) {
-          if(sentMessage.match(/tell/igm)) {
-               const textToSend = `Send me first a quote i should add, ${user} 🏹`;
-               sentMessages(req, res, textToSend);
+     // if(listedPerson) {
+     //      if(sentMessage.match(/tell/igm)) {
+     //           const textToSend = `Send me first a quote i should add, ${user} 🏹`;
+     //           sentMessages(req, res, textToSend);
 
-          } else if (sentMessage.match(/exit/igm)) {
-               quoter.removePersonQuoteList(userId);
-               const textToSend = `Aborted, no quote added 🙁`;
-               sentMessages(req, res, textToSend); 
+     //      } else if (sentMessage.match(/exit/igm)) {
+     //           quoter.removePersonQuoteList(userId);
+     //           const textToSend = `Aborted, no quote added 🙁`;
+     //           sentMessages(req, res, textToSend); 
 
-          } else {
-               const quoteNumber = quoter.addQuoteToFile(sentMessage);
-               quoter.removePersonQuoteList(userId);
-               const textToSend = `Successfully added your quote, ${user} ❤️ \n 
-                    Quote ${quoteNumber} : ${sentMessage}`;
-               sentMessages(req, res, textToSend);
+     //      } else {
+     //           const quoteNumber = quoter.addQuoteToFile(sentMessage);
+     //           quoter.removePersonQuoteList(userId);
+     //           const textToSend = `Successfully added your quote, ${user} ❤️ \n 
+     //                Quote ${quoteNumber} : ${sentMessage}`;
+     //           sentMessages(req, res, textToSend);
 
-          }
-
-     } else {
-          console.log("Not a listed person");
-     }
+     //      }
+     // } else {
+     //      console.log("Not a listed person");
+     // }
   
      // Hermes Router
      if (sentMessage.match(/greetings/igm)) {
@@ -105,11 +104,27 @@ app.post('/', (req, res) => {
           const textToSend = quoter.askForQuote(sentMessage);
           sentMessages(req, res, textToSend); 
        
-     } else if (sentMessage.match(/tell/igm) && !listedPerson) {
-          quoter.addPersonToPersonQuoteList(userId);
+     } else if (sentMessage.match(/tell/igm && listedPerson)) {
+          const textToSend = `Send me first a quote i should add, ${user} 🏹`;
+          sentMessages(req, res, textToSend); 
+              
+     } else if (sentMessage.match(/tell/igm && !listedPerson)) {
           const textToSend = `Send me a quote i should know, ${user} ⚜️`;
+          quoter.addPersonToPersonQuoteList(userId);
           sentMessages(req, res, textToSend); 
      
+     } else if (sentMessage.match(/exit/igm && listedPerson)) {
+          quoter.removePersonQuoteList(userId);
+          const textToSend = `Aborted, no quote added 🙁`;
+          sentMessages(req, res, textToSend); 
+
+     } else if (listedPerson) {
+          const quoteNumber = quoter.addQuoteToFile(sentMessage);
+          quoter.removePersonQuoteList(userId);
+          const textToSend = `Successfully added your quote, ${user} ❤️ \n 
+               Quote ${quoteNumber} : ${sentMessage}`;
+          sentMessages(req, res, textToSend);
+
      } else {
           console.log("Send response: 200");
           res.status(200).send({});

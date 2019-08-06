@@ -49,7 +49,7 @@ app.post('/', (req, res) => {
      //      process.exit();
      // }
      
-     //res.status(200).send({});
+     res.status(200).send({});
 
      console.log("Request Body: ", req.body);
      const sentMessage = req.body.message.text;

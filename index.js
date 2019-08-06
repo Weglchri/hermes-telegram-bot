@@ -58,7 +58,7 @@ app.use(bodyParser.json());
 app.post('/', (req, res) => {
    
      // res.status(200).send({});
-     // console.log("Request Body: ", req.body);
+     console.log("Request Body: ", req.body);
      
      const sentMessage = req.body.message.text;
      const user = req.body.message.from.username || req.body.message.from.first_name;

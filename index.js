@@ -12,6 +12,7 @@ const HEROKU_URL = process.env.URL;
 const APITOKEN = process.env.TOKEN;
 const MODE = process.env.NODE_ENV;
 const PORT = process.env.PORT || 5000;
+const FLUSH = process.env.FLUSH;
 
 // Commandlist 
 /*
@@ -25,7 +26,6 @@ quote - get the finest quotes of all time
 
 // Telegram Message sender 
 function sentMessages(req, res, textToSend) {
-    
     axios.post(`${APP_URL}${APITOKEN}/sendMessage`,
     {
          chat_id: req.body.message.chat.id,
@@ -36,7 +36,6 @@ function sentMessages(req, res, textToSend) {
     }).catch((error) => {
          res.send(error);
     });
-
 }
 
 // Router Actions
@@ -48,8 +47,9 @@ app.post('/', (req, res) => {
      // if(req.body.message.from.id != '-145522894' || req.body.message.from.id != '-145522894') {
      //      process.exit();
      // }
+     if(FLUSH) 
+          res.status(200).send({});
      
-     res.status(200).send({});
 
      console.log("Request Body: ", req.body);
      const sentMessage = req.body.message.text;

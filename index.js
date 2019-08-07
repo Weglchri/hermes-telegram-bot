@@ -23,11 +23,11 @@ tell - send me a quote
 */
 
 // Telegram message functions 
-function sentMessages(req, res, requestType, textToSend) {
+function sentMessages(req, res, reqtyp, txsend) {
     axios.post(`${APP_URL}${APITOKEN}/sendMessage`,
     {
-         chat_id: requestType.chat.id,
-         text: textToSend
+         chat_id: reqtyp.chat.id,
+         text: txsend
     })
     .then((response) => { 
          res.status(200).send(response);
@@ -91,7 +91,7 @@ app.post('/', (req, res) => {
           quoter.removePersonQuoteList(userId);
           const textToSend = `Successfully added your quote, ${user} ❤️ \n 
                Quote ${quoteNumber} : ${sentMessage}`;
-          sentMessages(req, res, requestType, textToSend);
+          sentMessages(req, res, requestMessageType, textToSend);
 
      } else {
           console.log("Send response: 200");

@@ -66,7 +66,7 @@ app.post('/', (req, res) => {
      const chatId = req.body.message.chat.id;
      const listedPerson = quoter.getPersonQuoteList().includes(userId);
      console.log(listedPerson);
-     
+
      // Hermes States
      // if(chatId != '-145522894' && userId != '211385785') {
      //      process.exit();
@@ -110,13 +110,13 @@ app.post('/', (req, res) => {
           const textToSend = `Send me first a quote i should add, ${user} 🏹`;
           sentMessages(req, res, textToSend); 
               
-     } else if (sentMessage.match(/tell/igm && !listedPerson)) {
+     } else if (sentMessage.match(/tell/igm) && !listedPerson) {
           console.log("Add Quote");
           const textToSend = `Send me a quote i should know, ${user} ⚜️`;
           quoter.addPersonToPersonQuoteList(userId);
           sentMessages(req, res, textToSend); 
      
-     } else if (sentMessage.match(/exit/igm && listedPerson)) {
+     } else if (sentMessage.match(/exit/igm) && listedPerson) {
           quoter.removePersonQuoteList(userId);
           const textToSend = `Aborted, no quote added 🙁`;
           sentMessages(req, res, textToSend); 

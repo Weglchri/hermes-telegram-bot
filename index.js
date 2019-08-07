@@ -22,20 +22,6 @@ tell - send me a quote
 
 */
 
-// // Lock variables
-// var tellLock = true;
-// var tellLockClient = null;
-
-// function triggerLock(uid) {
-//      tellLock = false;
-//      tellLockClient = uid;
-// }
-
-// function resetLock() {
-//      tellLock = true;
-//      tellLockClient = null;
-// }
-
 // Telegram message functions 
 function sentMessages(req, res, requestType, textToSend) {
     axios.post(`${APP_URL}${APITOKEN}/sendMessage`,
@@ -60,72 +46,47 @@ app.post('/', (req, res) => {
      // res.status(200).send({});
      console.log("Request Body: ", req.body);
      
-     const requestType = req.body.message || req.body.edited_message;
+     const requestMessageType = req.body.message || req.body.edited_message;
      // check for a text request
-     const sentMessage = requestType.text || 'empty';
+     const sentMessage = requestMessageType.text || 'empty';
      // use actions on request
-     const user = requestType.from.username || req.body.message.from.first_name;
-     const userId = requestType.from.id;
-     const chatId = requestType.chat.id;
+     const user = requestMessageType.from.username || req.body.message.from.first_name;
+     const userId = requestMessageType.from.id;
+     const chatId = requestMessageType.chat.id;
      const listedPerson = quoter.getPersonQuoteList().includes(userId);
-     console.log(sentMessage);
-     console.log(listedPerson);
+     
+     console.log("Text to process: ", sentMessage);
+     console.log("Listed persons: ", quoter.getPersonQuoteList());
+     console.log("Is person listed: ", listedPerson);
 
-     // Hermes States
-     // if(chatId != '-145522894' && userId != '211385785') {
-     //      process.exit();
-     // } else {
-     //      console.log("continues because of correct group or user");
-     // }
-
-     // if(listedPerson) {
-     //      if(sentMessage.match(/tell/igm)) {
-     //           const textToSend = `Send me first a quote i should add, ${user} 🏹`;
-     //           sentMessages(req, res, textToSend);
-
-     //      } else if (sentMessage.match(/exit/igm)) {
-     //           quoter.removePersonQuoteList(userId);
-     //           const textToSend = `Aborted, no quote added 🙁`;
-     //           sentMessages(req, res, textToSend); 
-
-     //      } else {
-     //           const quoteNumber = quoter.addQuoteToFile(sentMessage);
-     //           quoter.removePersonQuoteList(userId);
-     //           const textToSend = `Successfully added your quote, ${user} ❤️ \n 
-     //                Quote ${quoteNumber} : ${sentMessage}`;
-     //           sentMessages(req, res, textToSend);
-
-     //      }
-     // } else {
-     //      console.log("Not a listed person");
-     // }
-  
      // Hermes Router
      if (sentMessage.match(/greetings/igm)) {
           const textToSend = `I'm Hermes the quote bot, hello ${user} 👋`;
-          sentMessages(req, res, requestType, textToSend);
+          sentMessages(req, res, requestMessageType, textToSend);
      
      } else if (sentMessage.match(/quote/igm)) {
           const textToSend = quoter.askForQuote(sentMessage);
-          sentMessages(req, res, requestType, textToSend); 
+          sentMessages(req, res, requestMessageType, textToSend); 
        
      } else if (sentMessage.match(/tell/igm) && listedPerson) {
-          console.log("First add Quote");
+          console.log("First add a quote");
           const textToSend = `Send me first a quote i should add, ${user} 🏹`;
-          sentMessages(req, res, requestType, textToSend); 
+          sentMessages(req, res, requestMessageType, textToSend); 
               
      } else if (sentMessage.match(/tell/igm) && !listedPerson) {
-          console.log("Add Quote");
+          console.log("Add a quote");
           const textToSend = `Send me a quote i should know, ${user} ⚜️`;
           quoter.addPersonToPersonQuoteList(userId);
-          sentMessages(req, res, requestType, textToSend); 
+          sentMessages(req, res, requestMessageType, textToSend); 
      
      } else if (sentMessage.match(/exit/igm) && listedPerson) {
+          console.log("Exit");
           quoter.removePersonQuoteList(userId);
           const textToSend = `Aborted, no quote added 🙁`;
-          sentMessages(req, res, requestType, textToSend); 
+          sentMessages(req, res, requestMessageType, textToSend); 
 
      } else if (listedPerson) {
+          console.log("Add person's quote");
           const quoteNumber = quoter.addQuoteToFile(sentMessage);
           quoter.removePersonQuoteList(userId);
           const textToSend = `Successfully added your quote, ${user} ❤️ \n 

@@ -71,28 +71,33 @@ app.post('/', (req, res) => {
        
      } else if (sentMessage.match(/tell/igm) && listedPerson) {
           console.log("Entered: Tell listed");
-          const textToSend = `Send me first a quote i should add, ${user} 🏹`;
+          console.log("Add person's quote");
+          //const textToSend = `Send me first a quote i should add, ${user} 🏹`;
+          
+          const newQuote = sentMessage.match(/tell(.+)/igm);
+          const quoteNumber = quoter.addQuoteToFile(sentMessage);
+          const textToSend = `Successfully added your quote, ${user} ❤️ \n Quote ${quoteNumber} : ${newQuote}`;
           sentMessages(req, res, requestMessageType, textToSend); 
               
-     } else if (sentMessage.match(/tell/igm) && !listedPerson) {
-          console.log("Entered: Tell unlisted");
-          const textToSend = `Send me a quote i should know, ${user} ⚜️`;
-          quoter.addPersonToPersonQuoteList(userId);
-          sentMessages(req, res, requestMessageType, textToSend); 
+     // } else if (sentMessage.match(/tell/igm) && !listedPerson) {
+     //      console.log("Entered: Tell unlisted");
+     //      const textToSend = `Send me a quote i should know, ${user} ⚜️`;
+     //      quoter.addPersonToPersonQuoteList(userId);
+     //      sentMessages(req, res, requestMessageType, textToSend); 
      
-     } else if (sentMessage.match(/exit/igm) && listedPerson) {
-          console.log("Entered: Exit");
-          quoter.removePersonQuoteList(userId);
-          const textToSend = `Aborted, no quote added 🙁`;
-          sentMessages(req, res, requestMessageType, textToSend); 
+     // } else if (sentMessage.match(/exit/igm) && listedPerson) {
+     //      console.log("Entered: Exit");
+     //      quoter.removePersonQuoteList(userId);
+     //      const textToSend = `Aborted, no quote added 🙁`;
+     //      sentMessages(req, res, requestMessageType, textToSend); 
 
-     } else if (listedPerson) {
-          console.log("Add person's quote");
-          const quoteNumber = quoter.addQuoteToFile(sentMessage);
-          quoter.removePersonQuoteList(userId);
-          const textToSend = `Successfully added your quote, ${user} ❤️ \n 
-               Quote ${quoteNumber} : ${sentMessage}`;
-          sentMessages(req, res, requestMessageType, textToSend);
+     // } else if (listedPerson) {
+     //      console.log("Add person's quote");
+     //      const quoteNumber = quoter.addQuoteToFile(sentMessage);
+     //      quoter.removePersonQuoteList(userId);
+     //      const textToSend = `Successfully added your quote, ${user} ❤️ \n 
+     //           Quote ${quoteNumber} : ${sentMessage}`;
+     //      sentMessages(req, res, requestMessageType, textToSend);
 
      } else {
           console.log("Send response: 200");

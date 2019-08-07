@@ -65,6 +65,7 @@ app.post('/', (req, res) => {
      const userId = req.body.message.from.id;
      const chatId = req.body.message.chat.id;
      const listedPerson = quoter.getPersonQuoteList().includes(userId);
+     console.log(sentMessage);
      console.log(listedPerson);
 
      // Hermes States

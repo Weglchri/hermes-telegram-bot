@@ -37,10 +37,10 @@ tell - send me a quote
 // }
 
 // Telegram message functions 
-function sentMessages(req, res, textToSend) {
+function sentMessages(req, res, requestType, textToSend) {
     axios.post(`${APP_URL}${APITOKEN}/sendMessage`,
     {
-         chat_id: req.body.message.chat.id,
+         chat_id: requestType.chat.id,
          text: textToSend
     })
     .then((response) => { 
@@ -60,11 +60,13 @@ app.post('/', (req, res) => {
      // res.status(200).send({});
      console.log("Request Body: ", req.body);
      
-     const request = req.body.message || req.body.edited_message;
-     const sentMessage = request.text || 'empty';
-     const user = req.body.message.from.username || req.body.message.from.first_name;
-     const userId = req.body.message.from.id;
-     const chatId = req.body.message.chat.id;
+     const requestType = req.body.message || req.body.edited_message;
+     // check for a text request
+     const sentMessage = requestType.text || 'empty';
+     // use actions on request
+     const user = requestType.from.username || req.body.message.from.first_name;
+     const userId = requestType.from.id;
+     const chatId = requestType.chat.id;
      const listedPerson = quoter.getPersonQuoteList().includes(userId);
      console.log(sentMessage);
      console.log(listedPerson);
@@ -101,34 +103,34 @@ app.post('/', (req, res) => {
      // Hermes Router
      if (sentMessage.match(/greetings/igm)) {
           const textToSend = `I'm Hermes the quote bot, hello ${user} 👋`;
-          sentMessages(req, res, textToSend);
+          sentMessages(req, res, requestType, textToSend);
      
      } else if (sentMessage.match(/quote/igm)) {
           const textToSend = quoter.askForQuote(sentMessage);
-          sentMessages(req, res, textToSend); 
+          sentMessages(req, res, requestType, textToSend); 
        
      } else if (sentMessage.match(/tell/igm) && listedPerson) {
           console.log("First add Quote");
           const textToSend = `Send me first a quote i should add, ${user} 🏹`;
-          sentMessages(req, res, textToSend); 
+          sentMessages(req, res, requestType, textToSend); 
               
      } else if (sentMessage.match(/tell/igm) && !listedPerson) {
           console.log("Add Quote");
           const textToSend = `Send me a quote i should know, ${user} ⚜️`;
           quoter.addPersonToPersonQuoteList(userId);
-          sentMessages(req, res, textToSend); 
+          sentMessages(req, res, requestType, textToSend); 
      
      } else if (sentMessage.match(/exit/igm) && listedPerson) {
           quoter.removePersonQuoteList(userId);
           const textToSend = `Aborted, no quote added 🙁`;
-          sentMessages(req, res, textToSend); 
+          sentMessages(req, res, requestType, textToSend); 
 
      } else if (listedPerson) {
           const quoteNumber = quoter.addQuoteToFile(sentMessage);
           quoter.removePersonQuoteList(userId);
           const textToSend = `Successfully added your quote, ${user} ❤️ \n 
                Quote ${quoteNumber} : ${sentMessage}`;
-          sentMessages(req, res, textToSend);
+          sentMessages(req, res, requestType, textToSend);
 
      } else {
           console.log("Send response: 200");

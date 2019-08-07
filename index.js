@@ -105,7 +105,7 @@ app.post('/', (req, res) => {
           const textToSend = quoter.askForQuote(sentMessage);
           sentMessages(req, res, textToSend); 
        
-     } else if (sentMessage.match(/tell/igm && listedPerson)) {
+     } else if (sentMessage.match(/tell/igm) && listedPerson) {
           console.log("First add Quote");
           const textToSend = `Send me first a quote i should add, ${user} 🏹`;
           sentMessages(req, res, textToSend); 

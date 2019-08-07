@@ -69,7 +69,7 @@ app.post('/', (req, res) => {
           const textToSend = quoter.askForQuote(sentMessage);
           sentMessages(req, res, requestMessageType, textToSend); 
        
-     } else if (sentMessage.match(/tell/igm) && listedPerson) {
+     } else if (sentMessage.match(/tell/igm)) {
           console.log("Entered: Tell listed");
           console.log("Add person's quote");
           //const textToSend = `Send me first a quote i should add, ${user} 🏹`;
@@ -77,6 +77,7 @@ app.post('/', (req, res) => {
           const newQuote = sentMessage.match(/tell(.+)/igm);
           const quoteNumber = quoter.addQuoteToFile(sentMessage);
           const textToSend = `Successfully added your quote, ${user} ❤️ \n Quote ${quoteNumber} : ${newQuote}`;
+          
           sentMessages(req, res, requestMessageType, textToSend); 
               
      // } else if (sentMessage.match(/tell/igm) && !listedPerson) {

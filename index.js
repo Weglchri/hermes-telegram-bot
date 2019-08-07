@@ -1,6 +1,7 @@
 'use strict';
 var express = require('express');
 var app = express();
+// add enhanced logging for better traceability of issues!
 
 const bodyParser = require('body-parser');
 const axios = require('axios');
@@ -57,7 +58,7 @@ app.post('/', (req, res) => {
      
      console.log("Text to process: ", sentMessage);
      console.log("Listed persons: ", quoter.getPersonQuoteList());
-     console.log("Is person listed: ", listedPerson);
+     console.log("Requested Person listed: ", listedPerson);
 
      // Hermes Router
      if (sentMessage.match(/greetings/igm)) {
@@ -69,18 +70,18 @@ app.post('/', (req, res) => {
           sentMessages(req, res, requestMessageType, textToSend); 
        
      } else if (sentMessage.match(/tell/igm) && listedPerson) {
-          console.log("First add a quote");
+          console.log("Entered: Tell listed");
           const textToSend = `Send me first a quote i should add, ${user} 🏹`;
           sentMessages(req, res, requestMessageType, textToSend); 
               
      } else if (sentMessage.match(/tell/igm) && !listedPerson) {
-          console.log("Add a quote");
+          console.log("Entered: Tell unlisted");
           const textToSend = `Send me a quote i should know, ${user} ⚜️`;
           quoter.addPersonToPersonQuoteList(userId);
           sentMessages(req, res, requestMessageType, textToSend); 
      
      } else if (sentMessage.match(/exit/igm) && listedPerson) {
-          console.log("Exit");
+          console.log("Entered: Exit");
           quoter.removePersonQuoteList(userId);
           const textToSend = `Aborted, no quote added 🙁`;
           sentMessages(req, res, requestMessageType, textToSend); 

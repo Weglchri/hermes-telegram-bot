@@ -76,8 +76,8 @@ module.exports = {
     },
 
     removePersonQuoteList : function(person) {
+        console.log(`Removed person from quote list: ${person} `);
         personQuoteList = utils.removeElementFromArray(personQuoteList, person);
-        console.log("unlisted user");
     },
 
 

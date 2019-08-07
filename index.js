@@ -60,7 +60,7 @@ app.post('/', (req, res) => {
      // res.status(200).send({});
      console.log("Request Body: ", req.body);
      
-     const sentMessage = req.body.message.text || req.body.edited_message.text || 'empty';
+     const sentMessage = req.body.message.text || 'empty';
      const user = req.body.message.from.username || req.body.message.from.first_name;
      const userId = req.body.message.from.id;
      const chatId = req.body.message.chat.id;

@@ -74,8 +74,8 @@ app.post('/', (req, res) => {
           console.log("Add person's quote");
           //const textToSend = `Send me first a quote i should add, ${user} 🏹`;
           
-          const newQuote = sentMessage.match(/tell(.+)/igm);
-          const quoteNumber = quoter.addQuoteToFile(sentMessage);
+          const newQuote = quoter.getQuoteFromMessage(sentMessage);
+          const quoteNumber = quoter.addQuoteToFile(newQuote);
           const textToSend = `Successfully added your quote, ${user} ❤️ \n Quote ${quoteNumber} : ${newQuote}`;
           
           sentMessages(req, res, requestMessageType, textToSend); 

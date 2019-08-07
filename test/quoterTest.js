@@ -62,6 +62,23 @@ describe('Quote Test', function() {
     });
   });
 
+  describe('Regex data from messages', function() {
+    
+    it('regex test', function() {
+      var message = '/tell This is my new quote then!';
+      var newQuote = message.match(/\s(.*)/igm);
+      assert.equal('This is my new quote then!', newQuote.toString().trim());
+    });
+
+    it('regex test 2', function() {
+      var message2 = '/tell This is my new quote then!';
+      var pattern2 = /\s(.*)/igm;
+      var result = pattern2.exec(message2)[1];
+      assert.equal('This is my new quote then!', result);
+    });
+
+  });
+
 });
 
 

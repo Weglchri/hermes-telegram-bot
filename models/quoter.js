@@ -94,4 +94,11 @@ module.exports = {
         return quote;
     },
 
+    getQuoteFromMessage : function(message) {
+        var pattern = /\s(.*)/igm;
+        const newQuote = pattern.exec(message)[1];
+        console.log("Add new quote: ", newQuote);
+        return newQuote;
+    }
+
 }

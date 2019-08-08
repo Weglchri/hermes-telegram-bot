@@ -82,12 +82,14 @@ app.post('/', (req, res) => {
           console.log(res.headers);
           res.setEncoding('utf8');
           res.on('data', function(chunk){
-            console.log(chunk);
+               console.log("S3 Output");
+               console.log(JSON.parse(chunk));
           });
      }).end();
 
-
-
+     //https://hermes-telegram-storage.s3.eu-central-1.amazonaws.com/testfolder/segdeg.json
+     //https://hermes-telegram-storage.s3.eu-central-1.amazonaws.com/testfolder/segdeg.json
+     
      // Hermes Router
      if (sentMessage.match(/greetings/igm)) {
           const textToSend = `I'm Hermes the quote bot, hello ${user} 👋`;

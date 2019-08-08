@@ -77,19 +77,20 @@ app.post('/', (req, res) => {
           bucket: S3_BUCKET_NAME
      });
 
-     client.get('/testfolder/segdeg.json').on('response', function(res){
+     client.get('/testfolder/segdeg.json', {'content-type': 'application/json'})
+     .on('response', function(res){
           console.log(res.statusCode);
           console.log(res.headers);
           res.setEncoding('utf8');
           res.on('data', function(chunk){
                console.log("S3 Output");
-               console.log(JSON.parse(chunk));
+               console.log(chunk);
           });
      }).end();
 
      //https://hermes-telegram-storage.s3.eu-central-1.amazonaws.com/testfolder/segdeg.json
      //https://hermes-telegram-storage.s3.eu-central-1.amazonaws.com/testfolder/segdeg.json
-     
+
      // Hermes Router
      if (sentMessage.match(/greetings/igm)) {
           const textToSend = `I'm Hermes the quote bot, hello ${user} 👋`;

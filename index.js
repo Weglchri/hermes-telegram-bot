@@ -10,7 +10,6 @@ var quoter = require("./models/quoter.js");
 // dao
 var s3database = require("./dao/s3-quoter-dao.js");
 
-
 // add enhanced logging for better traceability of issues!
 
 // heroku conenction settings
@@ -78,7 +77,8 @@ app.post('/', (req, res) => {
           bucket: S3_BUCKET_NAME
       });
 
-      client.listPageOfKeys({ prefix: 'scratch', marker: marker, maxKeys: 5 }, function(err, page) {
+
+     client.listPageOfKeys({ prefix: 'scratch', marker: '', maxKeys: 5 }, function(err, page) {
           if (err) {
             res.render('error', {         
               params: { 

@@ -64,11 +64,7 @@ app.post('/', (req, res) => {
      if (sentMessage.match(/greetings/igm)) {
           const textToSend = `I'm Hermes the quote bot, hello ${user} 👋`;
           sentMessages(req, res, requestMessageType, textToSend);
-     
-     } else if (sentMessage.match(/quote/igm)) {
-          const textToSend = quoter.askForQuote(sentMessage);
-          sentMessages(req, res, requestMessageType, textToSend); 
-       
+         
      } else if (sentMessage.match(/tell/igm)) {
           console.log("Entered: Tell listed");
           console.log("Add person's quote");
@@ -99,6 +95,10 @@ app.post('/', (req, res) => {
      //      const textToSend = `Successfully added your quote, ${user} ❤️ \n 
      //           Quote ${quoteNumber} : ${sentMessage}`;
      //      sentMessages(req, res, requestMessageType, textToSend);
+
+     } else if (sentMessage.match(/quote/igm)) {
+          const textToSend = quoter.askForQuote(sentMessage);
+          sentMessages(req, res, requestMessageType, textToSend); 
 
      } else {
           console.log("Send response: 200");

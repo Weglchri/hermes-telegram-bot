@@ -1,18 +1,30 @@
 'use strict';
 var express = require('express');
 var app = express();
+var axios = require('axios');
+var knox = require('knox-s3');
+var bodyParser = require('body-parser');
+
+// model
+var quoter = require("./models/quoter.js");
+// dao
+var s3database = require("./dao/s3-quoter-dao.js");
+
+
 // add enhanced logging for better traceability of issues!
 
-const bodyParser = require('body-parser');
-const axios = require('axios');
-
-var quoter = require("./models/quoter.js");
-
+// heroku conenction settings
 const APP_URL = 'https://api.telegram.org/bot';
 const HEROKU_URL = process.env.URL;
 const APITOKEN = process.env.TOKEN;
 const MODE = process.env.NODE_ENV;
 const PORT = process.env.PORT || 5000;
+
+// database connection settings
+const S3_BUCKET_NAME = process.env.S3_BUCKET_NAME
+const AWS_API_KEY = process.env.AWSAccessKeyId;
+const AWS_SECRET_KEY = process.env.AWSSecretKey;
+const AMAZONS3 = 'http://s3.amazonaws.com/' + S3_BUCKET_NAME;
 
 // Commandlist 
 /*
@@ -59,6 +71,47 @@ app.post('/', (req, res) => {
      console.log("Text to process: ", sentMessage);
      console.log("Listed persons: ", quoter.getPersonQuoteList());
      console.log("Requested Person listed: ", listedPerson);
+
+     var client = knox.createClient({
+          key: AWS_API_KEY,
+          secret: AWS_SECRET_KEY,
+          bucket: S3_BUCKET_NAME
+      });
+
+      client.listPageOfKeys({ prefix: 'scratch', marker: marker, maxKeys: 5 }, function(err, page) {
+          if (err) {
+            res.render('error', {         
+              params: { 
+                title: 'List of S3 Resources', 
+                showform: false
+              }
+            })
+          } else {
+            // Call the template with the page data.
+      
+      
+            console.log('files', page.Contents.files.length)
+      
+            res.render('s3list', { 
+              params: { 
+                amazon_url: amazon_url, 
+                showform: true, 
+                files: page.Contents,
+                paging: {
+                  next: null,
+                  previous: null
+                }
+              }
+            }, function(err, html) {
+              if (err) console.log(err)
+              if (err) return res.send('Error in Page')
+      
+              res.send(200, html)
+            })
+          }
+      })
+
+
 
      // Hermes Router
      if (sentMessage.match(/greetings/igm)) {

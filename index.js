@@ -75,41 +75,16 @@ app.post('/', (req, res) => {
           key: AWS_API_KEY,
           secret: AWS_SECRET_KEY,
           bucket: S3_BUCKET_NAME
-      });
+     });
 
-
-     client.listPageOfKeys({ prefix: 'scratch', marker: '', maxKeys: 5 }, function(err, page) {
-          if (err) {
-            res.render('error', {         
-              params: { 
-                title: 'List of S3 Resources', 
-                showform: false
-              }
-            })
-          } else {
-            // Call the template with the page data.
-      
-      
-            console.log('files', page.Contents.files.length)
-      
-            res.render('s3list', { 
-              params: { 
-                amazon_url: amazon_url, 
-                showform: true, 
-                files: page.Contents,
-                paging: {
-                  next: null,
-                  previous: null
-                }
-              }
-            }, function(err, html) {
-              if (err) console.log(err)
-              if (err) return res.send('Error in Page')
-      
-              res.send(200, html)
-            })
-          }
-      })
+     client.get('/testfolder/segdeg.json').on('response', function(res){
+          console.log(res.statusCode);
+          console.log(res.headers);
+          res.setEncoding('utf8');
+          res.on('data', function(chunk){
+            console.log(chunk);
+          });
+     }).end();
 
 
 

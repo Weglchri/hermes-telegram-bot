@@ -27,8 +27,9 @@ init();
 /*
 
 greetings - hermes greets you 💋
-quote - get the finest quotes of all time
-tell - send me a quote
+list - get all quotes available
+quote - get the finest quotes of all time ⚜️
+tell - send me a quote 
 
 */
 
@@ -53,16 +54,18 @@ app.use(bodyParser.json());
 // Endpoints
 app.post('/', async (req, res) => {
    
-     // res.status(200).send({});
+     if(req.body.message.text == undefined) {
+          res.status(200).send({});
+     }
+     
      console.log("Request Body: ", req.body);
-    
      //const requestMessageType = req.body.message || req.body.edited_message;
      // check for a text request
      const sentMessage = req.body.message.text || 'empty';
      // use actions on request
      const user = req.body.message.from.username || req.body.message.from.first_name;
      const userId = req.body.message.from.id;
-     const chatId = req.body.message.chat.id;
+     //const chatId = req.body.message.chat.id;
      
      console.log("text to process: ", sentMessage);
 
@@ -104,11 +107,6 @@ app.post('/', async (req, res) => {
      } else if (sentMessage.match(/quote/igm)) {
           const textToSend = await quoter.askForQuote(sentMessage);
           sentMessages(req, res, textToSend); 
-
-          // quoter.askForQuote(sentMessage)
-          // .then(function(textToSend) {
-          //      sentMessages(req, res, requestMessageType, textToSend); 
-          // }).catch((err) => {console.log(err)});
 
      } else {
           console.log("Send response: 200");

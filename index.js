@@ -72,9 +72,11 @@ app.post('/', async (req, res) => {
           
           const quote = quoter.getQuoteFromMessage(sentMessage);
           const quoteNumber = await quoter.addQuoteToFile(quote);
+          
           const textToSend = `Successfully added your quote, ${user} ❤️ \n  
                Quote ${quoteNumber} : ${quote}`;
-          sentMessages(req, res, requestMessageType, textToSend); 
+          
+               sentMessages(req, res, requestMessageType, textToSend); 
 
           // quoter.addQuoteToFile(quote)
           // .then((quoteNumber) => {

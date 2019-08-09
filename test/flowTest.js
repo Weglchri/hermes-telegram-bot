@@ -13,16 +13,7 @@ describe('Heavy Test', function () {
         });
 
         it('ask for three predefined quotes', async function () {
-            console.log(await quoter.askForQuote("/quote"));
-            console.log(await quoter.askForQuote("/quote"));
-            console.log(await quoter.askForQuote("/quote"));
-            console.log(await quoter.askForQuote("/quote"));
-            console.log(await quoter.askForQuote("/quote"));
-            console.log(await quoter.askForQuote("/quote"));
-            console.log(await quoter.askForQuote("/quote"));
-            console.log(await quoter.askForQuote("/quote"));
-            console.log(await quoter.askForQuote("/quote"));
-            console.log(await quoter.askForQuote("/quote"));
+           
         });
 
 

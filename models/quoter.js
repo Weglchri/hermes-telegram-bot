@@ -22,7 +22,7 @@ module.exports = {
     readQuotesFile: async function () {
         //const quotes = utils.readFileAsJSONObject(QUOTE_FILE);
         QUOTE_FILE = QUOTE_FILE || await s3Dao.getQuotesFileFromS3(S3_QUOTE_FILE_PATH);
-        var parsedQuotes = JSON.parse(quote);
+        var parsedQuotes = JSON.parse(QUOTE_FILE);
         return parsedQuotes;
     },
 

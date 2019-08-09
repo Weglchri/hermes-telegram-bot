@@ -57,11 +57,11 @@ app.post('/', (req, res) => {
      const user = requestMessageType.from.username || req.body.message.from.first_name;
      const userId = requestMessageType.from.id;
      const chatId = requestMessageType.chat.id;
-     const listedPerson = quoter.getPersonQuoteList().includes(userId);
+     //const listedPerson = quoter.getPersonQuoteList().includes(userId);
      
      console.log("Text to process: ", sentMessage);
-     console.log("Listed persons: ", quoter.getPersonQuoteList());
-     console.log("Requested Person listed: ", listedPerson);
+     //console.log("Listed persons: ", quoter.getPersonQuoteList());
+     //console.log("Requested Person listed: ", listedPerson);
 
      // Hermes Router
      if (sentMessage.match(/greetings/igm)) {
@@ -72,7 +72,7 @@ app.post('/', (req, res) => {
           console.log(`${user} entered tell`);
           
           const quote = quoter.getQuoteFromMessage(sentMessage);
-          const quoteNumber = quoter.addQuoteToFile(quote);
+          const quoteNumber = await quoter.addQuoteToFile(quote);
           const textToSend = `Successfully added your quote, ${user} ❤️ \n 
                Quote ${quoteNumber} : ${quote}`;
           
@@ -91,7 +91,7 @@ app.post('/', (req, res) => {
           // sentMessages(req, res, requestMessageType, textToSend); 
 
      } else if (sentMessage.match(/quote/igm)) {
-          const textToSend = quoter.askForQuote(sentMessage);
+          const textToSend = await quoter.askForQuote(sentMessage);
           sentMessages(req, res, requestMessageType, textToSend); 
 
      } else {

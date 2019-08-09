@@ -19,7 +19,7 @@ const APP_URL = 'https://api.telegram.org/bot';
 
 async function init() {
      await quoter.executeQuoteFileUpdate();
-     console.log("Init successfull");
+     console.log("init successful");
 }; 
 init();
 
@@ -56,15 +56,15 @@ app.post('/', async (req, res) => {
      // res.status(200).send({});
      console.log("Request Body: ", req.body);
     
-     const requestMessageType = req.body.message || req.body.edited_message;
+     //const requestMessageType = req.body.message || req.body.edited_message;
      // check for a text request
-     const sentMessage = requestMessageType.text || 'empty';
+     const sentMessage = req.body.message.text || 'empty';
      // use actions on request
-     const user = requestMessageType.from.username || req.body.message.from.first_name;
-     const userId = requestMessageType.from.id;
-     const chatId = requestMessageType.chat.id;
+     const user = req.body.message.from.username || req.body.message.from.first_name;
+     const userId = req.body.message.from.id;
+     const chatId = req.body.message.chat.id;
      
-     console.log("Text to process: ", sentMessage);
+     console.log("text to process: ", sentMessage);
 
      // Hermes Router
      if (sentMessage.match(/greetings/igm)) {

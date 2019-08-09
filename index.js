@@ -54,18 +54,17 @@ app.use(bodyParser.json());
 // Endpoints
 app.post('/', async (req, res) => {
    
-     if(req.body.message.text == undefined) {
-          res.status(200).send({});
+     if(req.body.message.text === undefined) {
+          console.log("Send response: 400");
+          res.status(400).send({});
      }
-     
+
      console.log("Request Body: ", req.body);
-     //const requestMessageType = req.body.message || req.body.edited_message;
      // check for a text request
      const sentMessage = req.body.message.text || 'empty';
      // use actions on request
      const user = req.body.message.from.username || req.body.message.from.first_name;
      const userId = req.body.message.from.id;
-     //const chatId = req.body.message.chat.id;
      
      console.log("text to process: ", sentMessage);
 

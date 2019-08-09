@@ -33,10 +33,10 @@ tell - send me a quote
 */
 
 // Telegram message functions 
-function sentMessages(req, res, reqtyp, txsend, requestId) {
+function sentMessages(req, res, txsend, reqId) {
     axios.post(`${APP_URL}${APITOKEN}/sendMessage`,
     {
-         chat_id: requestId || reqtyp.chat.id,
+         chat_id: reqId || reqtyp.chat.id,
          text: txsend
     })
     .then((response) => { 
@@ -70,7 +70,7 @@ app.post('/', async (req, res) => {
      if (sentMessage.match(/greetings/igm)) {
           console.log(`${user} entered greetings`);
           const textToSend = `I'm Hermes the quote bot, hello ${user} 👋`;
-          sentMessages(req, res, requestMessageType, textToSend);
+          sentMessages(req, res, textToSend);
          
      } else if (sentMessage.match(/tell/igm)) {
           console.log(`${user} entered tell`);
@@ -83,7 +83,7 @@ app.post('/', async (req, res) => {
           } else {
                textToSend = `Write /tell with your quote!, ${user} 🏹`;
           }
-          sentMessages(req, res, requestMessageType, textToSend); 
+          sentMessages(req, res, textToSend); 
 
      } else if (sentMessage.match(/remove/igm)) {
           console.log(`${user} entered remove`);
@@ -99,11 +99,11 @@ app.post('/', async (req, res) => {
 
      } else if (sentMessage.match(/list/igm)) {
           const textToSend = await quoter.getQuotesObject();
-          sentMessages(req, res, requestMessageType, textToSend, userId); 
+          sentMessages(req, res, textToSend, userId); 
 
      } else if (sentMessage.match(/quote/igm)) {
           const textToSend = await quoter.askForQuote(sentMessage);
-          sentMessages(req, res, requestMessageType, textToSend); 
+          sentMessages(req, res, textToSend); 
 
           // quoter.askForQuote(sentMessage)
           // .then(function(textToSend) {

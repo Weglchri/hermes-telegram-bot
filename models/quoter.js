@@ -6,6 +6,7 @@ var s3Dao = require("../daos/s3QuoterDao.js");
 const S3_QUOTE_FILE_PATH = process.env.S3FILE || 'testfolder/segdeg.json';
 const QUOTE_ARRAY = 10;
 var quotesList = [];
+var QUOTE_FILE = null;
 
 module.exports = {
     
@@ -20,7 +21,7 @@ module.exports = {
 
     readQuotesFile: async function () {
         //const quotes = utils.readFileAsJSONObject(QUOTE_FILE);
-        const quotes = await s3Dao.getQuotesFileFromS3(S3_QUOTE_FILE_PATH);
+        QUOTE_FILE = QUOTE_FILE || await s3Dao.getQuotesFileFromS3(S3_QUOTE_FILE_PATH);
         var parsedQuotes = JSON.parse(quotes);
         return parsedQuotes;
     },

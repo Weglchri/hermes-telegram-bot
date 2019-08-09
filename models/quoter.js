@@ -4,7 +4,7 @@ var s3Dao = require("../daos/s3QuoterDao.js");
 
 // prevent hermes sending same quote twice 
 const S3_QUOTE_FILE_PATH = process.env.S3FILE || 'testfolder/segdeg.json';
-const QUOTE_ARRAY = 10;
+const QUOTE_ARRAY = 1;
 var quotesList = [];
 var QUOTES_OBJECT = null;
 
@@ -54,6 +54,7 @@ module.exports = {
     },
 
     updateQuoteList: function (quoteNumber) {
+        console.log(quoteNumber);
         if (Object.keys(quotesList).length >= QUOTE_ARRAY) {
             quotesList.shift();
         }
@@ -64,6 +65,7 @@ module.exports = {
         let random = utils.getRandomInt(jsonDataLength) + 1;
         while (quotesList.includes(random)) {
             random = utils.getRandomInt(jsonDataLength) + 1;
+            console.log(random);
         }
         return random;
     },
@@ -76,6 +78,7 @@ module.exports = {
     },
 
     getRandomQuote: async function () {
+       console.log("new call");
         let quoteDataObject = this.getQuotesObject();
         let jsonDataLength = Object.keys(quoteDataObject).length;
         let number = this.getValidRandomNumber(jsonDataLength);
@@ -87,6 +90,7 @@ module.exports = {
     askForQuote: async function (message) {
         const quoteNumber = message.split("/")[2];
         if (quoteNumber === undefined) {
+            console.log(message);
             return await this.getRandomQuote();
         }
         return await this.getQuote(quoteNumber);

@@ -45,9 +45,6 @@ describe('Quote Test', function() {
         var quoteListLength = Object.keys(quoteList).length;
         var quoteNumber = await quoter.addQuoteToFile("Hello World how are you?");
         
-        console.log("Number is: ", quoteNumber);
-        console.log("Number is: ", quoteListLength);
-
         assert.equal(quoteListLength + 1, quoteNumber);
         var quote = await quoter.getQuote(quoteNumber);
 

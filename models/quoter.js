@@ -90,8 +90,11 @@ module.exports = {
 
     getQuoteFromMessage: function (message) {
         var pattern = /\s(.*)/igm;
-        var newQuote = pattern.exec(message)[1];
-        return newQuote;
+        var quote = pattern.exec(message);
+        if(quote !== null && quote.length == 2 && quote[1] != '') 
+            return quote[1]
+        else 
+            return false;
     },
            
 }

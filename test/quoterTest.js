@@ -11,22 +11,22 @@ describe('Quote Test', function() {
       quoter.emptyQuotesList();
     });
 
-    it('ask for three predefined quotes', function() {
-      quoter.askForQuote("/segdeg/1");
-      quoter.askForQuote("/segdeg/2");
-      quoter.askForQuote("/segdeg/3");
+    it('ask for three predefined quotes', async function() {
+      await quoter.askForQuote("/quote/1");    
+      await quoter.askForQuote("/quote/2");
+      await quoter.askForQuote("/quote/3");
       assert.deepEqual(["1", "2", "3"], quoter.getQuotesList());
     });
 
-    it('call with one predefined quote', function() {
-      quoter.askForQuote("/segdeg/1")
+    it('call with one predefined quote', async function() {
+      await quoter.askForQuote("/quote/1")
       assert.equal(1, quoter.getQuotesList());
     });
 
-    it('call with one random quote', function() {
-      var randomQuote = quoter.askForQuote("/segdeg")
+    it('call with one random quote', async function() {
+      var randomQuote = await quoter.getRandomQuote();
       var randomNumber = quoter.getQuotesList()[0];
-      var predefinedQuote = quoter.askForQuote(`/segdeg/${randomNumber}`);
+      var predefinedQuote = await quoter.askForQuote(`/quote/${randomNumber}`);
       assert.equal(randomQuote, predefinedQuote);
     });
 
@@ -34,16 +34,18 @@ describe('Quote Test', function() {
 
   describe('check quote file update', function() {
   
-    it('add and remove quote from file', function() {
-        var quoteList = quoter.readQuotesFile();
+    it('add and remove quote from file', async function() {
+        var quoteList = await quoter.readQuotesFile();
         var quoteListLength = Object.keys(quoteList).length;
-        var quoteNumber = quoter.addQuoteToFile("Hello World how are you?");
+        var quoteNumber = await quoter.addQuoteToFile("Hello World how are you?");
         
         assert.equal(quoteListLength + 1, quoteNumber);
-        assert.equal("Hello World how are you?", quoter.getQuote(quoteNumber));
+        var quote = await quoter.getQuote(quoteNumber);
+
+        assert.equal("Hello World how are you?", quote);
         
-        quoter.removeQuoteFromFile(quoteNumber);
-        var newQuoteList = quoter.readQuotesFile();
+        await quoter.removeQuoteFromFile(quoteNumber);
+        var newQuoteList = await quoter.readQuotesFile();
         var newQuoteListLength = Object.keys(newQuoteList).length;
         
         assert.equal(quoteListLength, newQuoteListLength)

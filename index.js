@@ -7,8 +7,6 @@ var bodyParser = require('body-parser');
 
 // model
 var quoter = require("./models/quoter.js");
-// dao
-//var s3database = require("./daos/s3QuoterDao.js.js");
 
 // add enhanced logging for better traceability of issues!
 

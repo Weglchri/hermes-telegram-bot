@@ -36,7 +36,7 @@ tell - send me a quote
 function sentMessages(req, res, txsend, reqId) {
     axios.post(`${APP_URL}${APITOKEN}/sendMessage`,
     {
-         chat_id: reqId || reqtyp.chat.id,
+         chat_id: reqId || req.body.message.chat.id,
          text: txsend
     })
     .then((response) => { 

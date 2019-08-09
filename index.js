@@ -3,7 +3,6 @@ var express = require('express');
 var app = express();
 var axios = require('axios');
 var bodyParser = require('body-parser');
-//const aws = require('aws-sdk');
 
 // model
 var quoter = require("./models/quoter.js");
@@ -70,22 +69,14 @@ app.post('/', (req, res) => {
          
      } else if (sentMessage.match(/tell/igm)) {
           console.log(`${user} entered tell`);
-          
           const quote = quoter.getQuoteFromMessage(sentMessage);
-          //const quoteNumber = await quoter.addQuoteToFile(quote);
           quoter.addQuoteToFile(quote)
           .then((quoteNumber) => {
-
                const textToSend = `Successfully added your quote, ${user} ❤️ \n 
                Quote ${quoteNumber} : ${quote}`;
                sentMessages(req, res, requestMessageType, textToSend); 
-               
-          }).catch();
+          }).catch((err) => {console.log(err)});
           
-          
-          
-          
-
      } else if (sentMessage.match(/remove/igm)) {
           console.log(`${user} entered remove`);
           
@@ -100,13 +91,10 @@ app.post('/', (req, res) => {
 
      } else if (sentMessage.match(/quote/igm)) {
           //const textToSend = quoter.askForQuote(sentMessage);
-
           quoter.askForQuote(sentMessage)
           .then(function(textToSend) {
                sentMessages(req, res, requestMessageType, textToSend); 
           }).catch((err) => {console.log(err)});
-
-          
 
      } else {
           console.log("Send response: 200");

@@ -20,7 +20,8 @@ const APP_URL = 'https://api.telegram.org/bot';
 async function init() {
      await quoter.executeQuoteFileUpdate();
      console.log("Init successfull");
-}; await init();
+}; 
+init();
 
 // Commandlist 
 /*

@@ -81,8 +81,8 @@ module.exports = {
     },
 
     askForQuote: async function (message) {
-        const quoteNumber = message.split("/")[2];
-        if (quoteNumber === undefined) {
+        const quoteNumber = this.getQuoteFromMessage(message); //message.split("/")[2];
+        if (quoteNumber === false) {
             console.log(message);
             return await this.getRandomQuote();
         }

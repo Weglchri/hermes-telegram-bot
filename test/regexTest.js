@@ -25,12 +25,17 @@ describe('Regex Test', function() {
 
     it('regex test 4', function() {
         var result = quoter.getQuoteFromMessage('/tell tell the world this is a new quote!');
-        assert.equal('hello world this is a new quote!', result);
+        assert.equal("tell the world this is a new quote!", result);
     });
 
     it('regex test 5', function() {
         var result = quoter.getQuoteFromMessage('/tell');
         assert.equal(false, result);
+    });
+
+    it('regex test 5', function() {
+        var result = quoter.getQuoteFromMessage('/quote 3');
+        assert.equal(3, result);
     });
 
   });

@@ -19,9 +19,8 @@ const APP_URL = 'https://api.telegram.org/bot';
 
 async function init() {
      await quoter.executeQuoteFileUpdate();
-};
-
-init();
+     console.log("Init successfull");
+}; await init();
 
 // Commandlist 
 /*
@@ -63,14 +62,12 @@ app.post('/', async (req, res) => {
      const user = requestMessageType.from.username || req.body.message.from.first_name;
      const userId = requestMessageType.from.id;
      const chatId = requestMessageType.chat.id;
-     //const listedPerson = quoter.getPersonQuoteList().includes(userId);
      
      console.log("Text to process: ", sentMessage);
-     //console.log("Listed persons: ", quoter.getPersonQuoteList());
-     //console.log("Requested Person listed: ", listedPerson);
 
      // Hermes Router
      if (sentMessage.match(/greetings/igm)) {
+          console.log(`${user} entered greetings`);
           const textToSend = `I'm Hermes the quote bot, hello ${user} 👋`;
           sentMessages(req, res, requestMessageType, textToSend);
          
@@ -79,19 +76,13 @@ app.post('/', async (req, res) => {
           
           const quote = quoter.getQuoteFromMessage(sentMessage);
           const quoteNumber = await quoter.addQuoteToFile(quote);
+          if(quote === undefined) {
+               const textToSend = `Nothing to add, ${user} 🏹`;
+          } else {
+               const textToSend = `Successfully added your quote, ${user} ❤️ \n  Quote ${quoteNumber} : ${quote}`;
+          }
+          sentMessages(req, res, requestMessageType, textToSend); 
 
-          const textToSend = `Successfully added your quote, ${user} ❤️ \n  
-               Quote ${quoteNumber} : ${quote}`;
-          
-               sentMessages(req, res, requestMessageType, textToSend); 
-
-          // quoter.addQuoteToFile(quote)
-          // .then((quoteNumber) => {
-          //      const textToSend = `Successfully added your quote, ${user} ❤️ \n 
-          //      Quote ${quoteNumber} : ${quote}`;
-          //      sentMessages(req, res, requestMessageType, textToSend); 
-          // }).catch((err) => {console.log(err)});
-          
      } else if (sentMessage.match(/remove/igm)) {
           console.log(`${user} entered remove`);
           

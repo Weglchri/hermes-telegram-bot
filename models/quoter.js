@@ -5,41 +5,40 @@ var utils = require("../lib/utils.js");
 const QUOTE_FILE = './data/segdeg.json';
 const QUOTE_ARRAY = 10;
 var quotesList = [];
-var personQuoteList = [];
 
 module.exports = {
 
-    getQuotesList : function() {
+    getQuotesList: function () {
         return quotesList;
     },
 
-    emptyQuotesList : function() {
+    emptyQuotesList: function () {
         quotesList = [];
     },
 
-    updateQuoteList : function(quote) {
-        if(Object.keys(quotesList).length >= QUOTE_ARRAY) {
+    updateQuoteList: function (quote) {
+        if (Object.keys(quotesList).length >= QUOTE_ARRAY) {
             quotesList.shift();
         }
         quotesList.push(quote);
     },
 
-    getValidRandomNumber : function(jsonDataLength) {
+    getValidRandomNumber: function (jsonDataLength) {
         let random = utils.getRandomInt(jsonDataLength) + 1;
         while (quotesList.includes(random)) {
             random = utils.getRandomInt(jsonDataLength) + 1;
         }
         return random;
     },
-       
-    getQuote : function(number) {
+
+    getQuote: function (number) {
         let quoteDataObject = this.readQuotesFile();
         this.updateQuoteList(number);
-        let quote = quoteDataObject[number];
+        let quote = quoteDataObject[number] || 'No quote found';
         return quote;
     },
 
-    getRandomQuote : function() {
+    getRandomQuote: function () {
         let quoteDataObject = this.readQuotesFile();
         let jsonDataLength = Object.keys(quoteDataObject).length;
         let number = this.getValidRandomNumber(jsonDataLength);
@@ -48,57 +47,44 @@ module.exports = {
         return quote;
     },
 
-    readQuotesFile : function() {
-        const quotes = utils.readFile(QUOTE_FILE);
+    readQuotesFile: function () {
+        const quotes = utils.readFileAsJSONObject(QUOTE_FILE);
         return quotes;
     },
 
-    askForQuote : function(message) {
+    askForQuote: function (message) {
         const quoteNumber = message.split("/")[2];
-        if(quoteNumber === undefined) {
+        if (quoteNumber === undefined) {
             return this.getRandomQuote();
         }
-        return this.getQuote(quoteNumber);     
+        return this.getQuote(quoteNumber);
     },
 
-    // Person Tell Methods
-
-    getPersonQuoteList : function() {
-        return personQuoteList;
-    },
-
-    emptyPersonQuoteList : function() {
-        personQuoteList = [];
-    },
-
-    addPersonToPersonQuoteList : function(person) {
-        personQuoteList.push(person);
-    },
-
-    removePersonQuoteList : function(person) {
-        console.log(`Removed person from quote list: ${person} `);
-        personQuoteList = utils.removeElementFromArray(personQuoteList, person);
-    },
-
-
-    addQuoteToFile : function(quote) {
-        const quoteDataObject = this.readQuotesFile();
-        const jsonDataLength = Object.keys(quoteDataObject).length;
-        quoteDataObject[jsonDataLength + 1] = this.checkForValidQuote(quote);
+    addQuoteToFile: function (quote) {
+        var quoteDataObject = this.readQuotesFile();
+        var jsonDataLength = Object.keys(quoteDataObject).length;
+        quoteDataObject[jsonDataLength + 1] = quote;
         utils.updateFile(QUOTE_FILE, quoteDataObject);
         return jsonDataLength + 1;
     },
 
-    checkForValidQuote : function(quote) {
-        //todo: implement validation functionality
-        return quote;
+    checkForValidQuote: function (quoteNumber) {
+        var quoteDataObject = this.readQuotesFile();
+        let quote = quoteDataObject[quoteNumber];
+        return quote === undefined ? false : true;
     },
 
-    getQuoteFromMessage : function(message) {
+    getQuoteFromMessage: function (message) {
         var pattern = /\s(.*)/igm;
-        const newQuote = pattern.exec(message)[1];
+        var newQuote = pattern.exec(message)[1];
         console.log("Add new quote: ", newQuote);
         return newQuote;
-    }
+    },
 
+    removeQuoteFromFile: function(quoteNumber) {
+        var quoteDataObject = this.readQuotesFile();
+        delete quoteDataObject[quoteNumber];
+        utils.updateFile(QUOTE_FILE, quoteDataObject); 
+    }
+           
 }

@@ -33,37 +33,26 @@ describe('Quote Test', function() {
   });
 
   describe('check quote file update', function() {
-    it('get quotes from the quote file', function() {});
-  });
-
-  describe('check person quote function', function() {
-    
-    beforeEach(function() {
-      quoter.emptyPersonQuoteList();
+  
+    it('add and remove quote from file', function() {
+        var quoteList = quoter.readQuotesFile();
+        var quoteListLength = Object.keys(quoteList).length;
+        var quoteNumber = quoter.addQuoteToFile("Hello World how are you?");
+        
+        assert.equal(quoteListLength + 1, quoteNumber);
+        assert.equal("Hello World how are you?", quoter.getQuote(quoteNumber));
+        
+        quoter.removeQuoteFromFile(quoteNumber);
+        var newQuoteList = quoter.readQuotesFile();
+        var newQuoteListLength = Object.keys(newQuoteList).length;
+        
+        assert.equal(quoteListLength, newQuoteListLength)
     });
 
-    it('get quotes from person quote array', function() {
-      quoter.addPersonToPersonQuoteList(1);
-      quoter.addPersonToPersonQuoteList(2);
-      quoter.addPersonToPersonQuoteList(3);
-      assert.deepEqual([1,2,3], quoter.getPersonQuoteList());
-    });
-
-    it('get quotes from the quote file', function() {
-      quoter.addPersonToPersonQuoteList(1);
-      quoter.addPersonToPersonQuoteList(2);
-      quoter.addPersonToPersonQuoteList(3);
-      quoter.removePersonQuoteList(2);
-      assert.deepEqual([1,3], quoter.getPersonQuoteList());
-    });
-
-    it('add quote to file', function() {
-      quoter.addQuoteToFile("Hello World how are you?");
-    });
   });
 
   describe('Regex data from messages', function() {
-    
+
     it('regex test', function() {
       var message = '/tell This is my new quote then!';
       var newQuote = message.match(/\s(.*)/igm);

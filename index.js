@@ -77,11 +77,11 @@ app.post('/', async (req, res) => {
           
           var textToSend = null;
           const quote = quoter.getQuoteFromMessage(sentMessage);
-          if(!quote) {
+          if(quote) {
                const quoteNumber = await quoter.addQuoteToFile(quote);
                textToSend = `Successfully added your quote, ${user} ❤️ \n  Quote ${quoteNumber} : ${quote}`;
           } else {
-               textToSend = `Write /tell then your quote!, ${user} 🏹`;
+               textToSend = `Write /tell with your quote!, ${user} 🏹`;
           }
           sentMessages(req, res, requestMessageType, textToSend); 
 

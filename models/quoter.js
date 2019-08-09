@@ -22,7 +22,8 @@ module.exports = {
         var jsonDataLength = Object.keys(quoteDataObject).length;
         quoteDataObject[jsonDataLength + 1] = quote;
         await s3Dao.sendQuotesFileToS3(S3_QUOTE_FILE_PATH, quoteDataObject);
-        await this.executeQuoteFileUpdate();
+        QUOTES_OBJECT = quoteDataObject;
+        //await this.executeQuoteFileUpdate();
         return jsonDataLength + 1;
     },
 

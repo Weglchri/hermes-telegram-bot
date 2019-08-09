@@ -16,6 +16,13 @@ const MODE = process.env.NODE_ENV;
 const PORT = process.env.PORT || 5000;
 const APP_URL = 'https://api.telegram.org/bot';
 
+
+async function init() {
+     await quoter.executeQuoteFileUpdate();
+};
+
+init();
+
 // Commandlist 
 /*
 
@@ -48,8 +55,7 @@ app.post('/', async (req, res) => {
    
      // res.status(200).send({});
      console.log("Request Body: ", req.body);
-     quoter.executeQuoteFileUpdate();
-
+    
      const requestMessageType = req.body.message || req.body.edited_message;
      // check for a text request
      const sentMessage = requestMessageType.text || 'empty';
@@ -73,7 +79,7 @@ app.post('/', async (req, res) => {
           
           const quote = quoter.getQuoteFromMessage(sentMessage);
           const quoteNumber = await quoter.addQuoteToFile(quote);
-          
+
           const textToSend = `Successfully added your quote, ${user} ❤️ \n  
                Quote ${quoteNumber} : ${quote}`;
           

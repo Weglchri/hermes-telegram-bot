@@ -44,7 +44,7 @@ function sentMessages(req, res, reqtyp, txsend) {
 app.use(bodyParser.json());
 
 // Endpoints
-app.post('/', (req, res) => {
+app.post('/', async (req, res) => {
    
      // res.status(200).send({});
      console.log("Request Body: ", req.body);
@@ -69,13 +69,19 @@ app.post('/', (req, res) => {
          
      } else if (sentMessage.match(/tell/igm)) {
           console.log(`${user} entered tell`);
+          
           const quote = quoter.getQuoteFromMessage(sentMessage);
-          quoter.addQuoteToFile(quote)
-          .then((quoteNumber) => {
-               const textToSend = `Successfully added your quote, ${user} ❤️ \n 
+          const quoteNumber = await quoter.addQuoteToFile(quote);
+          const textToSend = `Successfully added your quote, ${user} ❤️ \n  
                Quote ${quoteNumber} : ${quote}`;
-               sentMessages(req, res, requestMessageType, textToSend); 
-          }).catch((err) => {console.log(err)});
+          sentMessages(req, res, requestMessageType, textToSend); 
+
+          // quoter.addQuoteToFile(quote)
+          // .then((quoteNumber) => {
+          //      const textToSend = `Successfully added your quote, ${user} ❤️ \n 
+          //      Quote ${quoteNumber} : ${quote}`;
+          //      sentMessages(req, res, requestMessageType, textToSend); 
+          // }).catch((err) => {console.log(err)});
           
      } else if (sentMessage.match(/remove/igm)) {
           console.log(`${user} entered remove`);
@@ -90,11 +96,14 @@ app.post('/', (req, res) => {
           // sentMessages(req, res, requestMessageType, textToSend); 
 
      } else if (sentMessage.match(/quote/igm)) {
-          //const textToSend = quoter.askForQuote(sentMessage);
-          quoter.askForQuote(sentMessage)
-          .then(function(textToSend) {
-               sentMessages(req, res, requestMessageType, textToSend); 
-          }).catch((err) => {console.log(err)});
+          
+          const textToSend = await quoter.askForQuote(sentMessage);
+          sentMessages(req, res, requestMessageType, textToSend); 
+
+          // quoter.askForQuote(sentMessage)
+          // .then(function(textToSend) {
+          //      sentMessages(req, res, requestMessageType, textToSend); 
+          // }).catch((err) => {console.log(err)});
 
      } else {
           console.log("Send response: 200");

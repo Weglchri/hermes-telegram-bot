@@ -1,12 +1,14 @@
 'use strict';
+
 var utils = require("../lib/utils.js");
 var s3Dao = require("../daos/s3QuoterDao.js");
 
 // prevent hermes sending same quote twice 
-const S3_QUOTE_FILE_PATH = process.env.S3FILE || 'testfolder/segdeg.json';
-const QUOTE_ARRAY = 1;
-var quotesList = [];
+const S3_QUOTE_FILE_PATH = process.env.S3FILE;
+
+const QUOTE_ARRAY = 10;
 var QUOTES_OBJECT = null;
+var quotesList = [];
 
 module.exports = {
 
@@ -16,11 +18,9 @@ module.exports = {
     },
 
     addQuoteToFile: async function (quote) {
-        //var quoteDataObject = await this.readQuotesFile();
         var quoteDataObject = this.getQuotesObject();
         var jsonDataLength = Object.keys(quoteDataObject).length;
         quoteDataObject[jsonDataLength + 1] = quote;
-        //utils.writeFile(QUOTE_FILE, JSON.stringify(quoteDataObject));
         await s3Dao.sendQuotesFileToS3(S3_QUOTE_FILE_PATH, quoteDataObject);
         await this.executeQuoteFileUpdate();
         return jsonDataLength + 1;
@@ -30,19 +30,11 @@ module.exports = {
         return QUOTES_OBJECT;
     },
 
-    // readQuotesFile: async function () {
-    //     //const quotes = utils.readFileAsJSONObject(QUOTE_FILE);
-    //     QUOTE_FILE = await s3Dao.getQuotesFileFromS3(S3_QUOTE_FILE_PATH);
-    //     var parsedQuotes = JSON.parse(QUOTE_FILE);
-    //     return parsedQuotes;
-    // },
-
     removeQuoteFromFile: async function(quoteNumber) {
         var quoteDataObject = this.getQuotesObject();
         delete quoteDataObject[quoteNumber];
         await s3Dao.sendQuotesFileToS3(S3_QUOTE_FILE_PATH, quoteDataObject);
         this.executeQuoteFileUpdate();
-        //utils.writeFile(QUOTE_FILE, JSON.stringify(quoteDataObject)); 
     },
 
     getQuotesList: function () {
@@ -95,12 +87,6 @@ module.exports = {
         }
         return await this.getQuote(quoteNumber);
     },
-
-    // checkForValidQuote: async function (quoteNumber) {
-    //     var quoteDataObject = await this.readQuotesFile();
-    //     let quote = quoteDataObject[quoteNumber];
-    //     return quote === undefined ? false : true;
-    // },
 
     getQuoteFromMessage: function (message) {
         var pattern = /\s(.*)/igm;

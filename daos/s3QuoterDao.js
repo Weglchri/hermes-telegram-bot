@@ -11,9 +11,6 @@ aws.config.update({
   secretAccessKey: AWS_SECRET_KEY
 });
 
-
-
-
 var s3 = new aws.S3();
 
 module.exports = {

@@ -7,8 +7,9 @@ describe('Quote Test', function() {
   
   describe('check quote list updates', function() {
     
-    beforeEach(function() {
+    beforeEach(async function() {
       quoter.emptyQuotesList();
+      await quoter.executeQuoteFileUpdate();
     });
 
     it('ask for three predefined quotes', async function() {
@@ -33,19 +34,27 @@ describe('Quote Test', function() {
   });
 
   describe('check quote file update', function() {
-  
+
+    beforeEach(async function() {
+      quoter.emptyQuotesList();
+      await quoter.executeQuoteFileUpdate();
+    });
+
     it('add and remove quote from file', async function() {
-        var quoteList = await quoter.readQuotesFile();
+        var quoteList = quoter.getQuotesObject();
         var quoteListLength = Object.keys(quoteList).length;
         var quoteNumber = await quoter.addQuoteToFile("Hello World how are you?");
         
+        console.log("Number is: ", quoteNumber);
+        console.log("Number is: ", quoteListLength);
+
         assert.equal(quoteListLength + 1, quoteNumber);
         var quote = await quoter.getQuote(quoteNumber);
 
         assert.equal("Hello World how are you?", quote);
         
         await quoter.removeQuoteFromFile(quoteNumber);
-        var newQuoteList = await quoter.readQuotesFile();
+        var newQuoteList = await quoter.getQuotesObject();
         var newQuoteListLength = Object.keys(newQuoteList).length;
         
         assert.equal(quoteListLength, newQuoteListLength)

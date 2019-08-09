@@ -6,30 +6,42 @@ var s3Dao = require("../daos/s3QuoterDao.js");
 const S3_QUOTE_FILE_PATH = process.env.S3FILE || 'testfolder/segdeg.json';
 const QUOTE_ARRAY = 10;
 var quotesList = [];
-var QUOTE_FILE = null;
+var QUOTES_OBJECT = null;
 
 module.exports = {
-    
+
+    executeQuoteFileUpdate : async function() {
+        var QUOTES_FILE = await s3Dao.getQuotesFileFromS3(S3_QUOTE_FILE_PATH);
+        QUOTES_OBJECT = JSON.parse(QUOTES_FILE);
+    },
+
     addQuoteToFile: async function (quote) {
-        var quoteDataObject = await this.readQuotesFile();
+        //var quoteDataObject = await this.readQuotesFile();
+        var quoteDataObject = this.getQuotesObject();
         var jsonDataLength = Object.keys(quoteDataObject).length;
         quoteDataObject[jsonDataLength + 1] = quote;
         //utils.writeFile(QUOTE_FILE, JSON.stringify(quoteDataObject));
         await s3Dao.sendQuotesFileToS3(S3_QUOTE_FILE_PATH, quoteDataObject);
+        await this.executeQuoteFileUpdate();
         return jsonDataLength + 1;
     },
 
-    readQuotesFile: async function () {
-        //const quotes = utils.readFileAsJSONObject(QUOTE_FILE);
-        QUOTE_FILE = QUOTE_FILE || await s3Dao.getQuotesFileFromS3(S3_QUOTE_FILE_PATH);
-        var parsedQuotes = JSON.parse(QUOTE_FILE);
-        return parsedQuotes;
+    getQuotesObject : function() {
+        return QUOTES_OBJECT;
     },
 
+    // readQuotesFile: async function () {
+    //     //const quotes = utils.readFileAsJSONObject(QUOTE_FILE);
+    //     QUOTE_FILE = await s3Dao.getQuotesFileFromS3(S3_QUOTE_FILE_PATH);
+    //     var parsedQuotes = JSON.parse(QUOTE_FILE);
+    //     return parsedQuotes;
+    // },
+
     removeQuoteFromFile: async function(quoteNumber) {
-        var quoteDataObject = await this.readQuotesFile();
+        var quoteDataObject = this.getQuotesObject();
         delete quoteDataObject[quoteNumber];
         await s3Dao.sendQuotesFileToS3(S3_QUOTE_FILE_PATH, quoteDataObject);
+        this.executeQuoteFileUpdate();
         //utils.writeFile(QUOTE_FILE, JSON.stringify(quoteDataObject)); 
     },
 
@@ -57,14 +69,14 @@ module.exports = {
     },
 
     getQuote: async function (quoteNumber) {
-        let quoteDataObject = await this.readQuotesFile();
+        let quoteDataObject = this.getQuotesObject();
         this.updateQuoteList(quoteNumber);
         let quote = quoteDataObject[quoteNumber] || 'No quote found';
         return quote;
     },
 
     getRandomQuote: async function () {
-        let quoteDataObject = await this.readQuotesFile();
+        let quoteDataObject = this.getQuotesObject();
         let jsonDataLength = Object.keys(quoteDataObject).length;
         let number = this.getValidRandomNumber(jsonDataLength);
         this.updateQuoteList(number);

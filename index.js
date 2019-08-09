@@ -33,10 +33,10 @@ tell - send me a quote
 */
 
 // Telegram message functions 
-function sentMessages(req, res, reqtyp, txsend) {
+function sentMessages(req, res, reqtyp, txsend, requestId) {
     axios.post(`${APP_URL}${APITOKEN}/sendMessage`,
     {
-         chat_id: reqtyp.chat.id,
+         chat_id: requestId || reqtyp.chat.id,
          text: txsend
     })
     .then((response) => { 
@@ -97,8 +97,11 @@ app.post('/', async (req, res) => {
           //      Quote ${quoteNumber} : ${quote}`;
           // sentMessages(req, res, requestMessageType, textToSend); 
 
+     } else if (sentMessage.match(/list/igm)) {
+          const textToSend = await quoter.getQuotesObject();
+          sentMessages(req, res, requestMessageType, textToSend, userId); 
+
      } else if (sentMessage.match(/quote/igm)) {
-          
           const textToSend = await quoter.askForQuote(sentMessage);
           sentMessages(req, res, requestMessageType, textToSend); 
 

@@ -72,11 +72,19 @@ app.post('/', (req, res) => {
           console.log(`${user} entered tell`);
           
           const quote = quoter.getQuoteFromMessage(sentMessage);
-          const quoteNumber = await quoter.addQuoteToFile(quote);
-          const textToSend = `Successfully added your quote, ${user} ❤️ \n 
+          //const quoteNumber = await quoter.addQuoteToFile(quote);
+          quoter.addQuoteToFile(quote)
+          .then((quoteNumber) => {
+
+               const textToSend = `Successfully added your quote, ${user} ❤️ \n 
                Quote ${quoteNumber} : ${quote}`;
+               sentMessages(req, res, requestMessageType, textToSend); 
+               
+          }).catch();
           
-          sentMessages(req, res, requestMessageType, textToSend); 
+          
+          
+          
 
      } else if (sentMessage.match(/remove/igm)) {
           console.log(`${user} entered remove`);
@@ -91,8 +99,14 @@ app.post('/', (req, res) => {
           // sentMessages(req, res, requestMessageType, textToSend); 
 
      } else if (sentMessage.match(/quote/igm)) {
-          const textToSend = await quoter.askForQuote(sentMessage);
-          sentMessages(req, res, requestMessageType, textToSend); 
+          //const textToSend = quoter.askForQuote(sentMessage);
+
+          quoter.askForQuote(sentMessage)
+          .then(function(textToSend) {
+               sentMessages(req, res, requestMessageType, textToSend); 
+          }).catch((err) => {console.log(err)});
+
+          
 
      } else {
           console.log("Send response: 200");

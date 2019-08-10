@@ -14,9 +14,11 @@ const MODE = process.env.NODE_ENV;
 const PORT = process.env.PORT || 5000;
 const APP_URL = 'https://api.telegram.org/bot';
 
+// database file location
+const S3_QUOTE_FILE_PATH = process.env.S3FILE;
 
 async function init() {
-     await quoter.executeQuoteFileUpdate();
+     await quoter.executeQuoteFileUpdate(S3_QUOTE_FILE_PATH);
      console.log("init successful");
 }; 
 init();
@@ -74,9 +76,9 @@ app.post('/', async (req, res) => {
           var textToSend = null;
           const quote = quoter.getQuoteFromMessage(sentMessage);
           if (quote) {
-               const quoteNumber = await quoter.addQuoteToFile(quote);
+               const quoteNumber = await quoter.addQuoteToFile(S3_QUOTE_FILE_PATH, quote);
                textToSend = `Successfully added your quote, ${user} ❤️ \n  
-                    Quote ${quoteNumber} : ${quote}`;
+               Quote ${quoteNumber} : ${quote}`;
           } else {
                textToSend = `Write /tell with your quote!, ${user} 🏹`;
           }
@@ -86,14 +88,14 @@ app.post('/', async (req, res) => {
           console.log(`${user} entered remove`);
           var textToSend = null;
           var quoteNumber = quoter.getQuoteFromMessage(sentMessage);
-          var quote = await quoter.removeQuoteFromFile(quoteNumber);
+          var quote = await quoter.removeQuoteFromFile(S3_QUOTE_FILE_PATH, quoteNumber);
           
           if (quote) {
                textToSend = `Successfully removed your quote, ${user} \n 
-                    Quote ${quoteNumber} : ${quote}`;
+               Quote ${quoteNumber} : ${quote}`;
           } else {
                textToSend = `Not a valid quote, ${user} \n
-                    Write /remove with an existing quote number`
+               Write /remove with an existing quote number`;
           }
           sentMessages(req, res, textToSend);
 

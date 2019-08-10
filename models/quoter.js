@@ -3,25 +3,22 @@
 const utils = require("../lib/utils.js");
 const s3Dao = require("../daos/s3QuoterDao.js");
 
-// prevent hermes sending same quote twice 
-const S3_QUOTE_FILE_PATH = process.env.S3FILE;
-
 const QUOTE_ARRAY = 10;
 const QUOTES_OBJECT = null;
 var quotesList = [];
 
 module.exports = {
 
-    executeQuoteFileUpdate: async function () {
-        let quotesFile = await s3Dao.getQuotesFileFromS3(S3_QUOTE_FILE_PATH);
+    executeQuoteFileUpdate: async function (file) {
+        let quotesFile = await s3Dao.getQuotesFileFromS3(file);
         QUOTES_OBJECT = JSON.parse(quotesFile);
     },
 
-    addQuoteToFile: async function (quote) {
+    addQuoteToFile: async function (file, quote) {
         let quoteDataObject = this.getQuotesObject();
         let jsonDataLength = Object.keys(quoteDataObject).length;
         quoteDataObject[jsonDataLength + 1] = quote;
-        await s3Dao.sendQuotesFileToS3(S3_QUOTE_FILE_PATH, quoteDataObject);
+        await s3Dao.sendQuotesFileToS3(file, quoteDataObject);
         QUOTES_OBJECT = quoteDataObject;
         return jsonDataLength + 1;
     },
@@ -30,7 +27,7 @@ module.exports = {
         return QUOTES_OBJECT;
     },
 
-    removeQuoteFromFile: async function (quoteNumber) {
+    removeQuoteFromFile: async function (file, quoteNumber) {
         // check if it's a valid number to remove 
         if (quoteNumber === false) { 
             return false; 
@@ -49,7 +46,7 @@ module.exports = {
         let quote = this.getQuote(quoteNumber);
         // delete quote from list and send list to S3
         delete quoteDataObject[quoteNumber];
-        await s3Dao.sendQuotesFileToS3(S3_QUOTE_FILE_PATH, quoteDataObject);
+        await s3Dao.sendQuotesFileToS3(file, quoteDataObject);
         QUOTES_OBJECT = quoteDataObject;
         return quote;
     },

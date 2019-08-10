@@ -18,7 +18,9 @@ module.exports = {
     addQuoteToFile: async function (file, quote) {
         let quoteDataObject = this.getQuotesObject();
         let jsonDataLength = Object.keys(quoteDataObject).length;
+        console.log(jsonDataLength);
         quoteDataObject[jsonDataLength + 1] = quote;
+        console.log(quoteDataObject);
         await s3Dao.sendQuotesFileToS3(file, quoteDataObject);
         QUOTES_OBJECT = quoteDataObject;
         return jsonDataLength + 1;

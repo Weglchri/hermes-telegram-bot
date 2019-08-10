@@ -8,14 +8,14 @@ var bodyParser = require('body-parser');
 var quoter = require("./models/quoter.js");
 
 // heroku conenction settings
-const HEROKU_URL = process.env.URL;
-const APITOKEN = process.env.TOKEN;
-const MODE = process.env.NODE_ENV;
-const PORT = process.env.PORT || 5000;
-const APP_URL = 'https://api.telegram.org/bot';
+var HEROKU_URL = process.env.URL;
+var APITOKEN = process.env.TOKEN;
+var MODE = process.env.NODE_ENV;
+var PORT = process.env.PORT || 5000;
+var APP_URL = 'https://api.telegram.org/bot';
 
 // database file location
-const S3_QUOTE_FILE_PATH = process.env.S3FILE;
+var S3_QUOTE_FILE_PATH = process.env.S3FILE;
 
 async function init() {
      await quoter.executeQuoteFileUpdate(S3_QUOTE_FILE_PATH);

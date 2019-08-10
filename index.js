@@ -94,6 +94,7 @@ app.post('/', async (req, res) => {
 
      } else if (sentMessage.match(/list/igm)) {
           const textToSend = await quoter.getDisplayQuoteList();
+          console.log(textToSend);
           sentMessages(req, res, textToSend, userId); 
 
      } else if (sentMessage.match(/quote/igm)) {

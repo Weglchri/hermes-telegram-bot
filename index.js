@@ -84,15 +84,16 @@ app.post('/', async (req, res) => {
 
      } else if (sentMessage.match(/remove/igm)) {
           console.log(`${user} entered remove`);
-          
-          // check if number exists
-          // do actions
-          // var quoteNumber = quoter.removeQuoteFromFile();
-          // var quote = quoter.getQuote(quoteNumber);
-          
-          // const textToSend = `Successfully removed your quote, ${user} \n 
-          //      Quote ${quoteNumber} : ${quote}`;
-          // sentMessages(req, res, requestMessageType, textToSend); 
+          var textToSend = null;
+          var quoteNumber = quoter.getQuoteFromMessage(sentMessage);
+          var quote = quoter.removeQuoteFromFile(quoteNumber);
+          if (quote === false) {
+               textToSend = `Could not delete quote, ${user} \n`
+          } else {
+               textToSend = `Successfully removed your quote, ${user} \n 
+                    Quote ${quoteNumber} : ${quote}`;
+          }
+          sentMessages(req, res, requestMessageType, textToSend);
 
      } else if (sentMessage.match(/list/igm)) {
           console.log(`${user} entered list`);

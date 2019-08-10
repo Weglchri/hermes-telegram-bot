@@ -31,10 +31,27 @@ module.exports = {
     },
 
     removeQuoteFromFile: async function (quoteNumber) {
+        // check if it's a valid number to remove 
+        if (quoteNumber === false) { 
+            return false; 
+        } else {
+            console.log("valid quote number");
+        }
+        
+        // check how many quotes and valid range
         var quoteDataObject = this.getQuotesObject();
+        var jsonDataLength = Object.keys(quoteDataObject).length;
+        if (quoteNumber > jsonDataLength || quoteNumber <= 0) {
+            return false;
+        } else {
+            console.log("valid quote range");
+        }
+        var quote = this.getQuote(quoteNumber);
+        // delete quote from list and send list to S3
         delete quoteDataObject[quoteNumber];
         await s3Dao.sendQuotesFileToS3(S3_QUOTE_FILE_PATH, quoteDataObject);
-        this.executeQuoteFileUpdate();
+        QUOTES_OBJECT = quoteDataObject;
+        return quote;
     },
 
     getQuotesList: function () {
@@ -82,7 +99,6 @@ module.exports = {
     askForQuote: async function (message) {
         const quoteNumber = this.getQuoteFromMessage(message); //message.split("/")[2];
         if (quoteNumber === false) {
-            console.log(message);
             return await this.getRandomQuote();
         }
         return await this.getQuote(quoteNumber);

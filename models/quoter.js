@@ -2,6 +2,7 @@
 
 const utils = require("../lib/utils.js");
 const s3Dao = require("../daos/s3QuoterDao.js");
+const validator = require("../validators/quoteValidator.js");
 
 var QUOTE_ARRAY = process.env.QUOTESARRAY;
 var QUOTES_OBJECT = null;
@@ -67,15 +68,6 @@ module.exports = {
         quotesList.push(quoteNumber);
     },
 
-    getValidRandomNumber: function (jsonDataLength) {
-        let random = utils.getRandomInt(jsonDataLength) + 1;
-        while (quotesList.includes(random)) {
-            random = utils.getRandomInt(jsonDataLength) + 1;
-            console.log(random);
-        }
-        return random;
-    },
-
     getQuote: async function (quoteNumber) {
         let quoteDataObject = this.getQuotesObject();
         this.updateQuoteList(quoteNumber);
@@ -117,6 +109,15 @@ module.exports = {
             ([key, value]) => stringList = stringList.concat(`${key}: ${value} \n`)
         );
         return stringList;
+    },
+
+    getValidRandomNumber: function (jsonDataLength) {
+        let random = utils.getRandomInt(jsonDataLength) + 1;
+        while (quotesList.includes(random)) {
+            random = utils.getRandomInt(jsonDataLength) + 1;
+            console.log(random);
+        }
+        return random;
     }
 
 }

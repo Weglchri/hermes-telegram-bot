@@ -77,8 +77,7 @@ app.post('/', async (req, res) => {
           const quote = quoter.getQuoteFromMessage(sentMessage);
           if (quote) {
                const quoteNumber = await quoter.addQuoteToFile(S3_QUOTE_FILE_PATH, quote);
-               textToSend = `Successfully added your quote, ${user} ❤️ \n  
-               Quote ${quoteNumber} : ${quote}`;
+               textToSend = `Successfully added your quote, ${user} ❤️ \n Quote ${quoteNumber} : ${quote}`;
           } else {
                textToSend = `Write /tell with your quote!, ${user} 🏹`;
           }
@@ -91,11 +90,9 @@ app.post('/', async (req, res) => {
           var quote = await quoter.removeQuoteFromFile(S3_QUOTE_FILE_PATH, quoteNumber);
           
           if (quote) {
-               textToSend = `Successfully removed your quote, ${user} \n 
-               Quote ${quoteNumber} : ${quote}`;
+               textToSend = `Successfully removed your quote, ${user} ❌ \n Quote ${quoteNumber} : ${quote}`;
           } else {
-               textToSend = `Not a valid quote, ${user} \n
-               Write /remove with an existing quote number`;
+               textToSend = `Not a valid quote, ${user} \n Write /remove with an existing quote number`;
           }
           sentMessages(req, res, textToSend);
 

@@ -59,7 +59,7 @@ app.post('/', async (req, res) => {
      var user = 'empty';
      var userId = 'empty';
 
-     if(req.body.message !== undefined && req.body.message.from.text !== undefined) {
+     if(req.body.message !== undefined && req.body.message.text !== undefined) {
           sentMessage = req.body.message.text;
           user = req.body.message.from.username || req.body.message.from.first_name;
           userId = req.body.message.from.id;

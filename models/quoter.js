@@ -99,10 +99,10 @@ module.exports = {
     },
 
     getDisplayQuoteList: async function() {
-        const textToSend = await this.getQuotesObject();
+        var quoteObject = await this.getQuotesObject();
         var quoteList = [];
-            Object.entries(textToSend).forEach(
-                ([key, value]) => listEvents.push(`${key}: ${value}`) //console.log(key, value)
+            Object.entries(quoteObject).forEach(
+                ([key, value]) => quoteList.push(`${key}: ${value}`) //console.log(key, value)
             );
         return quoteList;
     }

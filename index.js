@@ -73,10 +73,10 @@ app.post('/', async (req, res) => {
          
      } else if (sentMessage.match(/tell/igm)) {
           console.log(`${user} entered tell`);
-          var textToSend = null;
-          const quote = quoter.getQuoteFromMessage(sentMessage);
+          let textToSend = null;
+          let quote = quoter.getQuoteFromMessage(sentMessage);
           if (quote) {
-               const quoteNumber = await quoter.addQuoteToFile(S3_QUOTE_FILE_PATH, quote);
+               let quoteNumber = await quoter.addQuoteToFile(S3_QUOTE_FILE_PATH, quote);
                textToSend = `Successfully added your quote, ${user} ❤️ \n Quote ${quoteNumber} : ${quote}`;
           } else {
                textToSend = `Write /tell with your quote!, ${user} 🏹`;

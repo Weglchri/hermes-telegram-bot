@@ -1,25 +1,25 @@
 'use strict';
 
-var utils = require("../lib/utils.js");
-var s3Dao = require("../daos/s3QuoterDao.js");
+const utils = require("../lib/utils.js");
+const s3Dao = require("../daos/s3QuoterDao.js");
 
 // prevent hermes sending same quote twice 
 const S3_QUOTE_FILE_PATH = process.env.S3FILE;
 
 const QUOTE_ARRAY = 10;
-var QUOTES_OBJECT = null;
+const QUOTES_OBJECT = null;
 var quotesList = [];
 
 module.exports = {
 
     executeQuoteFileUpdate: async function () {
-        var QUOTES_FILE = await s3Dao.getQuotesFileFromS3(S3_QUOTE_FILE_PATH);
-        QUOTES_OBJECT = JSON.parse(QUOTES_FILE);
+        let quotesFile = await s3Dao.getQuotesFileFromS3(S3_QUOTE_FILE_PATH);
+        QUOTES_OBJECT = JSON.parse(quotesFile);
     },
 
     addQuoteToFile: async function (quote) {
-        var quoteDataObject = this.getQuotesObject();
-        var jsonDataLength = Object.keys(quoteDataObject).length;
+        let quoteDataObject = this.getQuotesObject();
+        let jsonDataLength = Object.keys(quoteDataObject).length;
         quoteDataObject[jsonDataLength + 1] = quote;
         await s3Dao.sendQuotesFileToS3(S3_QUOTE_FILE_PATH, quoteDataObject);
         QUOTES_OBJECT = quoteDataObject;
@@ -39,14 +39,14 @@ module.exports = {
         }
         
         // check how many quotes and valid range
-        var quoteDataObject = this.getQuotesObject();
-        var jsonDataLength = Object.keys(quoteDataObject).length;
+        let quoteDataObject = this.getQuotesObject();
+        let jsonDataLength = Object.keys(quoteDataObject).length;
         if (quoteNumber > jsonDataLength || quoteNumber <= 0) {
             return false;
         } else {
             console.log("valid quote range");
         }
-        var quote = this.getQuote(quoteNumber);
+        let quote = this.getQuote(quoteNumber);
         // delete quote from list and send list to S3
         delete quoteDataObject[quoteNumber];
         await s3Dao.sendQuotesFileToS3(S3_QUOTE_FILE_PATH, quoteDataObject);
@@ -97,7 +97,7 @@ module.exports = {
     },
 
     askForQuote: async function (message) {
-        const quoteNumber = this.getQuoteFromMessage(message); //message.split("/")[2];
+        let quoteNumber = this.getQuoteFromMessage(message); //message.split("/")[2];
         if (quoteNumber === false) {
             return await this.getRandomQuote();
         }
@@ -105,8 +105,8 @@ module.exports = {
     },
 
     getQuoteFromMessage: function (message) {
-        var pattern = /\s(.*)/igm;
-        var quote = pattern.exec(message);
+        let pattern = /\s(.*)/igm;
+        let quote = pattern.exec(message);
         if (quote !== null && quote.length == 2 && quote[1] != '')
             return quote[1]
         else
@@ -114,8 +114,8 @@ module.exports = {
     },
 
     getDisplayQuoteList: async function () {
-        var quoteObject = await this.getQuotesObject();
-        var stringList = '';
+        let quoteObject = await this.getQuotesObject();
+        let stringList = '';
         Object.entries(quoteObject).forEach(
             ([key, value]) => stringList = stringList.concat(`${key}: ${value} \n`)
         );

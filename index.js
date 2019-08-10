@@ -7,8 +7,6 @@ var bodyParser = require('body-parser');
 // model
 var quoter = require("./models/quoter.js");
 
-// add enhanced logging for better traceability of issues!
-
 // heroku conenction settings
 const HEROKU_URL = process.env.URL;
 const APITOKEN = process.env.TOKEN;
@@ -23,7 +21,7 @@ async function init() {
 }; 
 init();
 
-// Commandlist 
+// commandlist 
 /*
 
 greetings - hermes greets you 💋
@@ -33,7 +31,7 @@ tell - send me a quote
 
 */
 
-// Telegram message functions 
+// telegram message functions 
 function sentMessages(req, res, txsend, reqId) {
     axios.post(`${APP_URL}${APITOKEN}/sendMessage`,
     {
@@ -47,10 +45,9 @@ function sentMessages(req, res, txsend, reqId) {
     });
 }
 
-// Router Actions
+// router actions
 app.use(bodyParser.json());
 
-// Endpoints
 app.post('/', async (req, res) => {
 
      console.log("Request Body: ", req.body);
@@ -67,7 +64,6 @@ app.post('/', async (req, res) => {
      
      console.log("text to process: ", sentMessage);
 
-     // Hermes Router
      if (sentMessage.match(/greetings/igm)) {
           console.log(`${user} entered greetings`);
           const textToSend = `I'm Hermes the quote bot, hello ${user} 👋`;
@@ -79,7 +75,8 @@ app.post('/', async (req, res) => {
           const quote = quoter.getQuoteFromMessage(sentMessage);
           if(quote) {
                const quoteNumber = await quoter.addQuoteToFile(quote);
-               textToSend = `Successfully added your quote, ${user} ❤️ \n  Quote ${quoteNumber} : ${quote}`;
+               textToSend = `Successfully added your quote, ${user} ❤️ \n  
+                    Quote ${quoteNumber} : ${quote}`;
           } else {
                textToSend = `Write /tell with your quote!, ${user} 🏹`;
           }
@@ -87,6 +84,7 @@ app.post('/', async (req, res) => {
 
      } else if (sentMessage.match(/remove/igm)) {
           console.log(`${user} entered remove`);
+          
           // check if number exists
           // do actions
           // var quoteNumber = quoter.removeQuoteFromFile();
@@ -112,7 +110,6 @@ app.post('/', async (req, res) => {
      }
 });
 
-// Listening
 app.listen(PORT, () => {
      console.log(`listening on port ${PORT}`);
 });

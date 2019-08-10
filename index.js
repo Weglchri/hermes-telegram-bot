@@ -52,13 +52,18 @@ app.use(bodyParser.json());
 
 // Endpoints
 app.post('/', async (req, res) => {
-   
+
      console.log("Request Body: ", req.body);
-     // check for a text request
-     const sentMessage = req.body.message.text || 'empty';
-     // use actions on request
-     const user = req.body.message.from.username || req.body.message.from.first_name;
-     const userId = req.body.message.from.id;
+  
+     var sentMessage = 'empty';
+     var user = 'empty';
+     var userId = 'empty';
+
+     if(req.body.message !== undefined) {
+          sentMessage = req.body.message.text;
+          user = req.body.message.from.username || req.body.message.from.first_name;
+          userId = req.body.message.from.id;
+     }
      
      console.log("text to process: ", sentMessage);
 
@@ -70,7 +75,6 @@ app.post('/', async (req, res) => {
          
      } else if (sentMessage.match(/tell/igm)) {
           console.log(`${user} entered tell`);
-          
           var textToSend = null;
           const quote = quoter.getQuoteFromMessage(sentMessage);
           if(quote) {
@@ -93,21 +97,22 @@ app.post('/', async (req, res) => {
           // sentMessages(req, res, requestMessageType, textToSend); 
 
      } else if (sentMessage.match(/list/igm)) {
+          console.log(`${user} entered list`);
           const textToSend = await quoter.getDisplayQuoteList();
-          console.log(textToSend);
           sentMessages(req, res, textToSend, userId); 
 
      } else if (sentMessage.match(/quote/igm)) {
+          console.log(`${user} entered quote`);
           const textToSend = await quoter.askForQuote(sentMessage);
           sentMessages(req, res, textToSend); 
 
      } else {
           console.log("Send response: 200");
           res.status(200).send({});
-   }
+     }
 });
 
 // Listening
 app.listen(PORT, () => {
-     console.log(`Listening on port ${PORT}`);
+     console.log(`listening on port ${PORT}`);
 });

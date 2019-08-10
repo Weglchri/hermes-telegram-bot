@@ -4,7 +4,7 @@ var utils = require("../lib/utils.js");
 var s3Dao = require("../daos/s3QuoterDao.js");
 
 // prevent hermes sending same quote twice 
-const S3_QUOTE_FILE_PATH = process.env.S3FILE || 'testfolder/segdeg.json';
+const S3_QUOTE_FILE_PATH = process.env.S3FILE;
 
 const QUOTE_ARRAY = 10;
 var QUOTES_OBJECT = null;
@@ -23,7 +23,6 @@ module.exports = {
         quoteDataObject[jsonDataLength + 1] = quote;
         await s3Dao.sendQuotesFileToS3(S3_QUOTE_FILE_PATH, quoteDataObject);
         QUOTES_OBJECT = quoteDataObject;
-        //await this.executeQuoteFileUpdate();
         return jsonDataLength + 1;
     },
 

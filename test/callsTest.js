@@ -20,4 +20,28 @@ describe('Calls function test', function () {
     
     });
 
+    describe('check call json body object', function () {
+
+        beforeEach(async function () {
+            quoter.emptyQuotesList();
+            await quoter.executeQuoteFileUpdate();
+        });
+
+        it('json object', async function() {
+            var body = {
+                "message" : {
+                    "hello" : {
+                        "from" : "test1"
+                    }
+                }
+            };
+            console.log(body);
+            assert.equal("test1", body.message.hello.from);
+
+            var text = body.message.hello.from || body.message.hello.undef.undeffrom || 'empty';
+            assert.equals('empty', text);
+        });
+    
+    });
+
 });

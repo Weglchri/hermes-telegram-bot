@@ -1,19 +1,14 @@
 const aws = require('aws-sdk');
 
 // database connection settings
-const S3_BUCKET_NAME = process.env.S3_BUCKET_NAME || 'hermes-telegram-storage';
+const S3_BUCKET_NAME = process.env.S3_BUCKET_NAME;
 const AWS_API_KEY = process.env.AWSAccessKeyId;
 const AWS_SECRET_KEY = process.env.AWSSecretKey;
 const AMAZONS3 = 'http://s3.amazonaws.com/' + S3_BUCKET_NAME;
 
-// aws.config.update({
-//   accessKeyId: AWS_API_KEY,
-//   secretAccessKey: AWS_SECRET_KEY
-// });
-
 aws.config.update({
-  accessKeyId: 'AKIAIFS6X3QVVUYQKQ5Q',
-  secretAccessKey: '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'
+  accessKeyId: AWS_API_KEY,
+  secretAccessKey: AWS_SECRET_KEY
 });
 
 var s3 = new aws.S3();

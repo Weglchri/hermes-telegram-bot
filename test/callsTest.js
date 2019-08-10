@@ -14,12 +14,8 @@ describe('Calls function test', function () {
         });
 
         it('list all elements', async function() {
-            var textToSend = await quoter.getQuotesObject();
-            var listEvents = [];
-            Object.entries(textToSend).forEach(
-                ([key, value]) => listEvents.push(`${key}: ${value}`) //console.log(key, value)
-            );
-            console.log(listEvents);
+            var textToSend = await quoter.getDisplayQuoteList();
+            console.log(textToSend);
         });
     
     });

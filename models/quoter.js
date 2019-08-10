@@ -12,7 +12,7 @@ var quotesList = [];
 
 module.exports = {
 
-    executeQuoteFileUpdate : async function() {
+    executeQuoteFileUpdate: async function () {
         var QUOTES_FILE = await s3Dao.getQuotesFileFromS3(S3_QUOTE_FILE_PATH);
         QUOTES_OBJECT = JSON.parse(QUOTES_FILE);
     },
@@ -27,11 +27,11 @@ module.exports = {
         return jsonDataLength + 1;
     },
 
-    getQuotesObject : function() {
+    getQuotesObject: function () {
         return QUOTES_OBJECT;
     },
 
-    removeQuoteFromFile: async function(quoteNumber) {
+    removeQuoteFromFile: async function (quoteNumber) {
         var quoteDataObject = this.getQuotesObject();
         delete quoteDataObject[quoteNumber];
         await s3Dao.sendQuotesFileToS3(S3_QUOTE_FILE_PATH, quoteDataObject);
@@ -71,7 +71,7 @@ module.exports = {
     },
 
     getRandomQuote: async function () {
-       console.log("new call");
+        console.log("new call");
         let quoteDataObject = this.getQuotesObject();
         let jsonDataLength = Object.keys(quoteDataObject).length;
         let number = this.getValidRandomNumber(jsonDataLength);
@@ -92,20 +92,19 @@ module.exports = {
     getQuoteFromMessage: function (message) {
         var pattern = /\s(.*)/igm;
         var quote = pattern.exec(message);
-        if(quote !== null && quote.length == 2 && quote[1] != '') 
+        if (quote !== null && quote.length == 2 && quote[1] != '')
             return quote[1]
-        else 
+        else
             return false;
     },
 
-    getDisplayQuoteList: async function() {
+    getDisplayQuoteList: async function () {
         var quoteObject = await this.getQuotesObject();
         var stringList = '';
-            Object.entries(quoteObject).forEach(
-                ([key, value]) => stringList.concat(`${key}: ${value}`)//quoteList.push(`${key}: ${value}`) //console.log(key, value)
-            );
-        //console.list(stringList);
+        Object.entries(quoteObject).forEach(
+            ([key, value]) => stringList = stringList.concat(`${key}: ${value} \n`)
+        );
         return stringList;
     }
-           
+
 }

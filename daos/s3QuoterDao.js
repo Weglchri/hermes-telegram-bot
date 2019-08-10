@@ -25,7 +25,7 @@ module.exports = {
         if (err) console.error(`Download Error: ${err}`);
         resolve(data.Body.toString()); 
         reject(err); 
-        console.log("Successfully downloaded");
+        console.log("successfully downloaded");
       });
     })
   },
@@ -43,7 +43,7 @@ module.exports = {
         if (err) console.error(`Upload Error: ${err}`);
         resolve(data);
         reject(err);
-        console.log("Successfully uploaded");
+        console.log("successfully uploaded");
       });
     })
   }

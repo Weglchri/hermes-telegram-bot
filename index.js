@@ -73,7 +73,7 @@ app.post('/', async (req, res) => {
           console.log(`${user} entered tell`);
           var textToSend = null;
           const quote = quoter.getQuoteFromMessage(sentMessage);
-          if(quote) {
+          if (quote) {
                const quoteNumber = await quoter.addQuoteToFile(quote);
                textToSend = `Successfully added your quote, ${user} ❤️ \n  
                     Quote ${quoteNumber} : ${quote}`;
@@ -86,14 +86,16 @@ app.post('/', async (req, res) => {
           console.log(`${user} entered remove`);
           var textToSend = null;
           var quoteNumber = quoter.getQuoteFromMessage(sentMessage);
-          var quote = quoter.removeQuoteFromFile(quoteNumber);
-          if (quote === false) {
-               textToSend = `Could not delete quote, ${user} \n`
-          } else {
+          var quote = await quoter.removeQuoteFromFile(quoteNumber);
+          
+          if (quote) {
                textToSend = `Successfully removed your quote, ${user} \n 
                     Quote ${quoteNumber} : ${quote}`;
+          } else {
+               textToSend = `Not a valid quote, ${user} \n
+                    Write /remove with an existing quote number`
           }
-          sentMessages(req, res, requestMessageType, textToSend);
+          sentMessages(req, res, textToSend);
 
      } else if (sentMessage.match(/list/igm)) {
           console.log(`${user} entered list`);

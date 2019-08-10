@@ -21,7 +21,7 @@ async function init() {
      await quoter.executeQuoteFileUpdate();
      console.log("init successful");
 }; 
-exports.init();
+init();
 
 // Commandlist 
 /*

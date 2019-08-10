@@ -102,7 +102,7 @@ module.exports = {
         var quoteObject = await this.getQuotesObject();
         var quoteList = [];
             Object.entries(quoteObject).forEach(
-                ([key, value]) => quoteList.push(`${key}: ${value}`) //console.log(key, value)
+                ([key, value]) => quoteList.push(`${key}: ${value} \n`) //console.log(key, value)
             );
         return quoteList;
     }

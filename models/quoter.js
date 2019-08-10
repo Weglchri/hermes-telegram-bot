@@ -3,8 +3,8 @@
 const utils = require("../lib/utils.js");
 const s3Dao = require("../daos/s3QuoterDao.js");
 
-const QUOTE_ARRAY = 10;
-const QUOTES_OBJECT = null;
+var QUOTE_ARRAY = process.env.QUOTESARRAY;
+var QUOTES_OBJECT = null;
 var quotesList = [];
 
 module.exports = {
@@ -34,7 +34,7 @@ module.exports = {
         } else {
             console.log("valid quote number");
         }
-        
+
         // check how many quotes and valid range
         let quoteDataObject = this.getQuotesObject();
         let jsonDataLength = Object.keys(quoteDataObject).length;

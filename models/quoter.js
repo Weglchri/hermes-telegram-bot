@@ -100,11 +100,12 @@ module.exports = {
 
     getDisplayQuoteList: async function() {
         var quoteObject = await this.getQuotesObject();
-        var quoteList = [];
+        var stringList = '';
             Object.entries(quoteObject).forEach(
-                ([key, value]) => quoteList.push(`${key}: ${value} \n`) //console.log(key, value)
+                ([key, value]) => stringList.concat(`${key}: ${value}`)//quoteList.push(`${key}: ${value}`) //console.log(key, value)
             );
-        return quoteList;
+        console.list(stringList);
+        return stringList;
     }
            
 }

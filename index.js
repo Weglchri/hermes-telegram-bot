@@ -21,7 +21,7 @@ async function init() {
      await quoter.executeQuoteFileUpdate();
      console.log("init successful");
 }; 
-init();
+exports.init();
 
 // Commandlist 
 /*
@@ -46,7 +46,6 @@ function sentMessages(req, res, txsend, reqId) {
          res.send(error);
     });
 }
-
 
 // Router Actions
 app.use(bodyParser.json());
@@ -94,7 +93,7 @@ app.post('/', async (req, res) => {
           // sentMessages(req, res, requestMessageType, textToSend); 
 
      } else if (sentMessage.match(/list/igm)) {
-          const textToSend = await quoter.getQuotesObject();
+          const textToSend = await quoter.getDisplayQuoteList();
           sentMessages(req, res, textToSend, userId); 
 
      } else if (sentMessage.match(/quote/igm)) {

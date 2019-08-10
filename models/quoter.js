@@ -4,7 +4,7 @@ var utils = require("../lib/utils.js");
 var s3Dao = require("../daos/s3QuoterDao.js");
 
 // prevent hermes sending same quote twice 
-const S3_QUOTE_FILE_PATH = process.env.S3FILE;
+const S3_QUOTE_FILE_PATH = process.env.S3FILE || 'testfolder/segdeg.json';
 
 const QUOTE_ARRAY = 10;
 var QUOTES_OBJECT = null;
@@ -97,5 +97,14 @@ module.exports = {
         else 
             return false;
     },
+
+    getDisplayQuoteList: async function() {
+        const textToSend = await quoter.getQuotesObject();
+        var quoteList = [];
+            Object.entries(textToSend).forEach(
+                ([key, value]) => listEvents.push(`${key}: ${value}`) //console.log(key, value)
+            );
+        return quoteList;
+    }
            
 }

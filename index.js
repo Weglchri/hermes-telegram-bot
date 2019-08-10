@@ -54,11 +54,6 @@ app.use(bodyParser.json());
 // Endpoints
 app.post('/', async (req, res) => {
    
-     if(req.body.message.text === undefined) {
-          console.log("Send response: 400");
-          res.status(400).send({});
-     }
-
      console.log("Request Body: ", req.body);
      // check for a text request
      const sentMessage = req.body.message.text || 'empty';
@@ -89,7 +84,7 @@ app.post('/', async (req, res) => {
 
      } else if (sentMessage.match(/remove/igm)) {
           console.log(`${user} entered remove`);
-          
+          res.status(400).send({});
           // check if number exists
           // do actions
           // var quoteNumber = quoter.removeQuoteFromFile();

@@ -7,59 +7,56 @@ describe('Quote Test', function() {
   
   describe('check quote list updates', function() {
     
-    beforeEach(function() {
+    beforeEach(async function() {
       quoter.emptyQuotesList();
+      await quoter.executeQuoteFileUpdate();
     });
 
-    it('ask for three predefined quotes', function() {
-      quoter.askForQuote("/segdeg/1");
-      quoter.askForQuote("/segdeg/2");
-      quoter.askForQuote("/segdeg/3");
+    it('ask for three predefined quotes', async function() {
+      await quoter.askForQuote("/quote/1");    
+      await quoter.askForQuote("/quote/2");
+      await quoter.askForQuote("/quote/3");
       assert.deepEqual(["1", "2", "3"], quoter.getQuotesList());
     });
 
-    it('call with one predefined quote', function() {
-      quoter.askForQuote("/segdeg/1")
+    it('call with one predefined quote', async function() {
+      await quoter.askForQuote("/quote/1")
       assert.equal(1, quoter.getQuotesList());
     });
 
-    it('call with one random quote', function() {
-      var randomQuote = quoter.askForQuote("/segdeg")
+    it('call with one random quote', async function() {
+      var randomQuote = await quoter.getRandomQuote();
       var randomNumber = quoter.getQuotesList()[0];
-      var predefinedQuote = quoter.askForQuote(`/segdeg/${randomNumber}`);
+      var predefinedQuote = await quoter.askForQuote(`/quote/${randomNumber}`);
       assert.equal(randomQuote, predefinedQuote);
     });
 
   });
 
   describe('check quote file update', function() {
-    it('get quotes from the quote file', function() {});
-  });
 
-  describe('check person quote function', function() {
-    
-    beforeEach(function() {
-      quoter.emptyPersonQuoteList();
+    beforeEach(async function() {
+      quoter.emptyQuotesList();
+      await quoter.executeQuoteFileUpdate();
     });
 
-    it('get quotes from person quote array', function() {
-      quoter.addPersonToPersonQuoteList(1);
-      quoter.addPersonToPersonQuoteList(2);
-      quoter.addPersonToPersonQuoteList(3);
-      assert.deepEqual([1,2,3], quoter.getPersonQuoteList());
+    it('add and remove quote from file', async function() {
+        var quoteList = quoter.getQuotesObject();
+        var quoteListLength = Object.keys(quoteList).length;
+        var quoteNumber = await quoter.addQuoteToFile("Hello World how are you?");
+        
+        assert.equal(quoteListLength + 1, quoteNumber);
+        var quote = await quoter.getQuote(quoteNumber);
+
+        assert.equal("Hello World how are you?", quote);
+        
+        await quoter.removeQuoteFromFile(quoteNumber);
+        var newQuoteList = await quoter.getQuotesObject();
+        var newQuoteListLength = Object.keys(newQuoteList).length;
+        
+        assert.equal(quoteListLength, newQuoteListLength)
     });
 
-    it('get quotes from the quote file', function() {
-      quoter.addPersonToPersonQuoteList(1);
-      quoter.addPersonToPersonQuoteList(2);
-      quoter.addPersonToPersonQuoteList(3);
-      quoter.removePersonQuoteList(2);
-      assert.deepEqual([1,3], quoter.getPersonQuoteList());
-    });
-
-    it('add quote to file', function() {
-      quoter.addQuoteToFile("Hello World how are you?");
-    });
   });
 
 });

@@ -104,7 +104,7 @@ module.exports = {
             Object.entries(quoteObject).forEach(
                 ([key, value]) => stringList.concat(`${key}: ${value}`)//quoteList.push(`${key}: ${value}`) //console.log(key, value)
             );
-        console.list(stringList);
+        //console.list(stringList);
         return stringList;
     }
            

@@ -54,9 +54,6 @@ app.use(bodyParser.json());
 // Endpoints
 app.post('/', async (req, res) => {
    
-     res.status(200).send({});
-
-
      console.log("Request Body: ", req.body);
      // check for a text request
      const sentMessage = req.body.message.text || 'empty';

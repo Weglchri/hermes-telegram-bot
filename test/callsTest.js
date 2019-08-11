@@ -42,14 +42,16 @@ describe('Calls function test', function () {
             var body = {
                 "message" : {
                     "hello" : {
-                        "from1" : "test1",
-                        "from2" : "test2",
-                        "form3" : "test3"
+                        "1" : "test1",
+                        "2" : "test2",
+                        "3" : "test3"
                     }
                 }
             };
             
             let lastElement = Object.keys(body.message.hello).pop();
+            assert.equal("3", lastElement);
+            assert.equal("4", parseInt(lastElement) + 1);
             assert.equal("test3", body.message.hello[lastElement]);
         });
 

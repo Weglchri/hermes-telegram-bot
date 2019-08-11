@@ -16,6 +16,7 @@ var APP_URL = 'https://api.telegram.org/bot';
 
 // database file location
 var S3_QUOTE_FILE_PATH = process.env.S3FILE;
+var S3_QUOTE_SAVE_FILE_PATH = process.env.S3SAVEFILE;
 
 async function init() {
      await quoter.executeQuoteFileUpdate(S3_QUOTE_FILE_PATH);
@@ -76,7 +77,7 @@ app.post('/', async (req, res) => {
           let textToSend = null;
           let quote = quoter.getQuoteFromMessage(sentMessage);
           if (quote) {
-               let quoteNumber = await quoter.addQuoteToFile(S3_QUOTE_FILE_PATH, quote);
+               let quoteNumber = await quoter.addQuoteToFile(S3_QUOTE_FILE_PATH, quote, S3_QUOTE_SAVE_FILE_PATH);
                textToSend = `Successfully added your quote, ${user} ❤️ \n Quote ${quoteNumber} : ${quote}`;
           } else {
                textToSend = `Write /tell with your quote!, ${user} 🏹`;

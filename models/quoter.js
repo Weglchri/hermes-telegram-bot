@@ -15,7 +15,7 @@ module.exports = {
         QUOTES_OBJECT = JSON.parse(quotesFile);
     },
 
-    addQuoteToFile: async function (file, quote) {
+    addQuoteToFile: async function (file, quote, backupFile) {
         let quoteDataObject = this.getQuotesObject();
         let lastObjectKey = utils.getLastObjectElement(quoteDataObject);
         
@@ -24,6 +24,7 @@ module.exports = {
         
         console.log(quoteDataObject);
         await s3Dao.sendQuotesFileToS3(file, quoteDataObject);
+        await s3Dao.sendQuotesFileToS3(backupFile, quoteDataObject);
         QUOTES_OBJECT = quoteDataObject;
         return lastObjectKey + 1;
     },
@@ -35,19 +36,17 @@ module.exports = {
     removeQuoteFromFile: async function (file, quoteNumber) {
         // check if it's a valid number to remove 
         if (quoteNumber === false) { 
+            console.log("invalid quote number");
             return false; 
-        } else {
-            console.log("valid quote number");
-        }
+        } 
 
         // check how many quotes and valid range
         let quoteDataObject = this.getQuotesObject();
         let lastObjectKey = utils.getLastObjectElement(quoteDataObject);
 
         if (quoteNumber > lastObjectKey || quoteNumber <= 0) {
+            console.log("invalid quote range");
             return false;
-        } else {
-            console.log("valid quote range");
         }
 
         let quote = this.getQuote(quoteNumber);

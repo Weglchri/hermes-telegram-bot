@@ -17,9 +17,11 @@ module.exports = {
 
     addQuoteToFile: async function (file, quote) {
         let quoteDataObject = this.getQuotesObject();
-        let jsonDataLength = Object.keys(quoteDataObject).length;
-        console.log(jsonDataLength);
-        quoteDataObject[jsonDataLength + 1] = quote;
+        let lastObjectKey = utils.getLastObjectElement(quoteDataObject);
+        
+        console.log(lastObjectKey);
+        quoteDataObject[lastJsonObjectKey + 1] = quote;
+        
         console.log(quoteDataObject);
         await s3Dao.sendQuotesFileToS3(file, quoteDataObject);
         QUOTES_OBJECT = quoteDataObject;
@@ -40,12 +42,14 @@ module.exports = {
 
         // check how many quotes and valid range
         let quoteDataObject = this.getQuotesObject();
-        let jsonDataLength = Object.keys(quoteDataObject).length;
-        if (quoteNumber > jsonDataLength || quoteNumber <= 0) {
+        let lastObjectKey = utils.getObjectLength(quoteDataObject);
+
+        if (quoteNumber > lastObjectKey || quoteNumber <= 0) {
             return false;
         } else {
             console.log("valid quote range");
         }
+
         let quote = this.getQuote(quoteNumber);
         // delete quote from list and send list to S3
         delete quoteDataObject[quoteNumber];
@@ -63,7 +67,6 @@ module.exports = {
     },
 
     updateQuoteList: function (quoteNumber) {
-        console.log(quoteNumber);
         if (Object.keys(quotesList).length >= QUOTE_ARRAY) {
             quotesList.shift();
         }
@@ -78,17 +81,16 @@ module.exports = {
     },
 
     getRandomQuote: async function () {
-        console.log("new call");
         let quoteDataObject = this.getQuotesObject();
-        let jsonDataLength = Object.keys(quoteDataObject).length;
-        let number = this.getValidRandomNumber(jsonDataLength);
+        let lastObjectKey = utils.getLastObjectElement(quoteDataObject);
+        let number = this.getValidRandomNumber(lastObjectKey);
         this.updateQuoteList(number);
         let quote = quoteDataObject[number];
         return quote;
     },
 
     askForQuote: async function (message) {
-        let quoteNumber = this.getQuoteFromMessage(message); //message.split("/")[2];
+        let quoteNumber = this.getQuoteFromMessage(message);
         if (quoteNumber === false) {
             return await this.getRandomQuote();
         }
@@ -107,16 +109,16 @@ module.exports = {
     getDisplayQuoteList: async function () {
         let quoteObject = await this.getQuotesObject();
         let stringList = '';
-        Object.entries(quoteObject).forEach(
+        Object.entries(quoteObject).forEach (
             ([key, value]) => stringList = stringList.concat(`${key}: ${value} \n`)
         );
         return stringList;
     },
 
-    getValidRandomNumber: function (jsonDataLength) {
-        let random = utils.getRandomInt(jsonDataLength) + 1;
+    getValidRandomNumber: function (lastObjectKey) {
+        let random = utils.getRandomInt(lastObjectKey) + 1;
         while (quotesList.includes(random)) {
-            random = utils.getRandomInt(jsonDataLength) + 1;
+            random = utils.getRandomInt(lastObjectKey) + 1;
             console.log(random);
         }
         return random;

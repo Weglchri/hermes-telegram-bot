@@ -106,7 +106,7 @@ app.post('/', async (req, res) => {
 
      } else if (sentMessage.match(/wegl/igm)) {
           console.log(`${user} entered quote`);
-          const textToSend = '(ﾉ◕ヮ◕)ﾉ*:･ﾟ✧ ✧ﾟ･: *ヽ(◕ヮ◕ヽ)';
+          const textToSend = '༼ つ ◕_◕ ༽つ';
           sentMessages(req, res, textToSend); 
 
      } else {

@@ -104,9 +104,9 @@ app.post('/', async (req, res) => {
           const textToSend = await quoter.askForQuote(sentMessage);
           sentMessages(req, res, textToSend); 
 
-     } else if (sentMessage.match(/rick/igm)) {
+     } else if (sentMessage.match(/wegl/igm)) {
           console.log(`${user} entered quote`);
-          const textToSend = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
+          const textToSend = '༼ つ ◕_◕ ༽つ';
           sentMessages(req, res, textToSend); 
 
      } else {

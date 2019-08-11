@@ -42,7 +42,7 @@ module.exports = {
 
         // check how many quotes and valid range
         let quoteDataObject = this.getQuotesObject();
-        let lastObjectKey = utils.getObjectLength(quoteDataObject);
+        let lastObjectKey = utils.getLastObjectElement(quoteDataObject);
 
         if (quoteNumber > lastObjectKey || quoteNumber <= 0) {
             return false;

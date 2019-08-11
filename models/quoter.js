@@ -25,7 +25,7 @@ module.exports = {
         console.log(quoteDataObject);
         await s3Dao.sendQuotesFileToS3(file, quoteDataObject);
         QUOTES_OBJECT = quoteDataObject;
-        return jsonDataLength + 1;
+        return lastObjectKey + 1;
     },
 
     getQuotesObject: function () {

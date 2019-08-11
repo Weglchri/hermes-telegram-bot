@@ -20,7 +20,7 @@ module.exports = {
         let lastObjectKey = utils.getLastObjectElement(quoteDataObject);
         
         console.log(lastObjectKey);
-        quoteDataObject[lastJsonObjectKey + 1] = quote;
+        quoteDataObject[lastObjectKey + 1] = quote;
         
         console.log(quoteDataObject);
         await s3Dao.sendQuotesFileToS3(file, quoteDataObject);

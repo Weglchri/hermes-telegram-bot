@@ -55,11 +55,13 @@ app.post('/', async (req, res) => {
      var sentMessage = 'empty';
      var user = 'empty';
      var userId = 'empty';
+     var fullName = 'empty';
 
      if(req.body.message !== undefined && req.body.message.text !== undefined) {
           sentMessage = req.body.message.text;
           user = req.body.message.from.username || req.body.message.from.first_name;
           userId = req.body.message.from.id;
+          fullName = `${req.body.message.from.first_name} ${req.body.message.from.last_name}`;
      }
      
      console.log("text to process: ", sentMessage);
@@ -73,8 +75,12 @@ app.post('/', async (req, res) => {
           console.log(`${user} entered tell`);
           var textToSend = null;
           const quote = quoter.getQuoteFromMessage(sentMessage);
+          
           if(quote) {
-               const quoteNumber = await quoter.addQuoteToFile(quote);
+
+               const quoteNumber = await quoter.addQuoteObjectToFile(quote, fullName);
+               // const quoteNumber = await quoter.addQuoteToFile(quote);
+
                textToSend = `Successfully added your quote, ${user} ❤️ \n  
                     Quote ${quoteNumber} : ${quote}`;
           } else {

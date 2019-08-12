@@ -1,1 +1,205 @@
-{"1":"Jetzt homman, Burschen!","2":"SEEEEEGGGGG!","3":"I have a shirt with your name, man!","4":"Seg! Seg! Segidideg!","5":"Wo ein Weg da kein Wand","6":"Er kam, sah, und kam nochmal","7":"Nicenstein!","8":"Ich liebe dich Schweizer Berglöwe ❤️","9":"HÜÜLLFEEEEE!!! 🆘","10":"Mit Giiiiiiiiüüüünnnn!","11":"Waaaaauuuuuuwwwwwwww","12":"Fahren wir doch nach ... und keiner hat Zeit ✈️","13":"Toast mit Mozzarella 🤢","14":"Geh ma ins Uno, holen uns eine ...","15":"Irgendwann zieh ich mich aus, geh ich in den Wald und leb mit den Wölfen 🐺","16":"Bist gschamig?","17":"Brauchst nix owigreifen","18":"Sigstas","19":"Hi Hei Hi Hei HiHeiiieeeeeel","20":"Kumm, geh ma Murprom!","21":"Miliz, Müliz, Mülzriss, Mülchschnitten!","22":"He, is des da Poier? .. Na, der hat a anderes T-Shirt an!","23":"I hoss as do!","24":"Ich war im AIDS-Haus bei einem AIDS-Test, ich hab' AIDS jetzt. Nice, Hermes, der Vollprofi","25":"Oltaaa kuuuummmts Graaaaaaaaz!","26":"So billig kommst net mehr Seewalchen, so billig kommst niama umi!","27":"SEGDEG!","28":"Seg! Seg! Seg!","29":"Sou a stickl Fleisch Oda wos","30":"Hello World how are you?"}
+{
+    "1": {
+        "quote": "Jetzt homman, Burschen!",
+        "metadata": {
+            "author": "Christopher Wegl",
+            "date": "1.8.2019"
+        }
+    },
+    "2": {
+        "quote": "SEEEEEGGGGG!",
+        "metadata": {
+            "author": "Christopher Wegl",
+            "date": "1.8.2019"
+        }
+    },
+    "3": {
+        "quote": "I have a shirt with your name, man!",
+        "metadata": {
+            "author": "Christopher Wegl",
+            "date": "1.8.2019"
+        }
+    },
+    "4": {
+        "quote": "Seg! Seg! Segidideg!",
+        "metadata": {
+            "author": "Christopher Wegl",
+            "date": "1.8.2019"
+        }
+    },
+    "5": {
+        "quote": "Wo ein Weg da kein Wand",
+        "metadata": {
+            "author": "Christopher Wegl",
+            "date": "1.8.2019"
+        }
+    },
+    "6": {
+        "quote": "Er kam, sah, und kam nochmal",
+        "metadata": {
+            "author": "Christopher Wegl",
+            "date": "1.8.2019"
+        }
+    },
+    "7": {
+        "quote": "Nicenstein!",
+        "metadata": {
+            "author": "Christopher Wegl",
+            "date": "1.8.2019"
+        }
+    },
+    "8": {
+        "quote": "Ich liebe dich Schweizer Berglöwe ❤️",
+        "metadata": {
+            "author": "Christopher Wegl",
+            "date": "1.8.2019"
+        }
+    },
+    "9": {
+        "quote": "HÜÜLLFEEEEE!!! 🆘",
+        "metadata": {
+            "author": "Christopher Wegl",
+            "date": "1.8.2019"
+        }
+    },
+    "10": {
+        "quote": "Mit Giiiiiiiiüüüünnnn!",
+        "metadata": {
+            "author": "Christopher Wegl",
+            "date": "1.8.2019"
+        }
+    },
+    "11": {
+        "quote": "Waaaaauuuuuuwwwwwwww",
+        "metadata": {
+            "author": "Christopher Wegl",
+            "date": "1.8.2019"
+        }
+    },
+    "12": {
+        "quote": "Fahren wir doch nach ... und keiner hat Zeit ✈️",
+        "metadata": {
+            "author": "Christopher Wegl",
+            "date": "1.8.2019"
+        }
+    },
+    "13": {
+        "quote": "Toast mit Mozzarella 🤢",
+        "metadata": {
+            "author": "Christopher Wegl",
+            "date": "1.8.2019"
+        }
+    },
+    "14": {
+        "quote": "Geh ma ins Uno, holen uns eine ...",
+        "metadata": {
+            "author": "Christopher Wegl",
+            "date": "1.8.2019"
+        }
+    },
+    "15": {
+        "quote": "Irgendwann zieh ich mich aus, geh ich in den Wald und leb mit den Wölfen 🐺",
+        "metadata": {
+            "author": "Christopher Wegl",
+            "date": "1.8.2019"
+        }
+    },
+    "16": {
+        "quote": "Bist gschamig?",
+        "metadata": {
+            "author": "Christopher Wegl",
+            "date": "1.8.2019"
+        }
+    },
+    "17": {
+        "quote": "Brauchst nix owigreifen",
+        "metadata": {
+            "author": "Christopher Wegl",
+            "date": "1.8.2019"
+        }
+    },
+    "18": {
+        "quote": "Sigstas",
+        "metadata": {
+            "author": "Christopher Wegl",
+            "date": "1.8.2019"
+        }
+    },
+    "19": {
+        "quote": "Hi Hei Hi Hei HiHeiiieeeeeel",
+        "metadata": {
+            "author": "Christopher Wegl",
+            "date": "1.8.2019"
+        }
+    },
+    "20": {
+        "quote": "Kumm, geh ma Murprom!",
+        "metadata": {
+            "author": "Christopher Wegl",
+            "date": "1.8.2019"
+        }
+    },
+    "21": {
+        "quote": "Miliz, Müliz, Mülzriss, Mülchschnitten!",
+        "metadata": {
+            "author": "Christopher Wegl",
+            "date": "1.8.2019"
+        }
+    },
+    "22": {
+        "quote": "He, is des da Poier? .. Na, der hat a anderes T-Shirt an!",
+        "metadata": {
+            "author": "Christopher Wegl",
+            "date": "1.8.2019"
+        }
+    },
+    "23": {
+        "quote": "I hoss as do!",
+        "metadata": {
+            "author": "Christopher Wegl",
+            "date": "1.8.2019"
+        }
+    },
+    "24": {
+        "quote": "Ich war im AIDS-Haus bei einem AIDS-Test, ich hab' AIDS jetzt. Nice, Hermes, der Vollprofi",
+        "metadata": {
+            "author": "Christopher Wegl",
+            "date": "1.8.2019"
+        }
+    },
+    "25": {
+        "quote": "Oltaaa kuuuummmts Graaaaaaaaz!",
+        "metadata": {
+            "author": "Christopher Wegl",
+            "date": "1.8.2019"
+        }
+    },
+    "26": {
+        "quote": "So billig kommst net mehr Seewalchen, so billig kommst niama umi!",
+        "metadata": {
+            "author": "Christopher Wegl",
+            "date": "1.8.2019"
+        }
+    },
+    "27": {
+        "quote": "SEGDEG!",
+        "metadata": {
+            "author": "Christopher Wegl",
+            "date": "1.8.2019"
+        }
+    },
+    "28": {
+        "quote": "Seg! Seg! Seg!",
+        "metadata": {
+            "author": "Christopher Wegl",
+            "date": "1.8.2019"
+        }
+    },
+    "29": {
+        "quote": "Sou a stickl Fleisch Oda wos",
+        "metadata": {
+            "author": "Christopher Wegl",
+            "date": "1.8.2019"
+        }
+    }
+}

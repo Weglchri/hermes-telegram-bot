@@ -104,6 +104,11 @@ app.post('/', async (req, res) => {
           const textToSend = await quoter.askForQuote(sentMessage);
           sentMessages(req, res, textToSend); 
 
+     } else if (sentMessage.match(/wegl/igm)) {
+          console.log(`${user} entered quote`);
+          const textToSend = '༼ つ ◕_◕ ༽つ';
+          sentMessages(req, res, textToSend); 
+
      } else {
           console.log("Send response: 200");
           res.status(200).send({});

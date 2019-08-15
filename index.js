@@ -84,6 +84,8 @@ app.post('/', async (req, res) => {
 
      } else if (sentMessage.match(/remove/igm)) {
           console.log(`${user} entered remove`);
+          console.log("Send response: 200");
+          res.status(200).send({});
           
           // check if number exists
           // do actions

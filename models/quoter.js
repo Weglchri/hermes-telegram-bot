@@ -24,7 +24,7 @@ module.exports = {
 
         var jb = new JsonBuilder();
         jb.addQuote(quote);
-        jb.userId(userId);
+        jb.addUserId(userId);
         jb.addFullName(fullName);
         jb.addDate();
         jb.addMetadata();

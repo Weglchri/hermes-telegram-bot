@@ -74,11 +74,8 @@ app.post('/', async (req, res) => {
           console.log(`${user} entered tell`);
           var textToSend = null;
           const quote = quoter.getQuoteFromMessage(sentMessage);
-          
           if(quote) {
                const quoteNumber = await quoter.addQuoteObjectToFile(quote, userId, fullName);
-               // const quoteNumber = await quoter.addQuoteToFile(quote);
-
                textToSend = `Successfully added your quote, ${user} ❤️ \n  
                     Quote ${quoteNumber} : ${quote}`;
           } else {

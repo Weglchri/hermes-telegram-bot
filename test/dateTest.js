@@ -14,14 +14,18 @@ describe('Date Test', function () {
                   assert.equal(
                         new Date(Date.now()).toISOString().substring(0,10), 
                         new Date(date).toISOString().substring(0,10)
-                  );
-                  assert.equal(
-                        new Date(Date.now()).getHours() + 2, 
-                        new Date(date).getHours()
-                  );
+                  );   
             });
 
-
+            it('test parsed date format', function () {
+                  var date = utils.getCurrentParsedDate();
+                  assert.equal(
+                        new Date(Date.now()).getHours(), 
+                        new Date(date).getHours()
+                  );
+                  
+            });
+            
       });
 
 });

@@ -21,7 +21,7 @@ module.exports = class JsonBuilder {
 
     addDate() {
         var c = new Date(Date.now());
-        var ct = c.setTime(c.getTime() + 60000 * c.getTimezoneOffset())
+        var ct = c.setTime(c.getTime() + 60000 * - c.getTimezoneOffset())
         var ctn = new Date(ct).toUTCString();
         this.newDate = ctn;
         return this;

@@ -108,7 +108,6 @@ module.exports = {
     },
 
     getDisplayQuoteList: async function () {
-        await this.executeQuoteFileUpdate();
         var quoteObject = await this.getQuotesObject();
         var stringList = '';
         Object.entries(quoteObject).forEach(

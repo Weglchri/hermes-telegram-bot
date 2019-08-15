@@ -3,6 +3,7 @@
 'use strict';
 
 var assert = require('assert');
+var utils = require("../lib/utils.js");
 var JsonBuilder = require("../models/jsonBuilder.js");
 
 describe('Test JSON Builder', function () {
@@ -14,15 +15,15 @@ describe('Test JSON Builder', function () {
                 let testObject = {
                     quote: 'This is a new quote',
                     metadata: { 
+                        userId: 123456789,
                         author: 'Herbert Yesas', 
-                        userId: '123456789',
-                        date: new Date(Date.now()).toISOString()
+                        date: utils.getCurrentParsedDate()
                     }
                 }
 
                 var jb = new JsonBuilder();
                 jb.addQuote("This is a new quote");
-                jb.addUserId("123456789");
+                jb.addUserId(123456789);
                 jb.addFullName("Herbert Yesas");
                 jb.addDate();
                 jb.addMetadata();

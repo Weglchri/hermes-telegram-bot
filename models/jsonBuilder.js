@@ -1,5 +1,7 @@
 'use strict';
 
+var utils = require("../lib/utils.js");
+
 module.exports = class JsonBuilder {
     
     constructor() {}
@@ -20,10 +22,7 @@ module.exports = class JsonBuilder {
     }
 
     addDate() {
-        var c = new Date(Date.now());
-        var ct = c.setTime(c.getTime() + 60000 * - c.getTimezoneOffset())
-        var ctn = new Date(ct).toUTCString();
-        this.newDate = ctn;
+        this.newDate = utils.getCurrentParsedDate();;
         return this;
     }
 

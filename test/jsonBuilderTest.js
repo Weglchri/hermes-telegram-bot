@@ -11,11 +11,12 @@ describe('Test JSON Builder', function () {
 
             it('create happy path object', function () {
                 
-                var testObject = {
+                let jsonDate = new Date(Date.now()).toISOString();
+                let testObject = {
                     quote: 'This is a new quote',
                     metadata: { 
                         author: 'Herbert Yesas', 
-                        date: '2019-08-12' 
+                        date: jsonDate
                     }
                 }
 

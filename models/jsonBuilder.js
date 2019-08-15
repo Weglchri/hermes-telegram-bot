@@ -15,7 +15,7 @@ module.exports = class JsonBuilder {
     }
 
     addDate() {
-        this.newDate = new Date(Date.now()).toISOString().substring(0,10);
+        this.newDate = new Date(Date.now()).toISOString();
         return this;
     }
 

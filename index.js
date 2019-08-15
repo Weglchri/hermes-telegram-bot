@@ -90,7 +90,7 @@ app.post('/', async (req, res) => {
 
      } else if (sentMessage.match(/remove/igm)) {
           console.log(`${user} entered remove`);
-          
+
           // check if number exists
           // do actions
           // var quoteNumber = quoter.removeQuoteFromFile();

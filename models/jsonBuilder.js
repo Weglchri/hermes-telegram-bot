@@ -22,7 +22,7 @@ module.exports = class JsonBuilder {
     }
 
     addDate() {
-        this.newDate = utils.getCurrentParsedDate();;
+        this.newDate = new Date();
         return this;
     }
 

@@ -77,8 +77,7 @@ app.post('/', async (req, res) => {
           const quote = quoter.getQuoteFromMessage(sentMessage);
           
           if(quote) {
-
-               const quoteNumber = await quoter.addQuoteObjectToFile(quote, fullName);
+               const quoteNumber = await quoter.addQuoteObjectToFile(quote, userId, fullName);
                // const quoteNumber = await quoter.addQuoteToFile(quote);
 
                textToSend = `Successfully added your quote, ${user} ❤️ \n  

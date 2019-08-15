@@ -14,6 +14,11 @@ module.exports = class JsonBuilder {
         return this;
     }
 
+    addUserId(userId) {
+        this.userId = userId;
+        return this;
+    }
+
     addDate() {
         this.newDate = new Date(Date.now()).toISOString();
         return this;
@@ -21,13 +26,14 @@ module.exports = class JsonBuilder {
 
     addMetadata() {
         
-        if(this.fullName === undefined || this.newDate === undefined) {
-            console.log("author or date invalid");
-            return 'invalid data';
+        if(this.fullName === undefined || this.newDate === undefined || this.userId === undefined) {
+            console.log("author, date or userId invalid");
+            return 'invalid metadata';
         }
 
         var metadata = {
             "author" : this.fullName,
+            "userId" : this.userId,
             "date" : this.newDate
         }
         

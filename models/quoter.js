@@ -18,12 +18,13 @@ module.exports = {
         QUOTES_OBJECT = JSON.parse(QUOTES_FILE);
     },
 
-    addQuoteObjectToFile : async function(quote, fullName) {
+    addQuoteObjectToFile : async function(quote, userId, fullName) {
         var quoteDataObject = this.getQuotesObject();
         var jsonDataLength = Object.keys(quoteDataObject).length;
 
         var jb = new JsonBuilder();
         jb.addQuote(quote);
+        jb.userId(userId);
         jb.addFullName(fullName);
         jb.addDate();
         jb.addMetadata();
@@ -110,7 +111,7 @@ module.exports = {
         var quoteObject = await this.getQuotesObject();
         var stringList = '';
         Object.entries(quoteObject).forEach(
-            ([key, value]) => stringList = stringList.concat(`${key}: ${value} \n`)
+            ([key, value]) => stringList = stringList.concat(`${key}: ${value.quote} \n`)
         );
         return stringList;
     }

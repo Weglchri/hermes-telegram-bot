@@ -11,17 +11,18 @@ describe('Test JSON Builder', function () {
 
             it('create happy path object', function () {
                 
-                let jsonDate = new Date(Date.now()).toISOString();
                 let testObject = {
                     quote: 'This is a new quote',
                     metadata: { 
                         author: 'Herbert Yesas', 
-                        date: jsonDate
+                        userId: '123456789',
+                        date: new Date(Date.now()).toISOString()
                     }
                 }
 
                 var jb = new JsonBuilder();
                 jb.addQuote("This is a new quote");
+                jb.addUserId("123456789");
                 jb.addFullName("Herbert Yesas");
                 jb.addDate();
                 jb.addMetadata();
@@ -34,7 +35,6 @@ describe('Test JSON Builder', function () {
                 
                 var jb = new JsonBuilder();
                 jb.addFullName("Herbert Yesas");
-                jb.addDate();
                 jb.addMetadata();
                 var jsonObject = jb.buildJSONObject();
                 assert.equal('invalid data', jsonObject);

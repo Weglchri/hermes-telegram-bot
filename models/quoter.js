@@ -13,6 +13,10 @@ var quotesList = [];
 
 module.exports = {
 
+    getQuotesObject: function () {
+        return QUOTES_OBJECT;
+    },
+
     executeQuoteFileUpdate: async function () {
         var QUOTES_FILE = await s3Dao.getQuotesFileFromS3(S3_QUOTE_FILE_PATH);
         QUOTES_OBJECT = JSON.parse(QUOTES_FILE);
@@ -34,10 +38,6 @@ module.exports = {
         QUOTES_OBJECT = quoteDataObject;
         await s3Dao.sendQuotesFileToS3(S3_QUOTE_FILE_PATH, quoteDataObject);
         return jsonDataLength + 1;
-    },
-
-    getQuotesObject: function () {
-        return QUOTES_OBJECT;
     },
 
     removeQuoteFromFile: async function (quoteNumber) {
@@ -108,6 +108,7 @@ module.exports = {
     },
 
     getDisplayQuoteList: async function () {
+        await this.executeQuoteFileUpdate();
         var quoteObject = await this.getQuotesObject();
         var stringList = '';
         Object.entries(quoteObject).forEach(

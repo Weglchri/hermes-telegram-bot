@@ -50,10 +50,7 @@ app.use(bodyParser.json());
 app.post('/', async (req, res) => {
 
      console.log("Request Body: ", req.body);
-     var k = quoter.getQuotesObject()["1"].metadata.date
-     console.log(new Date(k));
-     console.log(new Date(k).getTimezoneOffset());
-
+    
      var sentMessage = 'empty';
      var user = 'empty';
      var userId = 'empty';

@@ -15,7 +15,7 @@ module.exports = class JsonBuilder {
     }
 
     addUserId(userId) {
-        this.userId = userId;
+        this.userId = parseInt(userId);
         return this;
     }
 
@@ -32,7 +32,7 @@ module.exports = class JsonBuilder {
         }
 
         var metadata = {
-            "userid" : parseInt(this.userId),
+            "userId" : this.userId,
             "author" : this.fullName,
             "date" : this.newDate
         }

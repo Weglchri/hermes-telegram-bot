@@ -111,7 +111,7 @@ module.exports = {
         var quoteObject = await this.getQuotesObject();
         var stringList = '';
         Object.entries(quoteObject).forEach(
-            ([key, value]) => stringList = stringList.concat(`${key}: ${value.quote} \n`)
+            ([key, value]) => stringList = stringList.concat(`${key}: \t ${value.quote} \n`)
         );
         return stringList;
     }

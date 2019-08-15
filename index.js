@@ -24,9 +24,8 @@ init();
 // commandlist 
 /*
 
-greetings - hermes greets you 💋
-list - get all quotes available
 quote - get the finest quotes of all time ⚜️
+list - get all quotes available
 tell - send me a quote 
 
 */

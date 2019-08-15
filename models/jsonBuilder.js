@@ -25,15 +25,15 @@ module.exports = class JsonBuilder {
     }
 
     addMetadata() {
-        
+
         if(this.fullName === undefined || this.newDate === undefined || this.userId === undefined) {
             console.log("author, date or userId invalid");
             return 'invalid metadata';
         }
 
         var metadata = {
+            "userid" : parseInt(this.userid),
             "author" : this.fullName,
-            "userId" : this.userId,
             "date" : this.newDate
         }
         

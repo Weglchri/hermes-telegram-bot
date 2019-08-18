@@ -148,8 +148,10 @@ module.exports = {
         var element = utils.extractElementFromMessage(message);
         
         if(element.toString().toLowerCase() === 'pending') {
+            console.log("entered pending list");
             var quoteObject = await this.getPendingQuotesObject();
         } else {
+            console.log("entered approval list");
             var quoteObject = await this.getApprovedQuotesObject();
         }
 

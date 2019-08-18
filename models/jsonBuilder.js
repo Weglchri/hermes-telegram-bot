@@ -44,7 +44,7 @@ class JsonBuilder {
 
         if (!this.fullName || !this.newDate || !this.userId ) {
             console.log("author, date, status or userId not set");
-            return 'invalid metadata';
+            return false;
         }
 
         var metadata = {
@@ -61,7 +61,7 @@ class JsonBuilder {
 
         if (!this.quote || !this.metadata || !this.status || !this.approvals) {
             console.log("quote, status, approvals or metadata not set");
-            return 'invalid data';
+            return false;
         }
 
         var jsonObject = {

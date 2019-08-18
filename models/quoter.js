@@ -39,8 +39,19 @@ module.exports = {
     addNewPendingQuote : async function(quote, userId, fullName) {
         var quoteDataObject = this.getPendingQuotesObject();
         var jsonDataLength = Object.keys(quoteDataObject).length;
-
-        // build pending json object 
+        
+       /*
+       data object
+            quote
+            approvals
+            status
+            metadata
+                userid
+                fullname
+                date
+       */
+        
+        // create quote object
         var jb = new JsonBuilder();
         jb.addQuote(quote);
         jb.addUserId(userId);
@@ -51,15 +62,20 @@ module.exports = {
         jb.addMetadata();
         var jsonObject = jb.buildJSONObject();
 
-        // add pending quote to pending object
-        quoteDataObject[jsonDataLength + 1] = jsonObject;
-        PENDING_QUOTES_OBJECT = quoteDataObject;
+        // if json is not invalid
+        if(jsonObject) {
+            // add pending quote to pending object
+            quoteDataObject[jsonDataLength + 1] = jsonObject;
+            PENDING_QUOTES_OBJECT = quoteDataObject;
+            // write pending file to aws
+            await s3Dao.sendQuotesFileToS3(PENDING_S3_QUOTE_FILE_PATH, quoteDataObject);
+            // return object length to caller 
+            return jsonDataLength + 1;
+        } else {
+            console.log("invalid json object from builder");
+            return false;
+        }
 
-        // write pending file to aws
-        await s3Dao.sendQuotesFileToS3(PENDING_S3_QUOTE_FILE_PATH, quoteDataObject);
-        
-        // return object length to caller 
-        return jsonDataLength + 1;
     },
 
     // addQuoteObjectToFile : async function(quote, userId, fullName) {

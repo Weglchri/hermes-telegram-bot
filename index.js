@@ -19,7 +19,7 @@ async function init() {
      await quoter.executeApprovedQuoteFileUpdate();
      await quoter.executePendingQuoteFileUpdate();
      console.log("init successful");
-}; 
+};
 init();
 
 // commandlist 
@@ -33,16 +33,16 @@ tell - send me a quote
 
 // telegram message functions 
 function sentMessages(req, res, txsend, reqId) {
-    axios.post(`${APP_URL}${APITOKEN}/sendMessage`,
-    {
-         chat_id: reqId || req.body.message.chat.id,
-         text: txsend
-    })
-    .then((response) => { 
-         res.status(200).send(response);
-    }).catch((error) => {
-         res.send(error);
-    });
+     axios.post(`${APP_URL}${APITOKEN}/sendMessage`,
+          {
+               chat_id: reqId || req.body.message.chat.id,
+               text: txsend
+          })
+          .then((response) => {
+               res.status(200).send(response);
+          }).catch((error) => {
+               res.send(error);
+          });
 }
 
 // router actions
@@ -51,54 +51,62 @@ app.use(bodyParser.json());
 app.post('/', async (req, res) => {
 
      console.log("Request Body: ", req.body);
-    
+
      var sentMessage = 'empty';
      var user = 'empty';
      var userId = 'empty';
      var fullName = 'empty';
 
-     if(req.body.message !== undefined && req.body.message.text !== undefined) {
+     if (req.body.message !== undefined && req.body.message.text !== undefined) {
           sentMessage = req.body.message.text;
           user = req.body.message.from.username || req.body.message.from.first_name;
           userId = req.body.message.from.id;
           fullName = `${req.body.message.from.first_name} ${req.body.message.from.last_name}`;
      }
-     
+
      console.log("text to process: ", sentMessage);
 
      if (sentMessage.match(/greetings/igm)) {
           console.log(`${user} entered greetings`);
           const textToSend = `I'm Hermes the quote bot, hello ${user} 👋`;
           sentMessages(req, res, textToSend);
-         
+
      } else if (sentMessage.match(/tell/igm)) {
           console.log(`${user} entered tell`);
-          
+
           var textToSend = null;
           const quote = await quoter.getQuoteFromMessage(sentMessage);
 
-
-          if(quote) {
+          // check if a quote was sent
+          if (quote) {
+               
                const quoteNumber = await quoter.addNewPendingQuote(quote, userId, fullName);
-               textToSend = `Successfully added your quote, ${user} ❤️ \n  
-                    Quote ${quoteNumber} : ${quote}`;
+               
+               // check if a quote object could be built
+               if (quoteNumber) {
+                    textToSend = `Successfully added your quote, ${user} ❤️ \n  
+                         Pending quote ${quoteNumber} : ${quote}`;
+               } else { 
+                    textToSend = `Not able to add your quote, ${user} ☹`;
+               }
+
           } else {
                textToSend = `Write /tell with your quote!, ${user} 🏹`;
           }
 
-          sentMessages(req, res, textToSend); 
+          sentMessages(req, res, textToSend);
 
 
      } else if (sentMessage.match(/remove/igm)) {
           console.log(`${user} entered remove`);
           console.log("Send response: 200");
           res.status(200).send({});
-       
+
           // check if number exists
           // do actions
           // var quoteNumber = quoter.removeQuoteFromFile();
           // var quote = quoter.getQuote(quoteNumber);
-          
+
           // const textToSend = `Successfully removed your quote, ${user} \n 
           //      Quote ${quoteNumber} : ${quote}`;
           // sentMessages(req, res, requestMessageType, textToSend); 
@@ -106,17 +114,17 @@ app.post('/', async (req, res) => {
      } else if (sentMessage.match(/list/igm)) {
           console.log(`${user} entered list`);
           const textToSend = await quoter.getDisplayableQuoteList(sentMessage);
-          sentMessages(req, res, textToSend, userId); 
+          sentMessages(req, res, textToSend, userId);
 
      } else if (sentMessage.match(/quote/igm)) {
           console.log(`${user} entered quote`);
           const textToSend = await quoter.askForQuote(sentMessage);
-          sentMessages(req, res, textToSend); 
+          sentMessages(req, res, textToSend);
 
      } else if (sentMessage.match(/wegl/igm)) {
           console.log(`${user} entered quote`);
           const textToSend = '༼ つ ◕_◕ ༽つ';
-          sentMessages(req, res, textToSend); 
+          sentMessages(req, res, textToSend);
 
      } else {
           console.log("Send response: 200");

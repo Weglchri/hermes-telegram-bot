@@ -4,7 +4,8 @@
 
 var assert = require('assert');
 var utils = require("../lib/utils.js");
-var JsonBuilder = require("../models/jsonBuilder.js");
+var JsonBuilder = require("../models/jsonBuilder.js").JsonBuilder;
+var STATUS = require("../models/jsonBuilder.js").STATUS;
 
 describe('Test JSON Builder', function () {
 
@@ -17,7 +18,8 @@ describe('Test JSON Builder', function () {
                     metadata: { 
                         userId: 123456789,
                         author: 'Herbert Yesas', 
-                        date: utils.getCurrentParsedDate()
+                        date: new Date(),
+                        status: "PENDING"                        
                     }
                 }
 
@@ -26,6 +28,7 @@ describe('Test JSON Builder', function () {
                 jb.addUserId(123456789);
                 jb.addFullName("Herbert Yesas");
                 jb.addDate();
+                jb.addStatus(STATUS.PENDING);
                 jb.addMetadata();
                 var jsonObject = jb.buildJSONObject();
                 assert.deepEqual(testObject, jsonObject)

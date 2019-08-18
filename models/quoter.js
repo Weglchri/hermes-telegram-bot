@@ -2,50 +2,90 @@
 
 var utils = require("../lib/utils.js");
 var s3Dao = require("../daos/s3QuoterDao.js");
-var JsonBuilder = require("./jsonBuilder.js");
+var JsonBuilder = require("./jsonBuilder.js").JsonBuilder;
+var STATUS = require("./jsonBuilder.js").STATUS;
+
+const APPROVED_S3_QUOTE_FILE_PATH = process.env.QUOTES_APPROVED_S3FILE;
+const PENDING_S3_QUOTE_FILE_PATH = process.env.QUOTES_PENDING_S3FILE;
+
+// cache objects
+var APPROVED_QUOTES_OBJECT = null;
+var PENDING_QUOTES_OBJECT = null;
 
 // prevent hermes sending same quote twice 
-const S3_QUOTE_FILE_PATH = process.env.S3FILE;
-
 const QUOTE_ARRAY = 10;
-var QUOTES_OBJECT = null;
 var quotesList = [];
 
 module.exports = {
 
-    getQuotesObject: function () {
-        return QUOTES_OBJECT;
+    getApprovedQuotesObject: function () {
+        return APPROVED_QUOTES_OBJECT;
     },
 
-    executeQuoteFileUpdate: async function () {
-        var QUOTES_FILE = await s3Dao.getQuotesFileFromS3(S3_QUOTE_FILE_PATH);
-        QUOTES_OBJECT = JSON.parse(QUOTES_FILE);
+    getPendingQuotesObject: function () {
+        return APPROVED_QUOTES_OBJECT;
     },
 
-    addQuoteObjectToFile : async function(quote, userId, fullName) {
-        var quoteDataObject = this.getQuotesObject();
+    executeApprovedQuoteFileUpdate: async function () {
+        var APPROVED_QUOTES_FILE = await s3Dao.getQuotesFileFromS3(APPROVED_S3_QUOTE_FILE_PATH);
+        APPROVED_QUOTES_OBJECT = JSON.parse(APPROVED_QUOTES_FILE);
+    },
+
+    executePendingQuoteFileUpdate: async function () {
+        var PENDING_QUOTES_FILE = await s3Dao.getQuotesFileFromS3(PENDING_S3_QUOTE_FILE_PATH);
+        PENDING_QUOTES_OBJECT = JSON.parse(PENDING_QUOTES_FILE);
+    },
+
+    addNewPendingQuote : async function(quote, userId, fullName) {
+        var quoteDataObject = this.getPendingQuotesObject();
         var jsonDataLength = Object.keys(quoteDataObject).length;
 
+        // build pending json object 
         var jb = new JsonBuilder();
         jb.addQuote(quote);
         jb.addUserId(userId);
         jb.addFullName(fullName);
         jb.addDate();
+        jb.addApprovals();
+        jb.addStatus(STATUS.PENING);
         jb.addMetadata();
         var jsonObject = jb.buildJSONObject();
 
+        // add pending quote to pending object
         quoteDataObject[jsonDataLength + 1] = jsonObject;
-        QUOTES_OBJECT = quoteDataObject;
+        PENDING_QUOTES_OBJECT = quoteDataObject;
+
+        // write pending file to aws
         await s3Dao.sendQuotesFileToS3(S3_QUOTE_FILE_PATH, quoteDataObject);
+        
+        // return object length to caller 
         return jsonDataLength + 1;
     },
 
-    removeQuoteFromFile: async function (quoteNumber) {
-        var quoteDataObject = this.getQuotesObject();
-        delete quoteDataObject[quoteNumber];
-        await s3Dao.sendQuotesFileToS3(S3_QUOTE_FILE_PATH, quoteDataObject);
-        this.executeQuoteFileUpdate();
-    },
+    // addQuoteObjectToFile : async function(quote, userId, fullName) {
+    //     var quoteDataObject = this.getQuotesObject();
+    //     var jsonDataLength = Object.keys(quoteDataObject).length;
+
+    //     var jb = new JsonBuilder();
+    //     jb.addQuote(quote);
+    //     jb.addUserId(userId);
+    //     jb.addFullName(fullName);
+    //     jb.addDate();
+    //     jb.addMetadata();
+    //     var jsonObject = jb.buildJSONObject();
+
+    //     quoteDataObject[jsonDataLength + 1] = jsonObject;
+    //     QUOTES_OBJECT = quoteDataObject;
+    //     await s3Dao.sendQuotesFileToS3(S3_QUOTE_FILE_PATH, quoteDataObject);
+    //     return jsonDataLength + 1;
+    // },
+
+    // removeQuoteFromFile: async function (quoteNumber) {
+    //     var quoteDataObject = this.getQuotesObject();
+    //     delete quoteDataObject[quoteNumber];
+    //     await s3Dao.sendQuotesFileToS3(S3_QUOTE_FILE_PATH, quoteDataObject);
+    //     this.executeQuoteFileUpdate();
+    // },
 
     getQuotesList: function () {
         return quotesList;
@@ -73,7 +113,7 @@ module.exports = {
     },
 
     getQuote: async function (quoteNumber) {
-        let quoteDataObject = this.getQuotesObject();
+        let quoteDataObject = this.getApprovedQuotesObject();
         this.updateQuoteList(quoteNumber);
         let jsonObject = quoteDataObject[quoteNumber] || 'No quote found';
         return jsonObject.quote;
@@ -81,7 +121,7 @@ module.exports = {
 
     getRandomQuote: async function () {
         console.log("new call");
-        let quoteDataObject = this.getQuotesObject();
+        let quoteDataObject = this.getApprovedQuotesObject();
         let jsonDataLength = Object.keys(quoteDataObject).length;
         let number = this.getValidRandomNumber(jsonDataLength);
         this.updateQuoteList(number);
@@ -90,25 +130,23 @@ module.exports = {
     },
 
     askForQuote: async function (message) {
-        const quoteNumber = this.getQuoteFromMessage(message);
-        if (quoteNumber === false) {
-            console.log(message);
+        const quoteNumber = utils.extractElementFromMessage(message);
+        if (quoteNumber) {
+            return await this.getQuote(quoteNumber);
+        } else {
             return await this.getRandomQuote();
         }
-        return await this.getQuote(quoteNumber);
+        
     },
 
-    getQuoteFromMessage: function (message) {
-        var pattern = /\s(.*)/igm;
-        var quote = pattern.exec(message);
-        if (quote !== null && quote.length == 2 && quote[1] != '')
-            return quote[1]
-        else
-            return false;
+    getQuoteFromMessage: async function(message) {
+        const quote = utils.extractElementFromMessage(message);
+        return quote;
     },
 
-    getDisplayQuoteList: async function () {
-        var quoteObject = await this.getQuotesObject();
+    // display approved quotes
+    getDisplayableQuoteList: async function () {
+        var quoteObject = await this.getApprovedQuotesObject();
         var stringList = '';
         Object.entries(quoteObject).forEach(
             ([key, value]) => stringList = stringList.concat(`${key}: \t ${value.quote} \n`)

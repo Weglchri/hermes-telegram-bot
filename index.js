@@ -16,7 +16,8 @@ const APP_URL = 'https://api.telegram.org/bot';
 
 
 async function init() {
-     await quoter.executeQuoteFileUpdate();
+     await quoter.executeApprovedQuoteFileUpdate();
+     await quoter.executePendingQuoteFileUpdate();
      console.log("init successful");
 }; 
 init();
@@ -72,9 +73,13 @@ app.post('/', async (req, res) => {
          
      } else if (sentMessage.match(/tell/igm)) {
           console.log(`${user} entered tell`);
+          
           var textToSend = null;
           const quote = quoter.getQuoteFromMessage(sentMessage);
+
+
           if(quote) {
+
                const quoteNumber = await quoter.addQuoteObjectToFile(quote, userId, fullName);
                textToSend = `Successfully added your quote, ${user} ❤️ \n  
                     Quote ${quoteNumber} : ${quote}`;
@@ -82,6 +87,7 @@ app.post('/', async (req, res) => {
                textToSend = `Write /tell with your quote!, ${user} 🏹`;
           }
           sentMessages(req, res, textToSend); 
+
 
      } else if (sentMessage.match(/remove/igm)) {
           console.log(`${user} entered remove`);
@@ -99,7 +105,7 @@ app.post('/', async (req, res) => {
 
      } else if (sentMessage.match(/list/igm)) {
           console.log(`${user} entered list`);
-          const textToSend = await quoter.getDisplayQuoteList();
+          const textToSend = await quoter.getDisplayableQuoteList();
           sentMessages(req, res, textToSend, userId); 
 
      } else if (sentMessage.match(/quote/igm)) {

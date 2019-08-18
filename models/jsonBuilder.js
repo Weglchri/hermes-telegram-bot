@@ -1,13 +1,10 @@
 'use strict';
 
-var utils = require("../lib/utils.js");
-
 const STATUS = {
     PENDING: "PENDING",
     APPROVED: "APPROVED",
     DELETED: "DELETED"
 }
-
 
 class JsonBuilder {
 
@@ -45,8 +42,8 @@ class JsonBuilder {
 
     addMetadata() {
 
-        if (this.fullName === undefined || this.newDate === undefined || this.userId === undefined) {
-            console.log("author, date, status or userId invalid");
+        if (!this.fullName || !this.newDate || !this.userId ) {
+            console.log("author, date, status or userId not set");
             return 'invalid metadata';
         }
 
@@ -62,8 +59,8 @@ class JsonBuilder {
 
     buildJSONObject() {
 
-        if (this.quote === undefined || this.metadata === undefined) {
-            console.log("quote or metadata invalid");
+        if (!this.quote || !this.metadata || !this.status || !this.approvals) {
+            console.log("quote, status, approvals or metadata not set");
             return 'invalid data';
         }
 

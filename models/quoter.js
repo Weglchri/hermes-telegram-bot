@@ -23,7 +23,7 @@ module.exports = {
     },
 
     getPendingQuotesObject: function () {
-        return APPROVED_QUOTES_OBJECT;
+        return PENDING_QUOTES_OBJECT;
     },
 
     executeApprovedQuoteFileUpdate: async function () {
@@ -56,7 +56,7 @@ module.exports = {
         PENDING_QUOTES_OBJECT = quoteDataObject;
 
         // write pending file to aws
-        await s3Dao.sendQuotesFileToS3(S3_QUOTE_FILE_PATH, quoteDataObject);
+        await s3Dao.sendQuotesFileToS3(PENDING_S3_QUOTE_FILE_PATH, quoteDataObject);
         
         // return object length to caller 
         return jsonDataLength + 1;
@@ -136,19 +136,27 @@ module.exports = {
         } else {
             return await this.getRandomQuote();
         }
-        
     },
 
     getQuoteFromMessage: async function(message) {
-        const quote = utils.extractElementFromMessage(message);
+        const quote = await utils.extractElementFromMessage(message);
         return quote;
     },
 
-    // display approved quotes
-    getDisplayableQuoteList: async function () {
-        var quoteObject = await this.getApprovedQuotesObject();
+    getDisplayableQuoteList: async function (message) {
+
+        var element = utils.extractElementFromMessage(message);
+        
+        if(element.toLowerCase() === 'pending') {
+            var quoteObject = await this.getPendingQuotesObject();
+        } else {
+            var quoteObject = await this.getApprovedQuotesObject();
+        }
+
+        // logic for displaying approval and update for specific user
+
         var stringList = '';
-        Object.entries(quoteObject).forEach(
+        Object.entries(quoteObject).forEach (
             ([key, value]) => stringList = stringList.concat(`${key}: \t ${value.quote} \n`)
         );
         return stringList;

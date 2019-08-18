@@ -15,11 +15,12 @@ describe('Test JSON Builder', function () {
                 
                 let testObject = {
                     quote: 'This is a new quote',
+                    status: "PENDING",  
+                    approvals : [],         
                     metadata: { 
                         userId: 123456789,
                         author: 'Herbert Yesas', 
-                        date: new Date(),
-                        status: "PENDING"                        
+                        date: new Date(),          
                     }
                 }
 
@@ -28,6 +29,7 @@ describe('Test JSON Builder', function () {
                 jb.addUserId(123456789);
                 jb.addFullName("Herbert Yesas");
                 jb.addDate();
+                jb.addApprovals();
                 jb.addStatus(STATUS.PENDING);
                 jb.addMetadata();
                 var jsonObject = jb.buildJSONObject();
@@ -42,6 +44,34 @@ describe('Test JSON Builder', function () {
                 jb.addMetadata();
                 var jsonObject = jb.buildJSONObject();
                 assert.equal('invalid data', jsonObject);
+
+            });
+
+            it('approvals array test', function () {
+                
+                let testObject = {
+                    quote: 'This is a new quote',
+                    status: "PENDING",  
+                    approvals : [123456789],         
+                    metadata: { 
+                        userId: 123456789,
+                        author: 'Herbert Yesas', 
+                        date: new Date(),          
+                    }
+                }
+
+                var jb = new JsonBuilder();
+                jb.addQuote("This is a new quote");
+                jb.addUserId(123456789);
+                jb.addFullName("Herbert Yesas");
+                jb.addDate();
+                jb.addApprovals()
+                jb.addStatus(STATUS.PENDING);
+                jb.addMetadata();
+                var jsonObject = jb.buildJSONObject();
+
+                jsonObject.approvals.push(123456789);
+                assert.deepEqual(testObject, jsonObject)
 
             });
 

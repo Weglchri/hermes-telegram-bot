@@ -25,7 +25,7 @@ module.exports = {
         if (err) console.error(`Download Error: ${err}`);
         resolve(data.Body.toString()); 
         reject(err); 
-        console.log("successfully downloaded");
+        console.log(`successfully downloaded ${s3FilePath}`);
       });
     })
   },

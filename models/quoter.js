@@ -145,7 +145,7 @@ module.exports = {
 
     getDisplayableQuoteList: async function (message) {
 
-        var element = utils.extractElementFromMessage(message);
+        var element = await utils.extractElementFromMessage(message);
         console.log(element);
         if(element.toString().toLowerCase() === 'pending') {
             console.log("entered pending list");

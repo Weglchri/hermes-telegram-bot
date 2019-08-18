@@ -165,22 +165,20 @@ module.exports = {
     getDisplayableQuoteList: async function (message) {
 
         var element = await utils.extractElementFromMessage(message);
+        var quoteObject = null;
         console.log(element);
-
-        var quoteList = null;
 
         if(element.toString().toLowerCase() === 'pending') {
             console.log("entered pending list");
-            var quoteObject = await this.getPendingQuotesObject();
-            quoteList = await utils.pendingListDisplayer(quoteObject);
+            quoteObject = await this.getPendingQuotesObject();
 
         } else {
             console.log("entered approval list");
-            var quoteObject = await this.getApprovedQuotesObject();
-            quoteList = await utils.approvedListDisplayer(quoteObject);
-
+            quoteObject = await this.getApprovedQuotesObject();
+            
         }
-        
+
+        quoteList = await utils.listDisplayer(quoteObject);
         return quoteList;
     }
 

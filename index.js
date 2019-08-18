@@ -79,7 +79,7 @@ app.post('/', async (req, res) => {
 
 
           if(quote) {
-               const quoteNumber = await quoter.addQuoteObjectToFile(quote, userId, fullName);
+               const quoteNumber = await quoter.addNewPendingQuote(quote, userId, fullName);
                textToSend = `Successfully added your quote, ${user} ❤️ \n  
                     Quote ${quoteNumber} : ${quote}`;
           } else {

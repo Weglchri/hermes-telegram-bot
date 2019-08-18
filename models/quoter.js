@@ -62,6 +62,7 @@ module.exports = {
         jb.addFullName(fullName);
         jb.addDate();
         jb.addMetadata();
+
         var jsonObject = jb.buildJSONObject();
 
         // if json is not invalid
@@ -167,6 +168,7 @@ module.exports = {
         console.log(element);
 
         var quoteObject = null;
+        
         if(element.toString().toLowerCase() === 'pending') {
             console.log("entered pending list");
             quoteObject = await this.getPendingQuotesObject();

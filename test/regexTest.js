@@ -13,28 +13,28 @@ describe('Regex Test', function() {
       assert.equal('This is my new quote then!', newQuote.toString().trim());
     });
 
-    it('regex test 2', function() {
-        var result = quoter.getQuoteFromMessage('/tell This is my new quote then!');
+    it('regex test 2', async function() {
+        var result = await quoter.getQuoteFromMessage('/tell This is my new quote then!');
         assert.equal('This is my new quote then!', result);
     });
 
-    it('regex test 3', function() {
-        var result = quoter.getQuoteFromMessage('/tell ');
+    it('regex test 3', async function() {
+        var result = await quoter.getQuoteFromMessage('/tell ');
         assert.equal(false, result);
     });
 
-    it('regex test 4', function() {
-        var result = quoter.getQuoteFromMessage('/tell tell the world this is a new quote!');
+    it('regex test 4', async function() {
+        var result = await quoter.getQuoteFromMessage('/tell tell the world this is a new quote!');
         assert.equal("tell the world this is a new quote!", result);
     });
 
-    it('regex test 5', function() {
-        var result = quoter.getQuoteFromMessage('/tell');
+    it('regex test 5', async function() {
+        var result = await quoter.getQuoteFromMessage('/tell');
         assert.equal(false, result);
     });
 
-    it('regex test 5', function() {
-        var result = quoter.getQuoteFromMessage('/quote 3');
+    it('regex test 5', async function() {
+        var result = await quoter.getQuoteFromMessage('/quote 3');
         assert.equal(3, result);
     });
 

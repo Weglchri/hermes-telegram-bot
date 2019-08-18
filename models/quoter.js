@@ -165,21 +165,18 @@ module.exports = {
 
         var element = await utils.extractElementFromMessage(message);
         console.log(element);
+
+        var quoteObject = null;
         if(element.toString().toLowerCase() === 'pending') {
             console.log("entered pending list");
-            var quoteObject = await this.getPendingQuotesObject();
+            quoteObject = await this.getPendingQuotesObject();
         } else {
             console.log("entered approval list");
             var quoteObject = await this.getApprovedQuotesObject();
         }
-
-        // logic for displaying approval and update for specific user
-
-        var stringList = '';
-        Object.entries(quoteObject).forEach (
-            ([key, value]) => stringList = stringList.concat(`${key}: \t ${value.quote} \n`)
-        );
-        return stringList;
+        var quoteList = await utils.listDisplayer(quoteObject);
+        return quoteList;
+       
     }
 
 }

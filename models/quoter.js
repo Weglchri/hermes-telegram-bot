@@ -2,6 +2,7 @@
 
 var utils = require("../lib/utils.js");
 var s3Dao = require("../daos/s3QuoterDao.js");
+var JsonBuilder = require("./jsonBuilder.js");
 
 // prevent hermes sending same quote twice 
 const S3_QUOTE_FILE_PATH = process.env.S3FILE;
@@ -12,22 +13,31 @@ var quotesList = [];
 
 module.exports = {
 
+    getQuotesObject: function () {
+        return QUOTES_OBJECT;
+    },
+
     executeQuoteFileUpdate: async function () {
         var QUOTES_FILE = await s3Dao.getQuotesFileFromS3(S3_QUOTE_FILE_PATH);
         QUOTES_OBJECT = JSON.parse(QUOTES_FILE);
     },
 
-    addQuoteToFile: async function (quote) {
+    addQuoteObjectToFile : async function(quote, userId, fullName) {
         var quoteDataObject = this.getQuotesObject();
         var jsonDataLength = Object.keys(quoteDataObject).length;
-        quoteDataObject[jsonDataLength + 1] = quote;
-        await s3Dao.sendQuotesFileToS3(S3_QUOTE_FILE_PATH, quoteDataObject);
-        QUOTES_OBJECT = quoteDataObject;
-        return jsonDataLength + 1;
-    },
 
-    getQuotesObject: function () {
-        return QUOTES_OBJECT;
+        var jb = new JsonBuilder();
+        jb.addQuote(quote);
+        jb.addUserId(userId);
+        jb.addFullName(fullName);
+        jb.addDate();
+        jb.addMetadata();
+        var jsonObject = jb.buildJSONObject();
+
+        quoteDataObject[jsonDataLength + 1] = jsonObject;
+        QUOTES_OBJECT = quoteDataObject;
+        await s3Dao.sendQuotesFileToS3(S3_QUOTE_FILE_PATH, quoteDataObject);
+        return jsonDataLength + 1;
     },
 
     removeQuoteFromFile: async function (quoteNumber) {
@@ -65,8 +75,8 @@ module.exports = {
     getQuote: async function (quoteNumber) {
         let quoteDataObject = this.getQuotesObject();
         this.updateQuoteList(quoteNumber);
-        let quote = quoteDataObject[quoteNumber] || 'No quote found';
-        return quote;
+        let jsonObject = quoteDataObject[quoteNumber] || 'No quote found';
+        return jsonObject.quote;
     },
 
     getRandomQuote: async function () {
@@ -75,12 +85,12 @@ module.exports = {
         let jsonDataLength = Object.keys(quoteDataObject).length;
         let number = this.getValidRandomNumber(jsonDataLength);
         this.updateQuoteList(number);
-        let quote = quoteDataObject[number];
-        return quote;
+        let jsonObject = quoteDataObject[number];
+        return jsonObject.quote;
     },
 
     askForQuote: async function (message) {
-        const quoteNumber = this.getQuoteFromMessage(message); //message.split("/")[2];
+        const quoteNumber = this.getQuoteFromMessage(message);
         if (quoteNumber === false) {
             console.log(message);
             return await this.getRandomQuote();
@@ -101,7 +111,7 @@ module.exports = {
         var quoteObject = await this.getQuotesObject();
         var stringList = '';
         Object.entries(quoteObject).forEach(
-            ([key, value]) => stringList = stringList.concat(`${key}: ${value} \n`)
+            ([key, value]) => stringList = stringList.concat(`${key}: \t ${value.quote} \n`)
         );
         return stringList;
     }

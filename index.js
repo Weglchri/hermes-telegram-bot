@@ -24,9 +24,8 @@ init();
 // commandlist 
 /*
 
-greetings - hermes greets you 💋
-list - get all quotes available
 quote - get the finest quotes of all time ⚜️
+list - get all quotes available
 tell - send me a quote 
 
 */
@@ -51,15 +50,17 @@ app.use(bodyParser.json());
 app.post('/', async (req, res) => {
 
      console.log("Request Body: ", req.body);
-  
+    
      var sentMessage = 'empty';
      var user = 'empty';
      var userId = 'empty';
+     var fullName = 'empty';
 
      if(req.body.message !== undefined && req.body.message.text !== undefined) {
           sentMessage = req.body.message.text;
           user = req.body.message.from.username || req.body.message.from.first_name;
           userId = req.body.message.from.id;
+          fullName = `${req.body.message.from.first_name} ${req.body.message.from.last_name}`;
      }
      
      console.log("text to process: ", sentMessage);
@@ -74,7 +75,7 @@ app.post('/', async (req, res) => {
           var textToSend = null;
           const quote = quoter.getQuoteFromMessage(sentMessage);
           if(quote) {
-               const quoteNumber = await quoter.addQuoteToFile(quote);
+               const quoteNumber = await quoter.addQuoteObjectToFile(quote, userId, fullName);
                textToSend = `Successfully added your quote, ${user} ❤️ \n  
                     Quote ${quoteNumber} : ${quote}`;
           } else {
@@ -86,7 +87,7 @@ app.post('/', async (req, res) => {
           console.log(`${user} entered remove`);
           console.log("Send response: 200");
           res.status(200).send({});
-          
+       
           // check if number exists
           // do actions
           // var quoteNumber = quoter.removeQuoteFromFile();

@@ -174,6 +174,7 @@ module.exports = {
             console.log("entered approval list");
             var quoteObject = await this.getApprovedQuotesObject();
         }
+        
         var quoteList = await utils.listDisplayer(quoteObject);
         return quoteList;
        

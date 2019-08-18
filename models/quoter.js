@@ -54,11 +54,13 @@ module.exports = {
         // create quote object
         var jb = new JsonBuilder();
         jb.addQuote(quote);
+        
+        jb.addApprovals();
+        jb.addStatus(STATUS.PENDING);
+
         jb.addUserId(userId);
         jb.addFullName(fullName);
         jb.addDate();
-        jb.addApprovals();
-        jb.addStatus(STATUS.PENING);
         jb.addMetadata();
         var jsonObject = jb.buildJSONObject();
 

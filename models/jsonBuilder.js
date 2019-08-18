@@ -59,7 +59,7 @@ class JsonBuilder {
 
     buildJSONObject() {
 
-        if (!this.quote || !this.metadata || !this.status) {
+        if (!this.quote || !this.metadata || !this.status || !this.approvals) {
             console.log("quote, status, approvals or metadata not set");
             return false;
         }

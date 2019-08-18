@@ -43,7 +43,7 @@ describe('Test JSON Builder', function () {
                 jb.addFullName("Herbert Yesas");
                 jb.addMetadata();
                 var jsonObject = jb.buildJSONObject();
-                assert.equal('invalid data', jsonObject);
+                assert.equal(false, jsonObject);
 
             });
 
@@ -62,11 +62,13 @@ describe('Test JSON Builder', function () {
 
                 var jb = new JsonBuilder();
                 jb.addQuote("This is a new quote");
+            
+                jb.addApprovals()
+                jb.addStatus(STATUS.PENDING);
+
                 jb.addUserId(123456789);
                 jb.addFullName("Herbert Yesas");
                 jb.addDate();
-                jb.addApprovals()
-                jb.addStatus(STATUS.PENDING);
                 jb.addMetadata();
                 var jsonObject = jb.buildJSONObject();
 

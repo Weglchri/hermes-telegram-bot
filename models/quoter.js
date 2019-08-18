@@ -167,19 +167,21 @@ module.exports = {
         var element = await utils.extractElementFromMessage(message);
         console.log(element);
 
-        var quoteObject = null;
-        
+        var quoteList = null;
+
         if(element.toString().toLowerCase() === 'pending') {
             console.log("entered pending list");
-            quoteObject = await this.getPendingQuotesObject();
+            var quoteObject = await this.getPendingQuotesObject();
+            quoteList = await utils.pendingListDisplayer(quoteObject);
+
         } else {
             console.log("entered approval list");
             var quoteObject = await this.getApprovedQuotesObject();
+            quoteList = await utils.approvedListDisplayer(quoteObject);
+
         }
         
-        var quoteList = await utils.listDisplayer(quoteObject);
         return quoteList;
-       
     }
 
 }

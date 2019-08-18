@@ -130,7 +130,7 @@ module.exports = {
     },
 
     askForQuote: async function (message) {
-        const quoteNumber = utils.extractElementFromMessage(message);
+        const quoteNumber = await utils.extractElementFromMessage(message);
         if (quoteNumber) {
             return await this.getQuote(quoteNumber);
         } else {

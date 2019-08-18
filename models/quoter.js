@@ -178,7 +178,7 @@ module.exports = {
             
         }
 
-        quoteList = await utils.listDisplayer(quoteObject);
+        var quoteList = await utils.listDisplayer(quoteObject);
         return quoteList;
     }
 

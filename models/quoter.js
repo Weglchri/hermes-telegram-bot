@@ -147,7 +147,7 @@ module.exports = {
 
         var element = utils.extractElementFromMessage(message);
         
-        if(element.toLowerCase() === 'pending') {
+        if(element.toString().toLowerCase() === 'pending') {
             var quoteObject = await this.getPendingQuotesObject();
         } else {
             var quoteObject = await this.getApprovedQuotesObject();

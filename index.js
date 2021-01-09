@@ -82,11 +82,10 @@ app.post('/', async (req, res) => {
                
           } else if (!teller.checkDictForKey(teller.getQuoteDict(), userId)) {
                console.log(`${user} entered quote dict`);
-          
                const quote = await quoter.getQuoteFromMessage(sentMessage);
                teller.addToQuoteDict(userId, quote);
-               console.log(teller.getQuoteDict);
-
+               console.log(teller.getQuoteDict());
+               
                const textToSend = `Perfect, now tell me the originator of this quote.`;
                sentMessages(req, res, textToSend);
 
@@ -96,7 +95,7 @@ app.post('/', async (req, res) => {
                const creator = await quoter.getQuoteFromMessage(sentMessage);
                teller.addToCreatorDict(userId, creator);
                console.log(teller.getCreatorDict());
-
+               
                const textToSend = `Great, in which year did this quote appear first?`;
                sentMessages(req, res, textToSend);
 

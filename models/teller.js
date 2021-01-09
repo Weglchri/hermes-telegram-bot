@@ -4,6 +4,9 @@
 var utils = require("../lib/utils.js");
 
 var storyTellers = [];
+var quoteDict = {};
+var yearDict = {};
+var descriptionDict = {};
 
 module.exports = {
 
@@ -17,6 +20,51 @@ module.exports = {
 
     deleteStoryTeller: function(userId) {
         utils.removeElementFromArray(storyTellers, userId);
-    }
+    },
 
+    // quotes dictionary operations
+    
+    getQuoteDict: function() {
+        return quoteDict;
+    },
+
+    addToQuoteDict: function(key, value) {
+        quoteDict[key] = value;
+    },
+
+    deleteFromQuoteDict: function(key) {
+        delete quoteDict[key];
+    },
+
+    // years dictionary operations
+    
+     getYearDict: function() {
+        return yearDict;
+    },
+
+    addToYearDict: function(key, value) {
+        yearDict[key] = value;
+    },
+
+    deleteFromYearDict: function(key) {
+        delete yearDict[key];
+    },
+
+    // years dictionary operations
+    
+    getDescriptionDict: function() {
+        return descriptionDict;
+    },
+
+    addToDescriptionDict: function(key, value) {
+        descriptionDict[key] = value;
+    },
+
+    deleteFromDescriptionDict: function(key) {
+        delete descriptionDict[key];
+    },
+
+    checkDictForKey: function(dict, key) {
+        return dict[key] ? true : false;
+    }
 }

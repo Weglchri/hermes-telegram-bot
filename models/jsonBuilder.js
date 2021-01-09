@@ -1,10 +1,10 @@
 'use strict';
 
-const STATUS = {
-    PENDING: "PENDING",
-    APPROVED: "APPROVED",
-    DELETED: "DELETED"
-}
+// const STATUS = {
+//     PENDING: "PENDING",
+//     APPROVED: "APPROVED",
+//     DELETED: "DELETED"
+// }
 
 class JsonBuilder {
 

@@ -69,14 +69,27 @@ app.post('/', async (req, res) => {
 
      console.log("text to process: ", sentMessage);
 
+     
+
      if(teller.getStoryTellers().includes(userId)) {
+          
           if (sentMessage.match(/cancel/igm)) {
                console.log(`Cancelled tell ${user}`);
                teller.deleteStoryTeller(userId);
-               const textToSend = `Action cancelled, ${user}`;
+               const textToSend = `Action cancelled, ${user} ❌`;
                sentMessages(req, res, textToSend);
+               
+          } else if (!teller.checkDictForKey(teller.getQuoteDict, userId)) {
+               console.log(`${user} entered quote dict`);
+               // var textToSend = null;
+               const quote = await quoter.getQuoteFromMessage(sentMessage);
+               teller.addQuote(quote);
+               console.log(teller.getQuoteDict);
           }
      }
+
+
+
 
      if (sentMessage.match(/greetings/igm)) {
           console.log(`${user} entered greetings`);
@@ -85,7 +98,7 @@ app.post('/', async (req, res) => {
 
      } else if (sentMessage.match(/tell/igm)) {
           console.log(`${user} entered tell`);
-          const textToSend = `Hi ${user}, please tell me the quote you want to add ✏️.\n You can also write 'cancel' to abort ❌.`;
+          const textToSend = `Hi ${user}, please tell me the quote you want to add ✏️.\nYou can also write 'cancel' to abort ❌.`;
           teller.addStoryTeller(userId);
           console.log(teller.getStoryTellers());
           sentMessages(req, res, textToSend);

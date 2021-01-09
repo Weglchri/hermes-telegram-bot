@@ -77,6 +77,7 @@ app.post('/', async (req, res) => {
                teller.deleteStoryTeller(userId);
                const textToSend = `Action cancelled, ${user}`;
                sentMessages(req, res, textToSend);
+          }
      }
 
      if (sentMessage.match(/greetings/igm)) {

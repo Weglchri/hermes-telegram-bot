@@ -53,14 +53,12 @@ app.post('/', async (req, res) => {
 
      //console.log("Request Body: ", req.body);
 
-     // request variables
+     // global variables
      var sentMessage = 'empty';
      var user = 'empty';
      var userId = 'empty';
      var fullName = 'empty';
 
-     // tell variables
-     var storyTeller = [];
 
      if (req.body.message !== undefined && req.body.message.text !== undefined) {
           sentMessage = req.body.message.text;
@@ -71,7 +69,7 @@ app.post('/', async (req, res) => {
 
      console.log("text to process: ", sentMessage);
 
-     if(storyTeller.includes(userId)) {
+     if(teller.getStoryTellers().includes(userId)) {
           if (sentMessage.match(/cancel/igm)) {
                console.log(`Cancelled tell ${user}`);
                teller.deleteStoryTeller(userId);

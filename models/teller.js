@@ -84,10 +84,10 @@ module.exports = {
     },
 
     cleanupTeller: function(key) {
-        deleteStoryTeller(key);
-        deleteFromQuoteDict(key);
-        deleteFromCreatorDict(key);
-        deleteFromYearDict(key);
-        deleteFromDescriptionDict(key);
+        this.deleteStoryTeller(key);
+        this.deleteFromQuoteDict(key);
+        this.deleteFromCreatorDict(key);
+        this.deleteFromYearDict(key);
+        this.deleteFromDescriptionDict(key);
     }
 }

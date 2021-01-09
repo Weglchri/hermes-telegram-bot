@@ -7,7 +7,7 @@ var bodyParser = require('body-parser');
 // model
 var quoter = require("./models/quoter.js");
 
-// heroku conenction settings
+// heroku connection settings
 const HEROKU_URL = process.env.URL;
 const APITOKEN = process.env.TOKEN;
 const MODE = process.env.NODE_ENV;
@@ -50,7 +50,7 @@ app.use(bodyParser.json());
 
 app.post('/', async (req, res) => {
 
-     console.log("Request Body: ", req.body);
+     //console.log("Request Body: ", req.body);
 
      var sentMessage = 'empty';
      var user = 'empty';

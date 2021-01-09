@@ -1,5 +1,3 @@
-
-
 'use strict';
 
 var assert = require('assert');
@@ -7,11 +5,11 @@ var utils = require("../lib/utils.js");
 var JsonBuilder = require("../models/jsonBuilder.js").JsonBuilder;
 var STATUS = require("../models/jsonBuilder.js").STATUS;
 
-describe('Test JSON Builder', function () {
+describe('Builder feature test', function () {
 
-      describe('check builder function', function () {
+      describe('Check builder function', function () {
 
-            it('create happy path object', function () {
+            it('Create happy path object', function () {
                 
                 let testObject = {
                     quote: 'This is a new quote',
@@ -40,7 +38,7 @@ describe('Test JSON Builder', function () {
 
             });
 
-            it('create bad path object', function () {
+            it('Create bad path object', function () {
                 
                 var jb = new JsonBuilder();
                 jb.addFullName("Herbert Yesas");
@@ -50,7 +48,7 @@ describe('Test JSON Builder', function () {
 
             });
 
-            it('approvals array test', function () {
+            it('Approvals array test', function () {
                 
                 let testObject = {
                     quote: 'This is a new quote',

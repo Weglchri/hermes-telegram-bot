@@ -80,7 +80,7 @@ app.post('/', async (req, res) => {
                const textToSend = `Action cancelled, ${user} ❌`;
                sentMessages(req, res, textToSend);
                
-          } else if (!teller.checkDictForKey(teller.getQuoteDict, userId)) {
+          } else if (!teller.checkDictForKey(teller.getQuoteDict(), userId)) {
                console.log(`${user} entered quote dict`);
           
                const quote = await quoter.getQuoteFromMessage(sentMessage);
@@ -90,7 +90,7 @@ app.post('/', async (req, res) => {
                const textToSend = `Perfect, now tell me the originator of this quote.`;
                sentMessages(req, res, textToSend);
 
-          } else if (!teller.checkDictForKey(teller.getCreatorDict, userId)) {
+          } else if (!teller.checkDictForKey(teller.getCreatorDict(), userId)) {
                console.log(`${user} entered creator dict`);
 
                const creator = await quoter.getQuoteFromMessage(sentMessage);
@@ -100,7 +100,7 @@ app.post('/', async (req, res) => {
                const textToSend = `Great, in which year did this quote appear first?`;
                sentMessages(req, res, textToSend);
 
-          } else if (!teller.checkDictForKey(teller.getYearDict, userId)) {
+          } else if (!teller.checkDictForKey(teller.getYearDict(), userId)) {
                console.log(`${user} entered year dict`);
 
                const year = await quoter.getQuoteFromMessage(sentMessage);
@@ -109,7 +109,7 @@ app.post('/', async (req, res) => {
 
                const textToSend = `Excellent, now some context to this quote, why did it happen?`;
                sentMessages(req, res, textToSend);
-          } else if (!teller.checkDictForKey(teller.getDescriptionDict, userId)) {
+          } else if (!teller.checkDictForKey(teller.getDescriptionDict(), userId)) {
                console.log(`${user} entered description dict`);
 
                const description = await quoter.getQuoteFromMessage(sentMessage);

@@ -1,4 +1,3 @@
-
 'use strict';
 
 var utils = require("../lib/utils.js");
@@ -79,8 +78,12 @@ module.exports = {
         delete descriptionDict[key];
     },
 
+    getValueFromDict: function(dict, key) {
+        return dict[key];
+    },
+
     checkDictForKey: function(dict, key) {
-        return dict[key] ? true : false;
+        return (dict[key] ? true : false);
     },
 
     cleanupTeller: function(key) {

@@ -85,7 +85,7 @@ app.post('/', async (req, res) => {
 
      } else if (sentMessage.match(/tell/igm)) {
           console.log(`${user} entered tell`);
-          const textToSend = `Hi ${user}, please tell me the quote you want to add ✏️`;
+          const textToSend = `Hi ${user}, please tell me the quote you want to add ✏️. \n You can also write 'cancel' to abort.`;
           teller.addStoryTeller(userId);
           console.log(teller.getStoryTellers());
           sentMessages(req, res, textToSend);

@@ -38,7 +38,7 @@ module.exports = {
 
     // years dictionary operations
     
-     getYearDict: function() {
+    getYearDict: function() {
         return yearDict;
     },
 

@@ -5,6 +5,7 @@ var utils = require("../lib/utils.js");
 
 var storyTellers = [];
 var quoteDict = {};
+var creatorDict = {};
 var yearDict = {};
 var descriptionDict = {};
 
@@ -34,6 +35,20 @@ module.exports = {
 
     deleteFromQuoteDict: function(key) {
         delete quoteDict[key];
+    },
+
+     // creator dictionary operations
+
+    getCreatorDict: function() {
+        return creatorDict;
+    },
+
+    addToCreatorDict: function(key, value) {
+        creatorDict[key] = value;
+    },
+
+    deleteFromCreatorDict: function(key) {
+        delete creatorDict[key];
     },
 
     // years dictionary operations
@@ -66,5 +81,13 @@ module.exports = {
 
     checkDictForKey: function(dict, key) {
         return dict[key] ? true : false;
+    },
+
+    cleanupTeller: function(key) {
+        deleteStoryTeller(key);
+        deleteFromQuoteDict(key);
+        deleteFromCreatorDict(key);
+        deleteFromYearDict(key);
+        deleteFromDescriptionDict(key);
     }
 }

@@ -70,26 +70,63 @@ app.post('/', async (req, res) => {
      console.log("text to process: ", sentMessage);
 
      
+     // tell new quote functionality 
 
      if(teller.getStoryTellers().includes(userId)) {
           
           if (sentMessage.match(/cancel/igm)) {
                console.log(`Cancelled tell ${user}`);
-               teller.deleteStoryTeller(userId);
+               teller.cleanupTeller(userId)
                const textToSend = `Action cancelled, ${user} ❌`;
                sentMessages(req, res, textToSend);
                
           } else if (!teller.checkDictForKey(teller.getQuoteDict, userId)) {
                console.log(`${user} entered quote dict`);
-               // var textToSend = null;
+          
                const quote = await quoter.getQuoteFromMessage(sentMessage);
-               teller.addQuote(quote);
+               teller.addToQuoteDict(userId, quote);
                console.log(teller.getQuoteDict);
+
+               const textToSend = `Perfect, now tell me the originator of this quote.`;
+               sentMessages(req, res, textToSend);
+
+          } else if (!teller.checkDictForKey(teller.getCreatorDict, userId)) {
+               console.log(`${user} entered creator dict`);
+
+               const creator = await quoter.getQuoteFromMessage(sentMessage);
+               teller.addToCreatorDict(userId, creator);
+               console.log(teller.getCreatorDict());
+
+               const textToSend = `Great, in which year did this quote appear first?`;
+               sentMessages(req, res, textToSend);
+
+          } else if (!teller.checkDictForKey(teller.getYearDict, userId)) {
+               console.log(`${user} entered year dict`);
+
+               const year = await quoter.getQuoteFromMessage(sentMessage);
+               teller.addToYearDict(userId, year);
+               console.log(teller.getYearDict());
+
+               const textToSend = `Excellent, now some context to this quote, why did it happen?`;
+               sentMessages(req, res, textToSend);
+          } else if (!teller.checkDictForKey(teller.getDescriptionDict, userId)) {
+               console.log(`${user} entered description dict`);
+
+               const description = await quoter.getQuoteFromMessage(sentMessage);
+               teller.addToDescriptionDict(userId, description);
+               console.log(teller.getDescriptionDict());
+
+               const textToSend = `Perfect, now tell me the originator of this quote.`;
+               sentMessages(req, res, textToSend);
+
+          } else {
+               console.log(`creation done`);
+               res.status(200).send({});
           }
      }
 
 
-
+     // router functionality 
 
      if (sentMessage.match(/greetings/igm)) {
           console.log(`${user} entered greetings`);

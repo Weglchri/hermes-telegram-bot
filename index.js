@@ -6,6 +6,7 @@ var bodyParser = require('body-parser');
 
 // model
 var quoter = require("./models/quoter.js");
+var teller = require("./models/teller.js")
 
 // heroku connection settings
 const HEROKU_URL = process.env.URL;
@@ -52,10 +53,14 @@ app.post('/', async (req, res) => {
 
      //console.log("Request Body: ", req.body);
 
+     // request variables
      var sentMessage = 'empty';
      var user = 'empty';
      var userId = 'empty';
      var fullName = 'empty';
+
+     // tell variables
+     var storyTeller = [];
 
      if (req.body.message !== undefined && req.body.message.text !== undefined) {
           sentMessage = req.body.message.text;
@@ -66,6 +71,14 @@ app.post('/', async (req, res) => {
 
      console.log("text to process: ", sentMessage);
 
+     if(storyTeller.includes(userId)) {
+          if (sentMessage.match(/cancel/igm)) {
+               console.log(`Cancelled tell ${user}`);
+               teller.deleteStoryTeller(userId);
+               const textToSend = `Action cancelled, ${user}`;
+               sentMessages(req, res, textToSend);
+     }
+
      if (sentMessage.match(/greetings/igm)) {
           console.log(`${user} entered greetings`);
           const textToSend = `I'm Hermes the quote bot, hello ${user} 👋`;
@@ -73,28 +86,32 @@ app.post('/', async (req, res) => {
 
      } else if (sentMessage.match(/tell/igm)) {
           console.log(`${user} entered tell`);
-
-          var textToSend = null;
-          const quote = await quoter.getQuoteFromMessage(sentMessage);
-
-          // check if a quote was sent
-          if (quote) {
-               
-               const quoteNumber = await quoter.addNewPendingQuote(quote, userId, fullName);
-               
-               // check if a quote object could be built
-               if (quoteNumber) {
-                    textToSend = `Successfully added your quote, ${user} ❤️ \n  
-                         Pending quote ${quoteNumber} : ${quote}`;
-               } else { 
-                    textToSend = `Not able to add your quote, ${user} ☹`;
-               }
-
-          } else {
-               textToSend = `Write /tell with your quote!, ${user} 🏹`;
-          }
-
+          const textToSend = `Hi ${user}, please tell me the quote you want to add ✏️`;
+          teller.addStoryTeller(userId);
+          console.log(teller.getStoryTellers());
           sentMessages(req, res, textToSend);
+
+          // var textToSend = null;
+          // const quote = await quoter.getQuoteFromMessage(sentMessage);
+
+          // // check if a quote was sent
+          // if (quote) {
+               
+          //      const quoteNumber = await quoter.addNewPendingQuote(quote, userId, fullName);
+               
+          //      // check if a quote object could be built
+          //      if (quoteNumber) {
+          //           textToSend = `Successfully added your quote, ${user} ❤️ \n  
+          //                Pending quote ${quoteNumber} : ${quote}`;
+          //      } else { 
+          //           textToSend = `Not able to add your quote, ${user} ☹`;
+          //      }
+
+          // } else {
+          //      textToSend = `Write /tell with your quote!, ${user} 🏹`;
+          // }
+
+          //sentMessages(req, res, textToSend);
 
 
      } else if (sentMessage.match(/remove/igm)) {

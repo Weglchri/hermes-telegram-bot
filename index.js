@@ -40,7 +40,8 @@ function sentMessages(req, res, txsend, reqId) {
                text: txsend
           })
           .then((response) => {
-               res.status(200).send(response);
+               res.send(response);
+               //res.status(200).send(response);
           }).catch((error) => {
                res.send(error);
           });
@@ -82,39 +83,33 @@ app.post('/', async (req, res) => {
                
           } else if (!teller.checkDictForKey(teller.getQuoteDict(), userId)) {
                console.log(`${user} entered quote dict`);
-               const quote = await quoter.getQuoteFromMessage(sentMessage);
-               teller.addToQuoteDict(userId, quote);
-               console.log(teller.getQuoteDict());
                
+               teller.addToQuoteDict(userId, sentMessage);
+               console.log(teller.getQuoteDict());
                const textToSend = `Perfect, now tell me the originator of this quote.`;
                sentMessages(req, res, textToSend);
 
           } else if (!teller.checkDictForKey(teller.getCreatorDict(), userId)) {
                console.log(`${user} entered creator dict`);
-
-               const creator = await quoter.getQuoteFromMessage(sentMessage);
-               teller.addToCreatorDict(userId, creator);
-               console.log(teller.getCreatorDict());
                
+               teller.addToCreatorDict(userId, sentMessage);
+               console.log(teller.getCreatorDict());
                const textToSend = `Great, in which year did this quote appear first?`;
                sentMessages(req, res, textToSend);
 
           } else if (!teller.checkDictForKey(teller.getYearDict(), userId)) {
                console.log(`${user} entered year dict`);
-
-               const year = await quoter.getQuoteFromMessage(sentMessage);
-               teller.addToYearDict(userId, year);
+               
+               teller.addToYearDict(userId, sentMessage);
                console.log(teller.getYearDict());
-
                const textToSend = `Excellent, now some context to this quote, why did it happen?`;
                sentMessages(req, res, textToSend);
+
           } else if (!teller.checkDictForKey(teller.getDescriptionDict(), userId)) {
                console.log(`${user} entered description dict`);
-
-               const description = await quoter.getQuoteFromMessage(sentMessage);
-               teller.addToDescriptionDict(userId, description);
+               
+               teller.addToDescriptionDict(userId, sentMessage);
                console.log(teller.getDescriptionDict());
-
                const textToSend = `Perfect, now tell me the originator of this quote.`;
                sentMessages(req, res, textToSend);
 

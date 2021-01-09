@@ -20,7 +20,7 @@ module.exports = {
     },
 
     deleteStoryTeller: function(userId) {
-        utils.removeElementFromArray(storyTellers, userId);
+        storyTellers = utils.removeElementFromArray(storyTellers, userId);
     },
 
     // quotes dictionary operations

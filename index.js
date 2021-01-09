@@ -121,7 +121,6 @@ app.post('/', async (req, res) => {
 
           } else {
                console.log(`creation done`);
-               res.status(200).send({});
           }
      }
 

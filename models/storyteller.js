@@ -30,7 +30,7 @@ module.exports = {
     
     addStoryteller: function(userId, user) {
         //storytellers.push(userId);
-        storyteller = userId;
+        storytellerId = userId;
         storytellerName = user;
     },
 

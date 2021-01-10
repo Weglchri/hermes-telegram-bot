@@ -104,7 +104,7 @@ module.exports = {
     },
 
     cleanupStoryteller: function(key) {
-        this.deleteStoryteller(key);
+        this.deleteStoryteller();
         this.deleteFromQuoteDict(key);
         this.deleteFromCreatorDict(key);
         this.deleteFromYearDict(key);

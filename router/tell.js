@@ -42,7 +42,7 @@ module.exports = {
           
           } else {
                console.log(`${user} entered else option`);
-               const textToSend = `This should not happen, gratulations you found a bug.`;
+               const textToSend = `Das sollte nicht passieren, du hast einen Bug gefunden, Gratulation!`;
                storyteller.cleanupStoryteller(userId);
                bot.sentMessages(req, res, textToSend);
           }

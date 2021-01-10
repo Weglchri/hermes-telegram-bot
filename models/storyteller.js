@@ -2,9 +2,9 @@
 
 var utils = require("../lib/utils.js");
 
-//var storytellers = [];
 var storytellerId = 'empty';
 var storytellerName = 'empty';
+
 var quoteDict = {};
 var creatorDict = {};
 var yearDict = {};
@@ -29,7 +29,6 @@ module.exports = {
     },
     
     addStoryteller: function(userId, user) {
-        //storytellers.push(userId);
         storytellerId = userId;
         storytellerName = user;
     },

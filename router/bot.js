@@ -71,33 +71,28 @@ app.post('/', async (req, res) => {
 
      console.log("text to process: ", sentMessage);
 
-     // tell new quote functionality 
 
-     if (sentMessage.match(/^cancel$/igm) && storyteller.checkIfUserIsStoryteller(userId)) {
-          console.log(`Cancelled tell ${user}`);
+     if (sentMessage.match(/cancel/igm) && storyteller.checkIfUserIsStoryteller(userId)) {
+          console.log(`cancelled tell`);
           storyteller.cleanupStoryteller(userId)
-          const textToSend = `Action cancelled, ${user} ❌`;
+          const textToSend = `Aktion abgebrochen, ${user} ❌`;
           this.sentMessages(req, res, textToSend);
 
-     } else if (storyteller.checkIfUserIsStoryteller(userId)) {
-          tellRouter.saveAQuote(req, res, sentMessage, userId, user);
-
      } else if (sentMessage.match(/greetings/igm)) {
-          console.log(`${user} entered greetings`);
-          const textToSend = `I'm Hermes the quote bot, hello ${user} 👋`;
+          const textToSend = `Hi ${user}, ich bin Hermes der Zitat-Bot 👋`;
           this.sentMessages(req, res, textToSend);
 
      } else if (sentMessage.match(/tell/igm)) {
           if (storyteller.checkIfStorytellerIsEmpty()) {
-               console.log(`${user} entered tell`);
-               const textToSend = `Hi ${user}, please tell me the quote you want to add ✏️.\nYou can also write 'cancel' to abort ❌.`;
+               console.log(`entered tell`);
+               const textToSend = `Hi ${user}, schreib mir welches Zitat du hinzufügen möchtest ✏️.\nSchreibe 'cancel' um abzubrechen ❌.`;
                storyteller.addStoryteller(userId, user);
                this.sentMessages(req, res, textToSend);
           } else {
-               const textToSend = `Sry ${user}, ${storyteller.getStorytellerName} is already preparing a quote.`;
+               const textToSend = `Tut mir leid ${user}, ${storyteller.getStorytellerName} schreibt gerade ein Zitat.`;
                this.sentMessages(req, res, textToSend);
           }
-          
+
           // var textToSend = null;
           // const quote = await quoter.getQuoteFromMessage(sentMessage);
 
@@ -120,9 +115,11 @@ app.post('/', async (req, res) => {
 
           //sentMessages(req, res, textToSend);
 
+     } else if (storyteller.checkIfUserIsStoryteller(userId)) {
+          tellRouter.saveAQuote(req, res, sentMessage, userId, user);
 
      } else if (sentMessage.match(/remove/igm)) {
-          console.log(`${user} entered remove`);
+          console.log(`entered remove`);
           console.log("Send response: 200");
           res.status(200).send({});
 
@@ -136,17 +133,14 @@ app.post('/', async (req, res) => {
           // sentMessages(req, res, requestMessageType, textToSend); 
 
      } else if (sentMessage.match(/list/igm)) {
-          console.log(`${user} entered list`);
           const textToSend = await quoter.getDisplayableQuoteList(sentMessage);
           this.sentMessages(req, res, textToSend, userId);
 
      } else if (sentMessage.match(/quote/igm)) {
-          console.log(`${user} entered quote`);
           const textToSend = await quoter.askForQuote(sentMessage);
           this.sentMessages(req, res, textToSend);
 
      } else if (sentMessage.match(/wegl/igm)) {
-          console.log(`${user} entered quote`);
           const textToSend = '༼ つ ◕_◕ ༽つ';
           this.sentMessages(req, res, textToSend);
 

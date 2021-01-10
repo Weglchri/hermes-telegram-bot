@@ -2,14 +2,14 @@
   "name": "hermesbot",
   "version": "1.0.0",
   "description": "quotebot",
-  "main": "index.js",
+  "main": "bot.js",
   "directories": {
     "lib": "lib",
     "test": "test"
   },
   "scripts": {
     "test": "mocha",
-    "start": "node index.js"
+    "start": "node router/bot.js"
   },
   "author": "realvigor",
   "license": "ISC",

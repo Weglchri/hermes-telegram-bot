@@ -8,8 +8,8 @@ var bodyParser = require('body-parser');
 var tellRouter = require("./tell.js");
 
 // models
-var quoter = require("./models/quoter.js");
-var teller = require("./models/teller.js")
+var quoter = require("../models/quoter.js");
+var teller = require("../models/teller.js")
 
 // heroku connection settings
 const HEROKU_URL = process.env.URL;

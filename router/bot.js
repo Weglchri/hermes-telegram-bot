@@ -89,7 +89,7 @@ app.post('/', async (req, res) => {
                storyteller.addStoryteller(userId, user);
                this.sentMessages(req, res, textToSend);
           } else {
-               const textToSend = `Tut mir leid ${user}, ${storyteller.getStorytellerName} schreibt gerade ein Zitat.`;
+               const textToSend = `Tut mir leid ${user}, ${storyteller.getStorytellerName()} schreibt gerade ein Zitat.`;
                this.sentMessages(req, res, textToSend);
           }
 

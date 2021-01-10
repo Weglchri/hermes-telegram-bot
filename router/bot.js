@@ -75,7 +75,7 @@ app.post('/', async (req, res) => {
 
      if (sentMessage.match(/^cancel$/igm) && storyteller.checkIfUserIsStoryteller(userId)) {
           console.log(`Cancelled tell ${user}`);
-          storyteller.cleanUpStoryteller(userId)
+          storyteller.cleanupStoryteller(userId)
           const textToSend = `Action cancelled, ${user} ❌`;
           this.sentMessages(req, res, textToSend);
 

@@ -103,7 +103,7 @@ module.exports = {
         return (dict[key] ? true : false);
     },
 
-    cleanUpStoryteller: function(key) {
+    cleanupStoryteller: function(key) {
         this.deleteStoryteller(key);
         this.deleteFromQuoteDict(key);
         this.deleteFromCreatorDict(key);

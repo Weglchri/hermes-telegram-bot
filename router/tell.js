@@ -43,7 +43,7 @@ module.exports = {
           } else {
                console.log(`${user} entered else option`);
                const textToSend = `This should not happen, gratulations you found a bug.`;
-               teller.cleanupStoryteller(userId);
+               storyteller.cleanupStoryteller(userId);
                bot.sentMessages(req, res, textToSend);
           }
      }

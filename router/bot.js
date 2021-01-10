@@ -88,12 +88,16 @@ app.post('/', async (req, res) => {
           this.sentMessages(req, res, textToSend);
 
      } else if (sentMessage.match(/tell/igm)) {
-          console.log(`${user} entered tell`);
-          const textToSend = `Hi ${user}, please tell me the quote you want to add ✏️.\nYou can also write 'cancel' to abort ❌.`;
-          storyteller.addStoryteller(userId);
-          console.log(storyteller.getStorytellers());
-          this.sentMessages(req, res, textToSend);
-
+          if (storyteller.checkIfStorytellerIsEmpty()) {
+               console.log(`${user} entered tell`);
+               const textToSend = `Hi ${user}, please tell me the quote you want to add ✏️.\nYou can also write 'cancel' to abort ❌.`;
+               storyteller.addStoryteller(userId, user);
+               this.sentMessages(req, res, textToSend);
+          } else {
+               const textToSend = `Sry ${user}, ${storyteller.getStorytellerName} is already preparing a quote.`;
+               this.sentMessages(req, res, textToSend);
+          }
+          
           // var textToSend = null;
           // const quote = await quoter.getQuoteFromMessage(sentMessage);
 

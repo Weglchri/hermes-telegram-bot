@@ -36,7 +36,7 @@ tell - send me a quote
 */
 
 // telegram message functions 
-function sentMessages(req, res, txsend, reqId) {
+module.exports.sentMessages = function (req, res, txsend, reqId) {
      axios.post(`${APP_URL}${APITOKEN}/sendMessage`,
           {
                chat_id: reqId || req.body.message.chat.id,
@@ -72,7 +72,6 @@ app.post('/', async (req, res) => {
 
      console.log("text to process: ", sentMessage);
 
-     
      // tell new quote functionality 
 
      if(teller.getStoryTellers().includes(userId)) {
@@ -81,14 +80,14 @@ app.post('/', async (req, res) => {
      } else if (sentMessage.match(/greetings/igm)) {
           console.log(`${user} entered greetings`);
           const textToSend = `I'm Hermes the quote bot, hello ${user} 👋`;
-          sentMessages(req, res, textToSend);
+          this.sentMessages(req, res, textToSend);
 
      } else if (sentMessage.match(/tell/igm)) {
           console.log(`${user} entered tell`);
           const textToSend = `Hi ${user}, please tell me the quote you want to add ✏️.\nYou can also write 'cancel' to abort ❌.`;
           teller.addStoryTeller(userId);
           console.log(teller.getStoryTellers());
-          sentMessages(req, res, textToSend);
+          this.sentMessages(req, res, textToSend);
 
           // var textToSend = null;
           // const quote = await quoter.getQuoteFromMessage(sentMessage);
@@ -130,17 +129,17 @@ app.post('/', async (req, res) => {
      } else if (sentMessage.match(/list/igm)) {
           console.log(`${user} entered list`);
           const textToSend = await quoter.getDisplayableQuoteList(sentMessage);
-          sentMessages(req, res, textToSend, userId);
+          this.sentMessages(req, res, textToSend, userId);
 
      } else if (sentMessage.match(/quote/igm)) {
           console.log(`${user} entered quote`);
           const textToSend = await quoter.askForQuote(sentMessage);
-          sentMessages(req, res, textToSend);
+          this.sentMessages(req, res, textToSend);
 
      } else if (sentMessage.match(/wegl/igm)) {
           console.log(`${user} entered quote`);
           const textToSend = '༼ つ ◕_◕ ༽つ';
-          sentMessages(req, res, textToSend);
+          this.sentMessages(req, res, textToSend);
 
      } else {
           console.log("Send response: 200");

@@ -36,19 +36,22 @@ module.exports = {
         PENDING_QUOTES_OBJECT = JSON.parse(PENDING_QUOTES_FILE);
     },
 
-    addNewPendingQuote : async function(quote, userId, fullName) {
+    addNewPendingQuote : async function(quote, creator, year, description, quote, userId, fullName) {
         var quoteDataObject = this.getPendingQuotesObject();
         var jsonDataLength = Object.keys(quoteDataObject).length;
         
        /*
        data object
             quote
-            approvals
-            status
             metadata
-                userid
-                fullname
-                date
+                origin
+                    creator
+                    year
+                    description
+                added
+                    userid
+                    author
+                    date
        */
         
         // create quote object

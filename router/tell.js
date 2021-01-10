@@ -12,7 +12,7 @@ module.exports = {
 
                storyteller.addToQuoteDict(userId, sentMessage);
                console.log(storyteller.getQuoteDict());
-               const textToSend = `Perfect, now tell me the originator of this quote.`;
+               const textToSend = `Gut, von wem war das Zitat?`;
                bot.sentMessages(req, res, textToSend);
 
           } else if (!storyteller.checkDictForKey(storyteller.getCreatorDict(), userId)) {
@@ -20,7 +20,7 @@ module.exports = {
 
                storyteller.addToCreatorDict(userId, sentMessage);
                console.log(storyteller.getCreatorDict());
-               const textToSend = `Great, in which year did this quote appear first?`;
+               const textToSend = `Perfekt, aus welchem Jahr ist das Zitat?`;
                bot.sentMessages(req, res, textToSend);
 
           } else if (!storyteller.checkDictForKey(storyteller.getYearDict(), userId)) {
@@ -28,7 +28,7 @@ module.exports = {
 
                storyteller.addToYearDict(userId, sentMessage);
                console.log(storyteller.getYearDict());
-               const textToSend = `Excellent, now some context to this quote, why did it happen?`;
+               const textToSend = `Exzellent, bitte eine kurze Beschreibung zu dem Zitat.`;
                bot.sentMessages(req, res, textToSend);
 
           } else if (!storyteller.checkDictForKey(storyteller.getDescriptionDict(), userId)) {
@@ -36,7 +36,7 @@ module.exports = {
 
                storyteller.addToDescriptionDict(userId, sentMessage);
                console.log(storyteller.getDescriptionDict());
-               const textToSend = `Will quickly process your data now.`;
+               const textToSend = `Die Daten werden jetzt bearbeitet.`;
                bot.sentMessages(req, res, textToSend);
                storyteller.cleanupStoryteller(userId);
           

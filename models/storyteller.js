@@ -111,8 +111,6 @@ module.exports = {
     },
 
     setTimerForMinutes: function (minutes) {
-        setTimeout(function () { 
-            this.cleanupStoryteller() 
-        }, minutes * 60 * 1000);
+        setTimeout(this.cleanupStoryteller(), minutes * 60 * 1000);
     }
 }

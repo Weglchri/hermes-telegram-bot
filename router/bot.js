@@ -4,9 +4,12 @@ var app = express();
 var axios = require('axios');
 var bodyParser = require('body-parser');
 
-// model
-var quoter = require("./models/quoter.js");
-var teller = require("./models/teller.js")
+// router
+var tellRouter = require("./tell.js");
+
+// models
+var quoter = require("../models/quoter.js");
+var teller = require("../models/teller.js")
 
 // heroku connection settings
 const HEROKU_URL = process.env.URL;
@@ -40,8 +43,7 @@ function sentMessages(req, res, txsend, reqId) {
                text: txsend
           })
           .then((response) => {
-               res.send(response);
-               //res.status(200).send(response);
+               res.status(200).send(response);
           }).catch((error) => {
                res.send(error);
           });
@@ -74,54 +76,9 @@ app.post('/', async (req, res) => {
      // tell new quote functionality 
 
      if(teller.getStoryTellers().includes(userId)) {
+          tellRouter.tellAQuoteToBot(userId);
           
-          if (sentMessage.match(/cancel/igm)) {
-               console.log(`Cancelled tell ${user}`);
-               teller.cleanupTeller(userId)
-               const textToSend = `Action cancelled, ${user} ❌`;
-               sentMessages(req, res, textToSend);
-               
-          } else if (!teller.checkDictForKey(teller.getQuoteDict(), userId)) {
-               console.log(`${user} entered quote dict`);
-               
-               teller.addToQuoteDict(userId, sentMessage);
-               console.log(teller.getQuoteDict());
-               const textToSend = `Perfect, now tell me the originator of this quote.`;
-               sentMessages(req, res, textToSend);
-
-          } else if (!teller.checkDictForKey(teller.getCreatorDict(), userId)) {
-               console.log(`${user} entered creator dict`);
-               
-               teller.addToCreatorDict(userId, sentMessage);
-               console.log(teller.getCreatorDict());
-               const textToSend = `Great, in which year did this quote appear first?`;
-               sentMessages(req, res, textToSend);
-
-          } else if (!teller.checkDictForKey(teller.getYearDict(), userId)) {
-               console.log(`${user} entered year dict`);
-               
-               teller.addToYearDict(userId, sentMessage);
-               console.log(teller.getYearDict());
-               const textToSend = `Excellent, now some context to this quote, why did it happen?`;
-               sentMessages(req, res, textToSend);
-
-          } else if (!teller.checkDictForKey(teller.getDescriptionDict(), userId)) {
-               console.log(`${user} entered description dict`);
-               
-               teller.addToDescriptionDict(userId, sentMessage);
-               console.log(teller.getDescriptionDict());
-               const textToSend = `Perfect, now tell me the originator of this quote.`;
-               sentMessages(req, res, textToSend);
-
-          } else {
-               console.log(`creation done`);
-          }
-     }
-
-
-     // router functionality 
-
-     if (sentMessage.match(/greetings/igm)) {
+     } else if (sentMessage.match(/greetings/igm)) {
           console.log(`${user} entered greetings`);
           const textToSend = `I'm Hermes the quote bot, hello ${user} 👋`;
           sentMessages(req, res, textToSend);

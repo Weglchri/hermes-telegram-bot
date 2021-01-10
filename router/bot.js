@@ -89,7 +89,7 @@ app.post('/', async (req, res) => {
                storyteller.addStoryteller(userId, user);
                storyteller.setTimerForMinutes(5);
                this.sentMessages(req, res, textToSend);
-          } else if (storyteller.getStorytellerId === userId) {
+          } else if (storyteller.getStorytellerId() === userId) {
                const textToSend = `Das hast du mir bereits mitgeteilt, bitte schreibe mir dein Zitat.`;
                this.sentMessages(req, res, textToSend);
           } else {

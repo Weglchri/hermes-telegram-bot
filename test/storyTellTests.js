@@ -8,8 +8,8 @@ describe('Teller feature test', function () {
     describe('Check story teller functions', function () {
 
         it('Add user as story teller', function () {
-            storyteller.addStoryteller(123456789);
-            var user = storyteller.getStorytellers()[0];
+            storyteller.addStoryteller(123456789, "Herbertus Waldus");
+            var user = storyteller.getStorytellerId();
             assert.equal(user, 123456789);
         });
 

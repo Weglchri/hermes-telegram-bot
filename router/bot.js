@@ -75,7 +75,7 @@ app.post('/', async (req, res) => {
      // tell new quote functionality 
 
      if(teller.getStoryTellers().includes(userId)) {
-          tellRouter.tellAQuoteToBot(sentMessage, userId, user, fullName);
+          tellRouter.tellAQuoteToBot(req, res, sentMessage, userId, user, fullName);
           
      } else if (sentMessage.match(/greetings/igm)) {
           console.log(`${user} entered greetings`);

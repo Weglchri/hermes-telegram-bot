@@ -5,7 +5,7 @@ var bot = require("../router/bot.js");
 
 module.exports = {
     
-    tellAQuoteToBot: function (sentMessage, userId, user, fullName) {
+    tellAQuoteToBot: function (req, res, sentMessage, userId, user, fullName) {
         
         if (sentMessage.match(/cancel/igm)) {
             console.log(`Cancelled tell ${user}`);

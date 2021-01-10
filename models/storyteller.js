@@ -2,7 +2,7 @@
 
 var utils = require("../lib/utils.js");
 
-var storyTellers = [];
+var storytellers = [];
 var quoteDict = {};
 var creatorDict = {};
 var yearDict = {};
@@ -10,20 +10,20 @@ var descriptionDict = {};
 
 module.exports = {
 
-    checkIfuserIsStoryTeller: function(userId) {
-        return this.getStoryTellers().includes(userId);
+    checkIfUserIsStoryteller: function(userId) {
+        return this.getStorytellers().includes(userId);
     },
 
-    getStoryTellers: function () {
-        return storyTellers;
+    getStorytellers: function () {
+        return storytellers;
     },
     
-    addStoryTeller: function(userId) {
-        storyTellers.push(userId);
+    addStoryteller: function(userId) {
+        storytellers.push(userId);
     },
 
-    deleteStoryTeller: function(userId) {
-        storyTellers = utils.removeElementFromArray(storyTellers, userId);
+    deleteStoryteller: function(userId) {
+        storytellers = utils.removeElementFromArray(storytellers, userId);
     },
 
     // quotes dictionary operations
@@ -90,8 +90,8 @@ module.exports = {
         return (dict[key] ? true : false);
     },
 
-    cleanUpTeller: function(key) {
-        this.deleteStoryTeller(key);
+    cleanupStoryteller: function(key) {
+        this.deleteStoryteller(key);
         this.deleteFromQuoteDict(key);
         this.deleteFromCreatorDict(key);
         this.deleteFromYearDict(key);

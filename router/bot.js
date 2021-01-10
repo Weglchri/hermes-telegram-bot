@@ -9,8 +9,7 @@ var tellRouter = require("./tell.js");
 
 // models
 var quoter = require("../models/quoter.js");
-var teller = require("../models/teller.js");
-const tell = require('./tell.js');
+var storyteller = require("../models/storyteller.js");
 
 // heroku connection settings
 const HEROKU_URL = process.env.URL;
@@ -74,13 +73,13 @@ app.post('/', async (req, res) => {
 
      // tell new quote functionality 
 
-     if (sentMessage.match(/^cancel$/igm) && teller.checkIfuserIsStoryTeller(userId)) {
+     if (sentMessage.match(/^cancel$/igm) && storyteller.checkIfUserIsStoryteller(userId)) {
           console.log(`Cancelled tell ${user}`);
-          teller.cleanUpTeller(userId)
+          storyteller.cleanUpStoryteller(userId)
           const textToSend = `Action cancelled, ${user} ❌`;
           this.sentMessages(req, res, textToSend);
 
-     } else if (teller.checkIfuserIsStoryTeller(userId)) {
+     } else if (storyteller.checkIfUserIsStoryteller(userId)) {
           tellRouter.saveAQuote(req, res, sentMessage, userId, user);
 
      } else if (sentMessage.match(/greetings/igm)) {
@@ -91,8 +90,8 @@ app.post('/', async (req, res) => {
      } else if (sentMessage.match(/tell/igm)) {
           console.log(`${user} entered tell`);
           const textToSend = `Hi ${user}, please tell me the quote you want to add ✏️.\nYou can also write 'cancel' to abort ❌.`;
-          teller.addStoryTeller(userId);
-          console.log(teller.getStoryTellers());
+          storyteller.addStoryteller(userId);
+          console.log(storyteller.getStorytellers());
           this.sentMessages(req, res, textToSend);
 
           // var textToSend = null;

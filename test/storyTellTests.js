@@ -8,7 +8,7 @@ describe('Teller feature test', function () {
     describe('Check story teller functions', function () {
 
         it('Add user as story teller', function () {
-            storyteller.addStoryteller(123456789, "Herbertus Waldus");
+            storyteller.setStoryteller(123456789, "Herbertus Waldus");
             var user = storyteller.getStorytellerId();
             assert.equal(user, 123456789);
         });

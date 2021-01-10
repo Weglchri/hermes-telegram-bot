@@ -87,6 +87,10 @@ app.post('/', async (req, res) => {
                console.log(`entered tell`);
                const textToSend = `Hi ${user}, schreib mir welches Zitat du hinzufügen möchtest ✏️.\nSchreibe 'cancel' um abzubrechen ❌.`;
                storyteller.addStoryteller(userId, user);
+               storyteller.setTimerForMinutes(5);
+               this.sentMessages(req, res, textToSend);
+          } else if (storyteller.getStorytellerId === userId) {
+               const textToSend = `Das hast du mir bereits mitgeteilt, bitte schreibe mir dein Zitat.`;
                this.sentMessages(req, res, textToSend);
           } else {
                const textToSend = `Tut mir leid ${user}, ${storyteller.getStorytellerName()} schreibt gerade ein Zitat.`;

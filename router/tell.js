@@ -4,7 +4,7 @@ var teller = require("../models/teller.js")
 
 module.exports = {
     
-    tellAQuoteToBot: function (userId) {
+    tellAQuoteToBot: function (sentMessage, userId, user, fullName) {
         
         if (sentMessage.match(/cancel/igm)) {
             console.log(`Cancelled tell ${user}`);

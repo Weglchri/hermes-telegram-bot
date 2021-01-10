@@ -54,7 +54,7 @@ app.use(bodyParser.json());
 
 app.post('/', async (req, res) => {
 
-     //console.log("Request Body: ", req.body);
+     // console.log("Request Body: ", req.body);
 
      // global variables
      var sentMessage = 'empty';
@@ -74,13 +74,19 @@ app.post('/', async (req, res) => {
 
      // tell new quote functionality 
 
-     if(teller.getStoryTellers().includes(userId)) {
-          tellRouter.tellAQuoteToBot(req, res, sentMessage, userId, user, fullName);
-          
+     if (teller.getStoryTellers().includes(userId)) {
+          tellRouter.tellAQuoteToBot(req, res, sentMessage, userId, user);
+
      } else if (sentMessage.match(/greetings/igm)) {
           console.log(`${user} entered greetings`);
           const textToSend = `I'm Hermes the quote bot, hello ${user} 👋`;
           this.sentMessages(req, res, textToSend);
+
+     } else if (sentMessage.match(/cancel/igm) && teller.getStoryTellers().includes(userId)) {
+          console.log(`Cancelled tell ${user}`);
+          teller.cleanupTeller(userId)
+          const textToSend = `Action cancelled, ${user} ❌`;
+          bot.sentMessages(req, res, textToSend);
 
      } else if (sentMessage.match(/tell/igm)) {
           console.log(`${user} entered tell`);
@@ -94,9 +100,9 @@ app.post('/', async (req, res) => {
 
           // // check if a quote was sent
           // if (quote) {
-               
+
           //      const quoteNumber = await quoter.addNewPendingQuote(quote, userId, fullName);
-               
+
           //      // check if a quote object could be built
           //      if (quoteNumber) {
           //           textToSend = `Successfully added your quote, ${user} ❤️ \n  

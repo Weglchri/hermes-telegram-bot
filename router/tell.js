@@ -5,15 +5,9 @@ var bot = require("../router/bot.js");
 
 module.exports = {
 
-     tellAQuoteToBot: function (req, res, sentMessage, userId, user) {
+     saveAQuote: function (req, res, sentMessage, userId, user) {
 
-          if (sentMessage.match(/cancel/igm)) {
-               console.log(`Cancelled tell ${user}`);
-               teller.cleanupTeller(userId)
-               const textToSend = `Action cancelled, ${user} ❌`;
-               bot.sentMessages(req, res, textToSend);
-
-          } else if (!teller.checkDictForKey(teller.getQuoteDict(), userId)) {
+          if (!teller.checkDictForKey(teller.getQuoteDict(), userId)) {
                console.log(`${user} entered quote dict`);
 
                teller.addToQuoteDict(userId, sentMessage);

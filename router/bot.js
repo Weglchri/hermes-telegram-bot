@@ -9,7 +9,8 @@ var tellRouter = require("./tell.js");
 
 // models
 var quoter = require("../models/quoter.js");
-var teller = require("../models/teller.js")
+var teller = require("../models/teller.js");
+const tell = require('./tell.js');
 
 // heroku connection settings
 const HEROKU_URL = process.env.URL;
@@ -17,7 +18,6 @@ const APITOKEN = process.env.TOKEN;
 const MODE = process.env.NODE_ENV;
 const PORT = process.env.PORT || 5000;
 const APP_URL = 'https://api.telegram.org/bot';
-
 
 async function init() {
      await quoter.executeApprovedQuoteFileUpdate();
@@ -74,19 +74,19 @@ app.post('/', async (req, res) => {
 
      // tell new quote functionality 
 
-     if (teller.getStoryTellers().includes(userId)) {
-          tellRouter.tellAQuoteToBot(req, res, sentMessage, userId, user);
+     if (sentMessage.match(/^cancel$/igm) && teller.checkIfuserIsStoryTeller(userId)) {
+          console.log(`Cancelled tell ${user}`);
+          teller.cleanUpTeller(userId)
+          const textToSend = `Action cancelled, ${user} ❌`;
+          this.sentMessages(req, res, textToSend);
+
+     } else if (teller.checkIfuserIsStoryTeller(userId)) {
+          tellRouter.saveAQuote(req, res, sentMessage, userId, user);
 
      } else if (sentMessage.match(/greetings/igm)) {
           console.log(`${user} entered greetings`);
           const textToSend = `I'm Hermes the quote bot, hello ${user} 👋`;
           this.sentMessages(req, res, textToSend);
-
-     } else if (sentMessage.match(/cancel/igm) && teller.getStoryTellers().includes(userId)) {
-          console.log(`Cancelled tell ${user}`);
-          teller.cleanupTeller(userId)
-          const textToSend = `Action cancelled, ${user} ❌`;
-          bot.sentMessages(req, res, textToSend);
 
      } else if (sentMessage.match(/tell/igm)) {
           console.log(`${user} entered tell`);

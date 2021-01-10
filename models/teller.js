@@ -10,6 +10,10 @@ var descriptionDict = {};
 
 module.exports = {
 
+    checkIfuserIsStoryTeller: function(userId) {
+        return this.getStoryTellers().includes(userId);
+    },
+
     getStoryTellers: function () {
         return storyTellers;
     },
@@ -86,7 +90,7 @@ module.exports = {
         return (dict[key] ? true : false);
     },
 
-    cleanupTeller: function(key) {
+    cleanUpTeller: function(key) {
         this.deleteStoryTeller(key);
         this.deleteFromQuoteDict(key);
         this.deleteFromCreatorDict(key);
